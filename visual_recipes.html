@@ -3,146 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Recipe Storyboard</title>
+    <title>Flagship Dinner - Visual Training Modules</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans', sans-serif; }
         .step-transition { transition: all 0.3s ease-in-out; }
+        #module-selector::-webkit-scrollbar { height: 6px; }
+        #module-selector::-webkit-scrollbar-track { background: #1e293b; }
+        #module-selector::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        
+        /* Legend-Based Border Colors */
+        .border-anchor { border-color: #94a3b8; } /* Gray */
+        .border-river { border-color: #3b82f6; } /* Blue */
+        .border-safety { border-color: #ef4444; } /* Red */
+        .border-regulation { border-color: #10b981; } /* Light Green */
+        .border-plating { border-color: #064e3b; } /* Dark Green */
+        .border-advocacy { border-color: #a855f7; } /* Purple */
     </style>
 </head>
 <body class="bg-slate-900 min-h-screen p-4 md:p-8">
     <div class="max-w-7xl mx-auto">
-        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 gap-6">
+        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
             <div class="space-y-2">
-                <div class="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-1 rounded-full text-xs font-bold uppercase border border-emerald-600/30">
-                    <i data-lucide="chef-hat" class="w-4 h-4"></i> Plating Station
+                <div class="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-1 rounded-full text-sm font-bold uppercase border border-emerald-600/30">
+                    <i data-lucide="map" class="w-4 h-4"></i> Atrium Prepared Environment
                 </div>
-                <h1 class="text-5xl md:text-6xl font-black text-white uppercase italic tracking-tighter">Visual Recipes</h1>
+                <h1 id="main-title" class="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter">Training Modules</h1>
             </div>
-            <div id="recipe-selector" class="flex bg-slate-800 p-2 rounded-3xl border border-slate-700 overflow-x-auto w-full lg:max-w-3xl">
-                <!-- Recipe buttons injected here -->
+            
+            <div class="flex flex-col gap-4 w-full lg:max-w-3xl">
+                <div class="flex gap-2 no-print">
+                    <button onclick="setCategory('SKILLS')" id="cat-SKILLS" class="px-6 py-2 rounded-2xl font-black uppercase text-sm bg-blue-600 text-white transition-all">Orientation Skills</button>
+                    <button onclick="setCategory('RECIPES')" id="cat-RECIPES" class="px-6 py-2 rounded-2xl font-black uppercase text-sm text-slate-400 hover:text-white transition-all">Dinner Recipes</button>
+                </div>
+                <div id="module-selector" class="flex bg-slate-800 p-2 rounded-3xl border border-slate-700 overflow-x-auto">
+                    <!-- Buttons injected via JS -->
+                </div>
             </div>
         </header>
 
-        <main id="recipe-display" class="min-h-[600px] lg:h-[750px]">
-            <!-- Active recipe content injected here -->
+        <main id="display-area" class="min-h-[650px] lg:h-[750px]">
+            <!-- Content injected here -->
         </main>
 
-        <footer class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate-800/50 p-6 rounded-3xl border-t-8 border-slate-400 flex items-center gap-4 text-white">
-                <i data-lucide="eye" class="text-slate-400"></i>
-                <div><p class="font-bold uppercase text-sm">WATCH (Anchor)</p><p class="text-slate-400 text-xs">Eyes on Chef first.</p></div>
+        <footer class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 no-print">
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-slate-400 text-center">
+                <p class="text-[10px] font-black text-slate-400 uppercase">Anchor</p>
+                <p class="text-[9px] text-white/60">WATCH Stage</p>
             </div>
-            <div class="bg-slate-800/50 p-6 rounded-3xl border-t-8 border-blue-500 flex items-center gap-4 text-white">
-                <i data-lucide="hand" class="text-blue-400"></i>
-                <div><p class="font-bold uppercase text-sm">TRY (River)</p><p class="text-slate-400 text-xs">Practice together.</p></div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-blue-500 text-center">
+                <p class="text-[10px] font-black text-blue-400 uppercase">River</p>
+                <p class="text-[9px] text-white/60">TRY Stage</p>
             </div>
-            <div class="bg-slate-800/50 p-6 rounded-3xl border-t-8 border-emerald-800 flex items-center gap-4 text-white">
-                <i data-lucide="star" class="text-emerald-500"></i>
-                <div><p class="font-bold uppercase text-sm">OWN (Plating)</p><p class="text-slate-400 text-xs">This is your task!</p></div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-red-500 text-center">
+                <p class="text-[10px] font-black text-red-500 uppercase">Safety</p>
+                <p class="text-[9px] text-white/60">Heat & Sharp</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-500 text-center">
+                <p class="text-[10px] font-black text-emerald-400 uppercase">Earth</p>
+                <p class="text-[9px] text-white/60">Regulation</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-900 text-center">
+                <p class="text-[10px] font-black text-emerald-900 uppercase">Plating</p>
+                <p class="text-[9px] text-white/60">OWN Stage</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-purple-500 text-center">
+                <p class="text-[10px] font-black text-purple-400 uppercase">Voice</p>
+                <p class="text-[9px] text-white/60">Advocacy</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-yellow-500 text-center">
+                <p class="text-[10px] font-black text-yellow-500 uppercase">Transition</p>
+                <p class="text-[9px] text-white/60">Reflection</p>
             </div>
         </footer>
     </div>
 
     <script>
-        const recipes = [
-            {
-                title: "Cucumber Rounds", emoji: "🥒", tip: "Fingers tucked like a cat claw!",
-                ingredients: [{n: "Cucumber", e: "🥒"}, {n: "Salt", e: "🧂"}, {n: "Yogurt", e: "🥣"}, {n: "Onion", e: "🧅"}, {n: "Dill", e: "🌿"}],
-                steps: [
-                    { l: "WATCH", a: "0.5 INCH SLICE", d: "Anchor Zone: Watch Chef show the thickness.", i: "eye" },
-                    { l: "TRY", a: "SALT & SIT", d: "River Runway: Lay flat on paper towels. Salt lightly.", i: "hand" },
-                    { l: "OWN", a: "SPOON & TOP", d: "Plating Station: Dot yogurt. Add onion fronds.", i: "star" }
-                ]
-            },
-            {
-                title: "Beet Skewers", emoji: "🍢", tip: "Beet-Apple-Beet pattern!",
-                ingredients: [{n: "Beets", e: "🏮"}, {n: "Apples", e: "🍎"}, {n: "Lemon", e: "🍋"}, {n: "Honey", e: "🍯"}, {n: "Cumin", e: "🧂"}],
-                steps: [
-                    { l: "WATCH", a: "FOIL ROAST", d: "Anchor Zone: Watch Chef prep the foil wrap.", i: "eye" },
-                    { l: "TRY", a: "TOWEL PEEL", d: "River Runway: Rub skin off with a paper towel.", i: "hand" },
-                    { l: "OWN", a: "PATTERN POKE", d: "Plating Station: Build your Beet-Apple skewers.", i: "star" }
-                ]
-            }
-        ];
+        const modules = {
+            SKILLS: [
+                {
+                    title: "Sanitation & Dress", emoji: "🧼", tip: "Ask the chef for help with hair ties or aprons.",
+                    ingredients: [{n: "Apron", e: "🎽"}, {n: "Hair Tie", e: "👱"}, {n: "Soap", e: "🧼"}, {n: "Gloves", e: "🧤"}],
+                    steps: [
+                        { l: "WATCH", a: "DRESS READY", d: "Anchor Zone: Chef shows how to tie an apron so it's not loose.", i: "user-check", zone: "border-anchor" },
+                        { l: "TRY", a: "20s SCRUB", d: "Earth Zone: Follow the poster. Scrub for 20 seconds. Use a timer!", i: "timer", zone: "border-regulation" },
+                        { l: "TRY", a: "GLOVE FEEL", d: "River Runway: Put on gloves. Notice how they feel on your skin.", i: "hand", zone: "border-river" },
+                        { l: "OWN", a: "BOARD CHECK", d: "Safety Zone: Find the RED and GREEN boards. Place them in their spots.", i: "layers", zone: "border-safety" }
+                    ]
+                },
+                {
+                    title: "Sorting & Washing", emoji: "🧺", tip: "If the water is too cold, say 'I need an adjustment!'",
+                    ingredients: [{n: "Produce", e: "🥬"}, {n: "Crates", e: "📦"}, {n: "Cold Water", e: "🚰"}, {n: "Towel", e: "🧼"}],
+                    steps: [
+                        { l: "WATCH", a: "SORT GROUPS", d: "Anchor Zone: Sort into Fridge, Room Temp, or Needs Washing.", i: "list-ordered", zone: "border-anchor" },
+                        { l: "TRY", a: "GENTLE WASH", d: "Earth Zone: Use cold water and a gentle rub. Pat them dry.", i: "droplets", zone: "border-regulation" },
+                        { l: "ADVOCATE", a: "SENSORY CHECK", d: "Advocacy Wall: Is the texture okay? Is the water temp okay?", i: "shield", zone: "border-advocacy" },
+                        { l: "OWN", a: "RESET SPACE", d: "River Runway: Put every item away in its correct home.", i: "archive", zone: "border-river" }
+                    ]
+                }
+            ],
+            RECIPES: [
+                {
+                    title: "Cucumber Rounds", emoji: "🥒", tip: "Salt draws out the water to make them crisp!",
+                    ingredients: [{n: "Cucumber", e: "🥒"}, {n: "Salt", e: "🧂"}, {n: "Yogurt", e: "🥣"}, {n: "Dill", e: "🌿"}],
+                    steps: [
+                        { l: "WATCH", a: "0.5 INCH SLICE", d: "Anchor Zone: Chef shows the .5 inch thickness.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "SALT & SIT", d: "River Runway: Lay flat on paper towels. Salt for 20 minutes.", i: "timer", zone: "border-river" },
+                        { l: "OWN", a: "PLATING", d: "Plating Station: Dot with spicy yogurt and onion fronds.", i: "star", zone: "border-plating" }
+                    ]
+                },
+                {
+                    title: "Beet Skewers", emoji: "🍢", tip: "Rub the skin off—it's very satisfying!",
+                    ingredients: [{n: "Beets", e: "🏮"}, {n: "Apple", e: "🍎"}, {n: "Honey", e: "🍯"}, {n: "Cloth", e: "🧼"}],
+                    steps: [
+                        { l: "WATCH", a: "FOIL ROAST", d: "Safety Zone: Chef roasts at 400°F for 45-75 minutes.", i: "flame", zone: "border-safety" },
+                        { l: "TRY", a: "TOWEL PEEL", d: "Earth Zone: Once cool, rub skin off with a paper towel.", i: "hand", zone: "border-regulation" },
+                        { l: "OWN", a: "ASSEMBLY", d: "Plating Station: Pattern of Beet-Apple-Beet. Brush glaze.", i: "star", zone: "border-plating" }
+                    ]
+                },
+                {
+                    title: "Potato Smash", emoji: "🥔", tip: "Use the heel of your hand to pop the skin!",
+                    ingredients: [{n: "Potatoes", e: "🥔"}, {n: "Salt Water", e: "🚰"}, {n: "Butter", e: "🧈"}, {n: "Herbs", e: "🌿"}],
+                    steps: [
+                        { l: "WATCH", a: "PAR-BOIL", d: "Safety Zone: Boil in salt water until tender. Drain.", i: "timer", zone: "border-safety" },
+                        { l: "TRY", a: "THE SMASH", d: "River Runway: Steam dry. Smash to half-height with hand-heel.", i: "hand", zone: "border-river" },
+                        { l: "OWN", a: "TOSS & PLATE", d: "Plating Station: Toss with mustard seed butter and herbs.", i: "star", zone: "border-plating" }
+                    ]
+                }
+            ]
+        };
 
-        let currentRecipeIdx = 0;
-        let currentStepIdx = 0;
+        let currentCat = 'SKILLS';
+        let currentIdx = 0;
+        let currentStep = 0;
 
-        function selectRecipe(idx) {
-            currentRecipeIdx = idx;
-            currentStepIdx = 0;
+        function setCategory(cat) {
+            currentCat = cat;
+            currentIdx = 0;
+            currentStep = 0;
+            document.getElementById('cat-SKILLS').className = cat === 'SKILLS' ? "px-6 py-2 rounded-2xl font-black uppercase text-sm bg-blue-600 text-white shadow-lg" : "px-6 py-2 rounded-2xl font-black uppercase text-sm text-slate-400 hover:text-white";
+            document.getElementById('cat-RECIPES').className = cat === 'RECIPES' ? "px-6 py-2 rounded-2xl font-black uppercase text-sm bg-emerald-700 text-white shadow-lg" : "px-6 py-2 rounded-2xl font-black uppercase text-sm text-slate-400 hover:text-white";
             render();
         }
 
-        function nextStep() {
-            if (currentStepIdx < recipes[currentRecipeIdx].steps.length - 1) {
-                currentStepIdx++;
+        function next() {
+            if (currentStep < modules[currentCat][currentIdx].steps.length - 1) {
+                currentStep++;
                 render();
             }
         }
 
-        function prevStep() {
-            if (currentStepIdx > 0) {
-                currentStepIdx--;
+        function prev() {
+            if (currentStep > 0) {
+                currentStep--;
                 render();
             }
+        }
+
+        function selectModule(idx) {
+            currentIdx = idx;
+            currentStep = 0;
+            render();
         }
 
         function render() {
-            const recipe = recipes[currentRecipeIdx];
-            const step = recipe.steps[currentStepIdx];
-            const selector = document.getElementById('recipe-selector');
-            selector.innerHTML = recipes.map((r, i) => `
-                <button onclick="selectRecipe(${i})" class="px-6 py-3 rounded-2xl font-black whitespace-nowrap transition-all ${currentRecipeIdx === i ? 'bg-white text-slate-900 shadow-xl scale-105' : 'text-slate-500 hover:text-white'}">
-                    ${r.emoji} ${r.title}
+            const catData = modules[currentCat];
+            const data = catData[currentIdx];
+            const step = data.steps[currentStep];
+
+            // Selector Buttons
+            const selector = document.getElementById('module-selector');
+            selector.innerHTML = catData.map((m, i) => `
+                <button onclick="selectModule(${i})" class="px-6 py-3 rounded-2xl font-black whitespace-nowrap transition-all ${currentIdx === i ? 'bg-white text-slate-900 shadow-xl' : 'text-slate-500 hover:text-white'}">
+                    ${m.emoji} ${m.title}
                 </button>
             `).join('');
 
-            const levelColorMap = {
-                'WATCH': 'bg-slate-50 border-slate-300 text-slate-600',
-                'TRY': 'bg-blue-50 border-blue-300 text-blue-700',
-                'OWN': 'bg-emerald-50 border-emerald-800 text-emerald-900'
-            };
-
-            const display = document.getElementById('recipe-display');
+            // Display Logic
+            const display = document.getElementById('display-area');
             display.innerHTML = `
-                <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border-4 border-slate-100 flex flex-col md:flex-row h-full">
-                    <div class="w-full md:w-1/3 bg-slate-50 p-6 lg:p-8 border-r-4 border-slate-100">
+                <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-[12px] ${step.zone} flex flex-col lg:flex-row h-full">
+                    <div class="w-full lg:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto">
                         <div class="flex items-center gap-3 mb-6">
-                            <i data-lucide="shopping-basket" class="text-emerald-800"></i>
-                            <h3 class="text-2xl font-black uppercase tracking-tight text-slate-800">The Kit</h3>
+                            <i data-lucide="shopping-basket" class="text-slate-800"></i>
+                            <h3 class="text-2xl font-black uppercase tracking-tight text-slate-800 italic">The Kit</h3>
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            ${recipe.ingredients.map(ing => `<div class="bg-white p-3 rounded-2xl border-2 border-slate-100 text-center"><span class="text-3xl">${ing.e}</span><p class="text-[10px] font-bold uppercase mt-1 text-slate-600">${ing.n}</p></div>`).join('')}
+                        <div class="grid grid-cols-2 gap-4">
+                            ${data.ingredients.map(ing => `<div class="bg-white p-4 rounded-3xl border-2 border-slate-100 text-center shadow-sm"><span class="text-4xl">${ing.e}</span><p class="text-[10px] font-black uppercase mt-2 text-slate-500">${ing.n}</p></div>`).join('')}
                         </div>
-                        <div class="mt-8 p-6 bg-emerald-800 rounded-3xl text-white">
-                            <p class="text-xs font-bold uppercase opacity-70 mb-1 tracking-widest italic">Chef Tip</p>
-                            <p class="text-lg font-medium leading-tight italic">"${recipe.tip}"</p>
+                        <div class="mt-8 p-8 bg-slate-800 rounded-[2.5rem] text-white">
+                            <p class="text-xs font-black uppercase text-emerald-400 mb-2 tracking-widest">Chef Lingo</p>
+                            <p class="text-xl font-medium leading-tight italic">"${data.tip}"</p>
                         </div>
                     </div>
-                    <div class="flex-1 p-6 lg:p-10 flex flex-col justify-between">
+                    <div class="flex-1 p-8 lg:p-12 flex flex-col justify-between">
                         <div>
-                            <div class="flex justify-between items-center mb-6">
-                                <div class="px-4 py-1 rounded-full border-2 font-bold uppercase flex items-center gap-2 ${levelColorMap[step.l]}">
-                                    <i data-lucide="${step.l === 'WATCH' ? 'eye' : step.l === 'TRY' ? 'hand' : 'star'}" class="w-4 h-4"></i> ${step.l}
-                                0${currentStepIdx+1}</span>
+                            <div class="flex justify-between items-start mb-8">
+                                <div class="px-6 py-2 rounded-full border-4 font-black uppercase italic tracking-widest flex items-center gap-2 ${step.l === 'WATCH' ? 'bg-slate-100 border-slate-400 text-slate-600' : step.l === 'TRY' ? 'bg-blue-50 border-blue-500 text-blue-600' : step.l === 'ADVOCATE' ? 'bg-purple-50 border-purple-500 text-purple-600' : 'bg-emerald-50 border-emerald-900 text-emerald-900'}">
+                                    <i data-lucide="${step.l === 'WATCH' ? 'eye' : step.l === 'TRY' ? 'hand' : step.l === 'ADVOCATE' ? 'shield' : 'star'}" class="w-5 h-5"></i> ${step.l}
+                                </div>
+                                <span class="text-slate-100 font-black text-8xl">0${currentStep + 1}</span>
                             </div>
-                            <h4 class="text-4xl lg:text-5xl font-black text-slate-800 mb-6 leading-tight uppercase italic tracking-tighter">${step.a}</h4>
-                            <div class="bg-slate-50 rounded-[2.5rem] p-8 flex items-center gap-8 border-2 border-slate-100">
-                                <div class="bg-white p-6 rounded-full shadow-md"><i data-lucide="${step.i}" class="text-emerald-800 w-12 h-12 lg:w-16 lg:h-16"></i></div>
-                                <p class="text-2xl lg:text-3xl text-slate-600 font-medium leading-snug">${step.d}</p>
+                            <h2 class="text-5xl lg:text-7xl font-black text-slate-900 uppercase italic tracking-tighter leading-none mb-8">${step.a}</h2>
+                            <div class="bg-slate-50 rounded-[3rem] p-10 flex items-center gap-10 border-4 border-slate-100">
+                                <div class="bg-white p-8 rounded-full shadow-lg"><i data-lucide="${step.i}" class="w-16 h-16 text-slate-800"></i></div>
+                                <p class="text-3xl lg:text-4xl text-slate-600 font-medium leading-tight">${step.d}</p>
                             </div>
                         </div>
-                        <div class="flex justify-between items-center pt-8">
-                            <button onclick="prevStep()" class="px-8 py-4 rounded-2xl font-bold bg-slate-100 text-slate-400 ${currentStepIdx === 0 ? 'opacity-0 pointer-events-none' : ''}">Back</button>
-                            ${currentStepIdx === recipe.steps.length - 1 ? 
-                                `<div class="text-emerald-800 font-black text-3xl flex items-center gap-3 animate-pulse uppercase italic">READY!</div>` : 
-                                `<button onclick="nextStep()" class="px-12 py-5 rounded-2xl font-bold bg-blue-600 text-white shadow-xl flex items-center gap-3 text-xl transition-all hover:bg-blue-700">
-                                    Next Step <i data-lucide="arrow-right"></i>
-                                </button>`
+                        <div class="flex justify-between items-center mt-12">
+                            <button onclick="prev()" class="px-10 py-5 rounded-3xl font-black bg-slate-100 text-slate-400 uppercase tracking-widest ${currentStep === 0 ? 'opacity-0 pointer-events-none' : ''}">Back</button>
+                            ${currentStep === data.steps.length - 1 ? 
+                                `<div class="bg-emerald-100 text-emerald-800 px-10 py-5 rounded-3xl font-black text-2xl uppercase italic animate-bounce border-4 border-emerald-800">READY!</div>` :
+                                `<button onclick="next()" class="bg-blue-600 text-white px-14 py-5 rounded-3xl font-black text-2xl uppercase italic shadow-2xl flex items-center gap-4 hover:bg-blue-700 transition-all">Next Step <i data-lucide="arrow-right"></i></button>`
                             }
                         </div>
                     </div>
