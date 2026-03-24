@@ -3,25 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flagship - Visual Recipes</title>
+    <title>Visual Recipe Storyboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans', sans-serif; }
         .step-transition { transition: all 0.3s ease-in-out; }
-        /* Custom scrollbar for recipe selector */
-        #recipe-selector::-webkit-scrollbar { height: 6px; }
-        #recipe-selector::-webkit-scrollbar-track { background: #1e293b; }
-        #recipe-selector::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-slate-900 min-h-screen p-4 md:p-8">
     <div class="max-w-7xl mx-auto">
         <header class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 gap-6">
             <div class="space-y-2">
-                <div class="inline-flex items-center gap-2 bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-sm font-bold uppercase border border-blue-600/30">
-                    <i data-lucide="chef-hat" class="w-4 h-4"></i> Training Lab
+                <div class="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-1 rounded-full text-xs font-bold uppercase border border-emerald-600/30">
+                    <i data-lucide="chef-hat" class="w-4 h-4"></i> Plating Station
                 </div>
                 <h1 class="text-5xl md:text-6xl font-black text-white uppercase italic tracking-tighter">Visual Recipes</h1>
             </div>
@@ -35,17 +31,17 @@
         </main>
 
         <footer class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 flex items-center gap-4 text-white">
-                <i data-lucide="eye" class="text-blue-400"></i>
-                <div><p class="font-bold uppercase text-sm">Watch</p><p class="text-slate-400 text-xs">Eyes on Chef first.</p></div>
+            <div class="bg-slate-800/50 p-6 rounded-3xl border-t-8 border-slate-400 flex items-center gap-4 text-white">
+                <i data-lucide="eye" class="text-slate-400"></i>
+                <div><p class="font-bold uppercase text-sm">WATCH (Anchor)</p><p class="text-slate-400 text-xs">Eyes on Chef first.</p></div>
             </div>
-            <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 flex items-center gap-4 text-white">
-                <i data-lucide="hand" class="text-orange-400"></i>
-                <div><p class="font-bold uppercase text-sm">Try</p><p class="text-slate-400 text-xs">Practice with help.</p></div>
+            <div class="bg-slate-800/50 p-6 rounded-3xl border-t-8 border-blue-500 flex items-center gap-4 text-white">
+                <i data-lucide="hand" class="text-blue-400"></i>
+                <div><p class="font-bold uppercase text-sm">TRY (River)</p><p class="text-slate-400 text-xs">Practice together.</p></div>
             </div>
-            <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 flex items-center gap-4 text-white">
-                <i data-lucide="star" class="text-yellow-400"></i>
-                <div><p class="font-bold uppercase text-sm">Own</p><p class="text-slate-400 text-xs">This is your task!</p></div>
+            <div class="bg-slate-800/50 p-6 rounded-3xl border-t-8 border-emerald-800 flex items-center gap-4 text-white">
+                <i data-lucide="star" class="text-emerald-500"></i>
+                <div><p class="font-bold uppercase text-sm">OWN (Plating)</p><p class="text-slate-400 text-xs">This is your task!</p></div>
             </div>
         </footer>
     </div>
@@ -56,50 +52,18 @@
                 title: "Cucumber Rounds", emoji: "🥒", tip: "Fingers tucked like a cat claw!",
                 ingredients: [{n: "Cucumber", e: "🥒"}, {n: "Salt", e: "🧂"}, {n: "Yogurt", e: "🥣"}, {n: "Onion", e: "🧅"}, {n: "Dill", e: "🌿"}],
                 steps: [
-                    { l: "WATCH", a: "0.5 INCH SLICE", d: "Chef shows the thickness. Aim for even circles.", i: "scissors" },
-                    { l: "TRY", a: "SALT & SIT", d: "Lay flat on paper towels. Sprinkle salt. Wait 20 mins.", i: "timer" },
-                    { l: "TRY", a: "PAT DRY", d: "Use a clean towel to press down and remove the water.", i: "wind" },
-                    { l: "OWN", a: "SPOON & TOP", d: "Dot yogurt on each. Add onion fronds and herbs.", i: "star" }
+                    { l: "WATCH", a: "0.5 INCH SLICE", d: "Anchor Zone: Watch Chef show the thickness.", i: "eye" },
+                    { l: "TRY", a: "SALT & SIT", d: "River Runway: Lay flat on paper towels. Salt lightly.", i: "hand" },
+                    { l: "OWN", a: "SPOON & TOP", d: "Plating Station: Dot yogurt. Add onion fronds.", i: "star" }
                 ]
             },
             {
-                title: "Beet Skewers", emoji: "🍢", tip: "Pattern: Beet, Apple, Beet!",
+                title: "Beet Skewers", emoji: "🍢", tip: "Beet-Apple-Beet pattern!",
                 ingredients: [{n: "Beets", e: "🏮"}, {n: "Apples", e: "🍎"}, {n: "Lemon", e: "🍋"}, {n: "Honey", e: "🍯"}, {n: "Cumin", e: "🧂"}],
                 steps: [
-                    { l: "WATCH", a: "FOIL ROAST", d: "Chef wraps beets in double foil. Roasts at 400°F.", i: "flame" },
-                    { l: "TRY", a: "TOWEL PEEL", d: "Once cool, rub skin off with a paper towel or cloth.", i: "hand" },
-                    { l: "TRY", a: "APPLE BATH", d: "Cut apples. Put in cold lemon water so they stay white.", i: "droplets" },
-                    { l: "OWN", a: "PATTERN POKE", d: "Slide cubes onto skewer. Brush with cumin glaze.", i: "star" }
-                ]
-            },
-            {
-                title: "Cabbage Salad", emoji: "🥗", tip: "Keep the core intact to hold the shape!",
-                ingredients: [{n: "Cabbage", e: "🥬"}, {n: "Ginger", e: "🫚"}, {n: "Onion", e: "🧅"}, {n: "Pecans", e: "🥜"}, {n: "Turmeric", e: "🟡"}],
-                steps: [
-                    { l: "WATCH", a: "THE WEDGE", d: "Chef cuts cabbage into thick triangles with the core.", i: "scissors" },
-                    { l: "TRY", a: "GINGER GRATE", d: "Rub ginger against the grater. Mind your fingers!", i: "zap" },
-                    { l: "TRY", a: "HALF MOONS", d: "Slice onions in half, then slice thin like little moons.", i: "moon" },
-                    { l: "OWN", a: "TOSS & PECAN", d: "Drizzle vinaigrette. Top with pecans and pickled onion.", i: "star" }
-                ]
-            },
-            {
-                title: "Chicken & Potatoes", emoji: "🍗", tip: "Smash with your heel for maximum crisp!",
-                ingredients: [{n: "Wings", e: "🍗"}, {n: "Potatoes", e: "🥔"}, {n: "Butter", e: "🧈"}, {n: "Mustard", e: "🫙"}, {n: "Herbs", e: "🌿"}],
-                steps: [
-                    { l: "WATCH", a: "PAR-BOIL", d: "Boil potatoes in salt water. Drain and let steam dry.", i: "timer" },
-                    { l: "OWN", a: "THE SMASH", d: "Use the heel of your hand to flatten potatoes halfway.", i: "hand" },
-                    { l: "TRY", a: "HERB CHOP", d: "Roughly chop whatever fresh herbs we have available.", i: "scissors" },
-                    { l: "OWN", a: "BUTTER TOSS", d: "Toss crispy potatoes in mustard seed herb butter.", i: "star" }
-                ]
-            },
-            {
-                title: "Rice Pudding", emoji: "🍚", tip: "If berries are small, keep them whole!",
-                ingredients: [{n: "Rice", e: "🍚"}, {n: "Milk", e: "🥛"}, {n: "Cardamom", e: "🌱"}, {n: "Strawberries", e: "🍓"}, {n: "Honey", e: "🍯"}],
-                steps: [
-                    { l: "TRY", a: "MEASURE & RINSE", d: "1 cup rice. Rinse 30 seconds until water is clear.", i: "droplets" },
-                    { l: "WATCH", a: "STIR & BUBBLE", d: "Watch for bubbles. Stir every 5 minutes with a timer.", i: "timer" },
-                    { l: "TRY", a: "BERRY PREP", d: "Big berries: slice in half. Small berries: stay whole.", i: "scissors" },
-                    { l: "OWN", a: "HONEY DRIZZLE", d: "Top with grilled strawberries, honey, and flaky salt.", i: "star" }
+                    { l: "WATCH", a: "FOIL ROAST", d: "Anchor Zone: Watch Chef prep the foil wrap.", i: "eye" },
+                    { l: "TRY", a: "TOWEL PEEL", d: "River Runway: Rub skin off with a paper towel.", i: "hand" },
+                    { l: "OWN", a: "PATTERN POKE", d: "Plating Station: Build your Beet-Apple skewers.", i: "star" }
                 ]
             }
         ];
@@ -130,8 +94,6 @@
         function render() {
             const recipe = recipes[currentRecipeIdx];
             const step = recipe.steps[currentStepIdx];
-            
-            // Render Selector
             const selector = document.getElementById('recipe-selector');
             selector.innerHTML = recipes.map((r, i) => `
                 <button onclick="selectRecipe(${i})" class="px-6 py-3 rounded-2xl font-black whitespace-nowrap transition-all ${currentRecipeIdx === i ? 'bg-white text-slate-900 shadow-xl scale-105' : 'text-slate-500 hover:text-white'}">
@@ -139,45 +101,46 @@
                 </button>
             `).join('');
 
-            // Render Recipe Card
+            const levelColorMap = {
+                'WATCH': 'bg-slate-50 border-slate-300 text-slate-600',
+                'TRY': 'bg-blue-50 border-blue-300 text-blue-700',
+                'OWN': 'bg-emerald-50 border-emerald-800 text-emerald-900'
+            };
+
             const display = document.getElementById('recipe-display');
             display.innerHTML = `
                 <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border-4 border-slate-100 flex flex-col md:flex-row h-full">
                     <div class="w-full md:w-1/3 bg-slate-50 p-6 lg:p-8 border-r-4 border-slate-100">
                         <div class="flex items-center gap-3 mb-6">
-                            <i data-lucide="shopping-basket" class="text-blue-600"></i>
+                            <i data-lucide="shopping-basket" class="text-emerald-800"></i>
                             <h3 class="text-2xl font-black uppercase tracking-tight text-slate-800">The Kit</h3>
                         </div>
-                        <div class="grid grid-cols-2 lg:grid-cols-2 gap-3">
-                            ${recipe.ingredients.map(ing => `<div class="bg-white p-3 rounded-2xl border-2 border-slate-100 text-center shadow-sm"><span class="text-3xl">${ing.e}</span><p class="text-[10px] font-bold uppercase mt-1 text-slate-600">${ing.n}</p></div>`).join('')}
+                        <div class="grid grid-cols-2 gap-3">
+                            ${recipe.ingredients.map(ing => `<div class="bg-white p-3 rounded-2xl border-2 border-slate-100 text-center"><span class="text-3xl">${ing.e}</span><p class="text-[10px] font-bold uppercase mt-1 text-slate-600">${ing.n}</p></div>`).join('')}
                         </div>
-                        <div class="mt-8 p-6 bg-blue-600 rounded-3xl text-white shadow-lg">
-                            <p class="text-xs font-bold uppercase opacity-70 mb-1 tracking-widest">Chef Tip</p>
-                            <p class="text-lg font-medium leading-tight">${recipe.tip}</p>
+                        <div class="mt-8 p-6 bg-emerald-800 rounded-3xl text-white">
+                            <p class="text-xs font-bold uppercase opacity-70 mb-1 tracking-widest italic">Chef Tip</p>
+                            <p class="text-lg font-medium leading-tight italic">"${recipe.tip}"</p>
                         </div>
                     </div>
-                    <div class="flex-1 p-6 lg:p-10 flex flex-col justify-between bg-white">
+                    <div class="flex-1 p-6 lg:p-10 flex flex-col justify-between">
                         <div>
                             <div class="flex justify-between items-center mb-6">
-                                <div class="px-4 py-1 rounded-full border-2 font-bold uppercase flex items-center gap-2 ${step.l === 'WATCH' ? 'bg-blue-50 border-blue-200 text-blue-700' : step.l === 'TRY' ? 'bg-orange-50 border-orange-200 text-orange-700' : 'bg-yellow-50 border-yellow-200 text-yellow-700'}">
+                                <div class="px-4 py-1 rounded-full border-2 font-bold uppercase flex items-center gap-2 ${levelColorMap[step.l]}">
                                     <i data-lucide="${step.l === 'WATCH' ? 'eye' : step.l === 'TRY' ? 'hand' : 'star'}" class="w-4 h-4"></i> ${step.l}
-                                </div>
-                                <span class="text-slate-200 font-black text-6xl">0${currentStepIdx+1}</span>
+                                0${currentStepIdx+1}</span>
                             </div>
                             <h4 class="text-4xl lg:text-5xl font-black text-slate-800 mb-6 leading-tight uppercase italic tracking-tighter">${step.a}</h4>
                             <div class="bg-slate-50 rounded-[2.5rem] p-8 flex items-center gap-8 border-2 border-slate-100">
-                                <div class="bg-white p-6 rounded-full shadow-md"><i data-lucide="${step.i}" class="text-blue-600 w-12 h-12 lg:w-16 lg:h-16"></i></div>
+                                <div class="bg-white p-6 rounded-full shadow-md"><i data-lucide="${step.i}" class="text-emerald-800 w-12 h-12 lg:w-16 lg:h-16"></i></div>
                                 <p class="text-2xl lg:text-3xl text-slate-600 font-medium leading-snug">${step.d}</p>
                             </div>
                         </div>
                         <div class="flex justify-between items-center pt-8">
                             <button onclick="prevStep()" class="px-8 py-4 rounded-2xl font-bold bg-slate-100 text-slate-400 ${currentStepIdx === 0 ? 'opacity-0 pointer-events-none' : ''}">Back</button>
                             ${currentStepIdx === recipe.steps.length - 1 ? 
-                                `<div class="text-emerald-600 font-black text-3xl flex items-center gap-3 animate-bounce">
-                                    <i data-lucide="check-circle-2" class="w-10 h-10"></i> 
-                                    <span>READY FOR SERVICE!</span>
-                                </div>` : 
-                                `<button onclick="nextStep()" class="px-12 py-5 rounded-2xl font-bold bg-blue-600 text-white shadow-xl shadow-blue-200 flex items-center gap-3 text-xl transition-all hover:bg-blue-700">
+                                `<div class="text-emerald-800 font-black text-3xl flex items-center gap-3 animate-pulse uppercase italic">READY!</div>` : 
+                                `<button onclick="nextStep()" class="px-12 py-5 rounded-2xl font-bold bg-blue-600 text-white shadow-xl flex items-center gap-3 text-xl transition-all hover:bg-blue-700">
                                     Next Step <i data-lucide="arrow-right"></i>
                                 </button>`
                             }
