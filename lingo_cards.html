@@ -31,51 +31,44 @@
         <!-- Portal Selection Screen -->
         <div id="portal-selection" class="min-h-[80vh] flex flex-col justify-center items-center py-20">
             <h1 class="text-6xl font-black text-white uppercase italic tracking-tighter mb-4 text-center">Master <span class="text-blue-500">Labels</span></h1>
-            <p class="text-slate-400 text-xl mb-12 text-center max-w-xl">Choose a portal to browse labels and training cards for the Flagship Dinner.</p>
+            <p class="text-slate-400 text-xl mb-12 text-center max-w-xl italic">Color-coded to the Atrium Café Environment</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
                 <!-- Sanitation & Safety Portal -->
-                <button onclick="setFilter('SANITATION')" class="portal-card bg-white rounded-[3rem] p-12 text-left transition-all duration-300 border-8 border-transparent hover:border-red-500 group shadow-2xl">
-                    <div class="bg-red-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-red-500 group-hover:text-white transition-colors">
-                        <i data-lucide="shield-check" class="w-10 h-10"></i>
+                <button onclick="setFilter('SANITATION')" class="portal-card bg-white rounded-[3rem] p-12 text-left transition-all duration-300 border-b-[16px] border-emerald-500 group shadow-2xl">
+                    <div class="bg-emerald-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                        <i data-lucide="leaf" class="w-10 h-10"></i>
                     </div>
-                    <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tight mb-2">Sanitation & Safety</h2>
-                    <p class="text-slate-500 text-lg">Washing, sorting, raw vs. cooked, and sensory advocacy.</p>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tight mb-2">Earth & Safety</h2>
+                    <p class="text-slate-500 text-lg">Regulation Zone (Light Green) & Safety Zone (Red). Sorting, washing, and heat.</p>
                 </button>
 
                 <!-- Kitchen Skills Portal -->
-                <button onclick="setFilter('SKILLS')" class="portal-card bg-white rounded-[3rem] p-12 text-left transition-all duration-300 border-8 border-transparent hover:border-blue-500 group shadow-2xl">
+                <button onclick="setFilter('SKILLS')" class="portal-card bg-white rounded-[3rem] p-12 text-left transition-all duration-300 border-b-[16px] border-blue-500 group shadow-2xl">
                     <div class="bg-blue-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                        <i data-lucide="chef-hat" class="w-10 h-10"></i>
+                        <i data-lucide="wind" class="w-10 h-10"></i>
                     </div>
-                    <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tight mb-2">Kitchen Skills</h2>
-                    <p class="text-slate-500 text-lg">Pinch grip, claw grip, prep stations, and putting things away.</p>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tight mb-2">River Flow Skills</h2>
+                    <p class="text-slate-500 text-lg">River Runway (Blue). Movement, prep, and putting things away.</p>
                 </button>
-            </div>
-
-            <div class="mt-12 flex gap-4">
-                <button onclick="setFilter('ALL')" class="text-slate-500 hover:text-white font-bold uppercase tracking-widest text-sm underline decoration-2 underline-offset-8">View All Labels</button>
-                <span class="text-slate-700">|</span>
-                <button onclick="setFilter('ADVOCACY')" class="text-slate-500 hover:text-white font-bold uppercase tracking-widest text-sm underline decoration-2 underline-offset-8">Self-Advocacy Rights</button>
             </div>
         </div>
 
         <!-- Tool Header -->
         <header id="tool-header" class="hidden flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-6 no-print">
             <div>
-                <button onclick="showPortal()" class="text-blue-400 font-bold uppercase tracking-widest text-xs flex items-center gap-2 mb-2 hover:text-blue-300">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Portals
+                <button onclick="showPortal()" class="text-blue-400 font-bold uppercase tracking-widest text-[10px] flex items-center gap-2 mb-2 hover:text-blue-300">
+                    <i data-lucide="arrow-left" class="w-3 h-3"></i> Back to Portals
                 </button>
-                <h1 id="portal-title" class="text-4xl font-black text-white italic tracking-tighter uppercase">Master Labels</h1>
+                <h1 id="portal-title" class="text-4xl font-black text-white italic tracking-tighter uppercase leading-none">Master Labels</h1>
             </div>
             
             <div class="flex flex-wrap gap-2 bg-slate-800 p-2 rounded-3xl border border-slate-700">
                 <button onclick="setFilter('ALL')" id="filter-ALL" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">All</button>
-                <button onclick="setFilter('SANITATION')" id="filter-SANITATION" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Safety & San</button>
-                <button onclick="setFilter('SKILLS')" id="filter-SKILLS" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Skills</button>
-                <button onclick="setFilter('LINGO')" id="filter-LINGO" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Lingo</button>
-                <button onclick="setFilter('ZONE')" id="filter-ZONE" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Zones</button>
-                <button onclick="setFilter('ADVOCACY')" id="filter-ADVOCACY" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Advocacy</button>
+                <button onclick="setFilter('SANITATION')" id="filter-SANITATION" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Earth (Green)</button>
+                <button onclick="setFilter('SKILLS')" id="filter-SKILLS" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">River (Blue)</button>
+                <button onclick="setFilter('SAFETY')" id="filter-SAFETY" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Safety (Red)</button>
+                <button onclick="setFilter('ADVOCACY')" id="filter-ADVOCACY" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Voice (Purple)</button>
             </div>
         </header>
 
@@ -84,42 +77,34 @@
         </div>
 
         <div id="print-footer" class="hidden mt-20 text-center text-slate-500 no-print pb-20">
-            <p class="text-xl font-bold text-slate-400 mb-2">Ready to Print?</p>
-            <p class="max-w-2xl mx-auto italic mb-8 text-slate-500">Laminate these labels for the magnetic surfaces. Red is for raw meat areas, Green is for produce/veggie areas.</p>
-            <button onclick="window.print()" class="bg-blue-600 text-white px-10 py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-blue-500 transition-all shadow-2xl flex items-center gap-3 mx-auto">
-                <i data-lucide="printer"></i> Print Labels
+            <button onclick="window.print()" class="bg-emerald-600 text-white px-10 py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-emerald-500 transition-all shadow-2xl flex items-center gap-3 mx-auto">
+                <i data-lucide="printer"></i> Print Labal Sheets
             </button>
         </div>
     </div>
 
     <script>
         const masterData = [
-            // SANITATION CATEGORY
-            { cat: "SANITATION", title: "SORT PRODUCE", phon: "Sor-t", mean: "Divide into: Fridge, Room Temp, or Wash First.", icon: "list-ordered", color: "bg-emerald-600", border: "border-emerald-700", resp: "Sorted and Ready!", ex: "Apples stay out, cucumbers get washed." },
-            { cat: "SANITATION", title: "GENTLE WASH", phon: "Wash", mean: "Cold running water, gentle rub, place on drying rack.", icon: "droplets", color: "bg-blue-500", border: "border-blue-600", resp: "Clean and Ready!", ex: "Wash the Earth Gifts before they go to prep." },
-            { cat: "SANITATION", title: "RAW MEAT ONLY", phon: "Raw Meet", mean: "RED BOARD. Only raw meat goes here. No vegetables!", icon: "beef", color: "bg-red-600", border: "border-red-700", resp: "Red Board, Heard!", ex: "Use for the South Asian Spiced wings." },
-            { cat: "SANITATION", title: "VEGGIES ONLY", phon: "Vej-ees", mean: "GREEN BOARD. Only produce goes here. No meat!", icon: "leaf", color: "bg-emerald-500", border: "border-emerald-600", resp: "Green Board, Heard!", ex: "Use for cucumbers, cabbage, and apples." },
-            { cat: "SANITATION", title: "HAND WASH", phon: "Hand Wash", mean: "Soap and scrub for 20 seconds. Every single time.", icon: "hand", color: "bg-sky-500", border: "border-sky-600", resp: "20 Seconds, Heard!", ex: "Before starting, after breaks, after touching raw meat." },
-            { cat: "SANITATION", title: "SCRAP BUCKET", phon: "Scrap", mean: "Food peels and trimmings only. No trash!", icon: "sprout", color: "bg-emerald-700", border: "border-emerald-800", resp: "Scrap it!", ex: "Cucumber ends and beet skins belong here." },
-            { cat: "SANITATION", title: "HOT!", phon: "H-ot", mean: "Hot surface or steam. This will burn you.", icon: "flame", color: "bg-red-600", border: "border-red-700", resp: "Checking Hot!", ex: "Stove, Oven, Heat Lamps, Warm Plates." },
-            { cat: "SANITATION", title: "SHARP!", phon: "Sh-arp", mean: "This item can cut. Move slowly.", icon: "alert-triangle", color: "bg-red-600", border: "border-red-700", resp: "Sharp, Heard!", ex: "Knives, Graters, Pealers." },
+            // EARTH / REGULATION / SANITATION (Light Green)
+            { cat: "SANITATION", title: "SORT PRODUCE", phon: "Sor-t", mean: "Divide: Fridge, Room Temp, or Wash First.", icon: "list-ordered", color: "bg-emerald-500", border: "border-emerald-600", resp: "Sorted and Ready!", ex: "Earth appreciation starts with sorting our gifts." },
+            { cat: "SANITATION", title: "GENTLE WASH", phon: "Wash", mean: "Cold running water, gentle rub, place on drying rack.", icon: "droplets", color: "bg-emerald-500", border: "border-emerald-600", resp: "Clean and Ready!", ex: "Wash station: Find the sink with the Green label." },
+            { cat: "SANITATION", title: "VEGGIES ONLY", phon: "Vej-ees", mean: "GREEN BOARD. Only produce goes here. No meat!", icon: "leaf", color: "bg-emerald-600", border: "border-emerald-700", resp: "Green Board!", ex: "Veggies and fruits only on this board." },
+            { cat: "SANITATION", title: "SCRAP BUCKET", phon: "Scrap", mean: "Food peels and trimmings only. No trash!", icon: "sprout", color: "bg-emerald-700", border: "border-emerald-800", resp: "Returning to Earth!", ex: "Compostable items only." },
             
-            // SKILLS CATEGORY
-            { cat: "SKILLS", title: "PUTTING AWAY", phon: "Put A-way", mean: "Return every item to its correct home. Ask if unsure.", icon: "archive", color: "bg-slate-500", border: "border-slate-600", resp: "Kitchen is Reset!", ex: "Cucumbers to fridge, salt to the spice shelf." },
-            { cat: "SKILLS", title: "PINCH GRIP", phon: "Pinch", mean: "Hold the blade with thumb and pointer finger.", icon: "pointer", color: "bg-blue-600", border: "border-blue-700", resp: "Pinch grip set!", ex: "The safest way to control your knife." },
-            { cat: "SKILLS", title: "CLAW GRIP", phon: "Claw", mean: "Tuck fingertips in while holding the food.", icon: "hand-metal", color: "bg-blue-600", border: "border-blue-700", resp: "Claw grip set!", ex: "The 'cat claw' protects your fingers from cuts." },
-            { cat: "SKILLS", title: "CONSISTENCY", phon: "Con-sis-ten-cy", mean: "Make every piece look the exact same size.", icon: "layers", color: "bg-blue-600", border: "border-blue-700", resp: "Matching sizes!", ex: "All cucumber rounds should be .5 inches." },
-            { cat: "SKILLS", title: "MISE EN PLACE", phon: "Meez-on-plahs", mean: "Everything in its place. Gather 'The Kit' first.", icon: "layout-grid", color: "bg-blue-600", border: "border-blue-700", resp: "Mise is set!", ex: "Getting all spices and bowls ready before cooking." },
-
-            // LINGO CATEGORY
-            { cat: "LINGO", title: "BEHIND!", phon: "Bee-hind", mean: "I am walking behind you. Do not move back!", icon: "navigation", color: "bg-orange-500", border: "border-orange-600", resp: "Heard!", ex: "Say this when walking behind the Chef at the stove." },
-            { cat: "LINGO", title: "HANDS!", phon: "Hands", mean: "Food is ready! I need someone to carry this.", icon: "hand", color: "bg-yellow-400 text-black", border: "border-yellow-500", resp: "Hands coming!", ex: "Chef yells this when a plate is hot and ready." },
-            { cat: "LINGO", title: "IN THE WEEDS", phon: "In the weeds", mean: "I am overwhelmed and I need help now.", icon: "help-circle", color: "bg-purple-600", border: "border-purple-700", resp: "How can I help?", ex: "Use this code when you are behind on a task." },
+            // RIVER / SKILLS / MOVEMENT (Blue)
+            { cat: "SKILLS", title: "RIVER RUNWAY", phon: "Riv-er", mean: "Mindful movement through the center aisle.", icon: "wind", color: "bg-blue-600", border: "border-blue-700", resp: "Flowing through!", ex: "Keep the center aisle clear and moving." },
+            { cat: "SKILLS", title: "PUTTING AWAY", phon: "Put A-way", mean: "Return every item to its correct home.", icon: "archive", color: "bg-blue-600", border: "border-blue-700", resp: "Kitchen is Reset!", ex: "Resetting our environment for the next team." },
+            { cat: "SKILLS", title: "PINCH GRIP", phon: "Pinch", mean: "Hold the blade with thumb and pointer finger.", icon: "pointer", color: "bg-blue-600", border: "border-blue-700", resp: "Pinch grip set!", ex: "Control and stability for prep." },
             
-            // ADVOCACY CATEGORY
-            { cat: "ADVOCACY", title: "SENSORY CHECK", phon: "Sen-sor-ee", mean: "If water or food texture feels bad, tell the Chef.", icon: "hand", color: "bg-pink-500", border: "border-pink-600", resp: "I need an adjustment!", ex: "Saying 'The water is too cold' or 'I don't like this feel'." },
-            { cat: "ADVOCACY", title: "MY RIGHTS", phon: "My Rights", mean: "I have the right to ask for what I need.", icon: "shield", color: "bg-pink-500", border: "border-pink-600", resp: "Advocating!", ex: "Rights to breaks, silence, and helping hands." },
-            { cat: "ADVOCACY", title: "TAKE A BREAK", phon: "Break", mean: "I can step away any time. No need to ask.", icon: "coffee", color: "bg-pink-500", border: "border-pink-600", resp: "Recharging now!", ex: "Go to the stool or exit when you feel overwhelmed." }
+            // SAFETY (Red)
+            { cat: "SAFETY", title: "HOT!", phon: "H-ot", mean: "Hot surface or steam. Use oven mitt.", icon: "flame", color: "bg-red-600", border: "border-red-700", resp: "Checking Hot!", ex: "Safety Zone: Stove and Oven areas." },
+            { cat: "SAFETY", title: "RAW MEAT ONLY", phon: "Raw Meet", mean: "RED BOARD. Only raw meat goes here.", icon: "beef", color: "bg-red-600", border: "border-red-700", resp: "Red Board, Heard!", ex: "Chicken wings preparation only." },
+            { cat: "SAFETY", title: "SHARP!", phon: "Sh-arp", mean: "This item can cut. Move slowly.", icon: "alert-triangle", color: "bg-red-600", border: "border-red-700", resp: "Sharp, Heard!", ex: "Knives and grater tools." },
+            
+            // ADVOCACY / VOICE (Purple)
+            { cat: "ADVOCACY", title: "SENSORY CHECK", phon: "Sen-sor-ee", mean: "If water or texture feels bad, tell the Chef.", icon: "hand", color: "bg-purple-600", border: "border-purple-700", resp: "I need an adjustment!", ex: "Advocacy Wall: Share your needs." },
+            { cat: "ADVOCACY", title: "IN THE WEEDS", phon: "In the weeds", mean: "I am overwhelmed and I need help now.", icon: "help-circle", color: "bg-purple-600", border: "border-purple-700", resp: "How can I help?", ex: "Our dignified signal for support." },
+            { cat: "ADVOCACY", title: "TAKE A BREAK", phon: "Break", mean: "Step away to the Regulation Zone any time.", icon: "coffee", color: "bg-purple-600", border: "border-purple-700", resp: "Recharging now!", ex: "Listen to your body and regulate." }
         ];
 
         let currentFilter = 'ALL';
@@ -138,15 +123,21 @@
             document.getElementById('lingo-container').classList.remove('hidden');
             document.getElementById('print-footer').classList.remove('hidden');
 
-            const title = f === 'SANITATION' ? 'Sanitation & Safety Portal' : f === 'SKILLS' ? 'Kitchen Skills Portal' : 'Master Label Library';
-            document.getElementById('portal-title').innerText = title;
+            const titleMap = {
+                'SANITATION': 'Earth Regulation Zone (Green)',
+                'SKILLS': 'River Runway Skills (Blue)',
+                'SAFETY': 'Safety Zone (Red)',
+                'ADVOCACY': 'Self-Advocacy Wall (Purple)',
+                'ALL': 'Master Label Library'
+            };
+            document.getElementById('portal-title').innerText = titleMap[f] || 'Master Labels';
 
-            const buttons = ['ALL', 'SANITATION', 'SKILLS', 'LINGO', 'ZONE', 'ADVOCACY'];
+            const buttons = ['ALL', 'SANITATION', 'SKILLS', 'SAFETY', 'ADVOCACY'];
             buttons.forEach(btn => {
                 const el = document.getElementById('filter-' + btn);
                 if (el) {
                     if (btn === f) {
-                        el.className = "px-5 py-2 rounded-2xl font-bold transition-all bg-blue-600 text-white shadow-lg";
+                        el.className = "px-5 py-2 rounded-2xl font-bold transition-all bg-emerald-600 text-white shadow-lg";
                     } else {
                         el.className = "px-5 py-2 rounded-2xl font-bold transition-all text-slate-400 hover:text-white";
                     }
@@ -163,7 +154,6 @@
             
             filteredData.forEach(item => {
                 const card = document.createElement('div');
-                // Changed from h-[700px] to min-h-[700px] for better framing and flex-1 logic
                 const containerClassList = [
                     "card-break", "flex", "flex-col", "min-h-[700px]", "h-full", 
                     "border-[12px]", "rounded-[3.5rem]", "overflow-hidden", 
@@ -206,7 +196,6 @@
             lucide.createIcons();
         }
 
-        // Initialize with portal view
         lucide.createIcons();
     </script>
 </body>
