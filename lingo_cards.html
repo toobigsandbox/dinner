@@ -10,6 +10,7 @@
     <style>
         body { font-family: 'Noto Sans', sans-serif; }
         .card-break { page-break-after: always; break-inside: avoid; }
+        .portal-card:hover { transform: translateY(-10px); }
         @media print {
             .no-print { display: none !important; }
             body { background: white !important; padding: 0 !important; }
@@ -20,97 +21,135 @@
                 margin: 0 auto 1in auto !important; 
                 border: 2px solid #e2e8f0 !important;
             }
+            #portal-selection { display: none !important; }
         }
     </style>
 </head>
 <body class="bg-slate-900 min-h-screen p-4 md:p-8">
     <div class="max-w-7xl mx-auto">
         
-        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-6 no-print">
+        <!-- Portal Selection Screen -->
+        <div id="portal-selection" class="min-h-[80vh] flex flex-col justify-center items-center py-20">
+            <h1 class="text-6xl font-black text-white uppercase italic tracking-tighter mb-4 text-center">Master <span class="text-blue-500">Labels</span></h1>
+            <p class="text-slate-400 text-xl mb-12 text-center max-w-xl">Choose a portal to browse labels and training cards for the Flagship Dinner.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
+                <!-- Sanitation & Safety Portal -->
+                <button onclick="setFilter('SANITATION')" class="portal-card bg-white rounded-[3rem] p-12 text-left transition-all duration-300 border-8 border-transparent hover:border-red-500 group shadow-2xl">
+                    <div class="bg-red-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                        <i data-lucide="shield-check" class="w-10 h-10"></i>
+                    </div>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tight mb-2">Sanitation & Safety</h2>
+                    <p class="text-slate-500 text-lg">Washing, raw vs. cooked, hot surfaces, and clean-as-you-go rules.</p>
+                </button>
+
+                <!-- Kitchen Skills Portal -->
+                <button onclick="setFilter('SKILLS')" class="portal-card bg-white rounded-[3rem] p-12 text-left transition-all duration-300 border-8 border-transparent hover:border-blue-500 group shadow-2xl">
+                    <div class="bg-blue-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="chef-hat" class="w-10 h-10"></i>
+                    </div>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tight mb-2">Kitchen Skills</h2>
+                    <p class="text-slate-500 text-lg">Pinch grip, claw grip, prep stations, plating, and mise-en-place.</p>
+                </button>
+            </div>
+
+            <div class="mt-12 flex gap-4">
+                <button onclick="setFilter('ALL')" class="text-slate-500 hover:text-white font-bold uppercase tracking-widest text-sm underline decoration-2 underline-offset-8">View All Labels</button>
+                <span class="text-slate-700">|</span>
+                <button onclick="setFilter('ADVOCACY')" class="text-slate-500 hover:text-white font-bold uppercase tracking-widest text-sm underline decoration-2 underline-offset-8">Self-Advocacy Rights</button>
+            </div>
+        </div>
+
+        <!-- Tool Header (Hidden by default) -->
+        <header id="tool-header" class="hidden flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-6 no-print">
             <div>
-                <h1 class="text-4xl font-black text-white flex items-center gap-3 italic tracking-tighter uppercase">
-                    <i data-lucide="volume-2" class="text-blue-400"></i> Master Label & Lingo Library
-                </h1>
-                <p class="text-slate-400 text-lg">Visual anchors for safety, communication, zones, and advocacy.</p>
+                <button onclick="showPortal()" class="text-blue-400 font-bold uppercase tracking-widest text-xs flex items-center gap-2 mb-2 hover:text-blue-300">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Portals
+                </button>
+                <h1 id="portal-title" class="text-4xl font-black text-white italic tracking-tighter uppercase">Master Labels</h1>
             </div>
             
             <div class="flex flex-wrap gap-2 bg-slate-800 p-2 rounded-3xl border border-slate-700">
-                <button onclick="setFilter('ALL')" id="filter-ALL" class="px-5 py-2 rounded-2xl font-bold transition-all bg-blue-600 text-white">All</button>
-                <button onclick="setFilter('SAFETY')" id="filter-SAFETY" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Safety</button>
+                <button onclick="setFilter('ALL')" id="filter-ALL" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">All</button>
+                <button onclick="setFilter('SANITATION')" id="filter-SANITATION" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Safety & San</button>
+                <button onclick="setFilter('SKILLS')" id="filter-SKILLS" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Skills</button>
                 <button onclick="setFilter('LINGO')" id="filter-LINGO" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Lingo</button>
                 <button onclick="setFilter('ZONE')" id="filter-ZONE" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Zones</button>
-                <button onclick="setFilter('STEPS')" id="filter-STEPS" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Steps</button>
                 <button onclick="setFilter('ADVOCACY')" id="filter-ADVOCACY" class="px-5 py-2 rounded-2xl font-bold transition-all text-slate-400">Advocacy</button>
             </div>
         </header>
 
-        <div id="lingo-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+        <div id="lingo-container" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
             <!-- Cards injected via JS -->
         </div>
 
-        <div class="mt-20 text-center text-slate-500 no-print pb-20">
-            <p class="text-xl font-bold text-slate-400 mb-2">Printing Guidance</p>
-            <p class="max-w-2xl mx-auto italic">Print in color, laminate, and apply magnetic tape. Use these to turn the kitchen into a fully visual environment for the April 16th Flagship Dinner.</p>
-            <button onclick="window.print()" class="mt-8 bg-white text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl">
-                Print Selected Labels
+        <div id="print-footer" class="hidden mt-20 text-center text-slate-500 no-print pb-20">
+            <p class="text-xl font-bold text-slate-400 mb-2">Ready to Print?</p>
+            <p class="max-w-2xl mx-auto italic mb-8 text-slate-500">Laminate these labels and use magnets. Red is for raw meat areas, Green is for produce/veggie areas.</p>
+            <button onclick="window.print()" class="bg-blue-600 text-white px-10 py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-blue-500 transition-all shadow-2xl flex items-center gap-3 mx-auto">
+                <i data-lucide="printer"></i> Print Labels
             </button>
         </div>
     </div>
 
     <script>
         const masterData = [
-            // SAFETY CATEGORY
-            { cat: "SAFETY", title: "HOT!", phon: "H-ot", mean: "Hot surface or steam. This will burn you.", icon: "flame", color: "bg-red-600", border: "border-red-700", resp: "Checking Hot!", ex: "Stove, Oven, Heat Lamps, Warm Plates." },
-            { cat: "SAFETY", title: "SHARP!", phon: "Sh-arp", mean: "This item can cut. Use the claw grip.", icon: "alert-triangle", color: "bg-red-600", border: "border-red-700", resp: "Sharp, Heard!", ex: "Knives, Graters, Pealers, Mandolins." },
-            { cat: "SAFETY", title: "BEHIND!", phon: "Bee-hind", mean: "I am walking behind you. Do not move back!", icon: "navigation", color: "bg-orange-500", border: "border-orange-600", resp: "Heard!", ex: "Use when someone is at a prep table or at the stove." },
-            { cat: "SAFETY", title: "CORNER!", phon: "Kor-ner", mean: "I am turning a corner and cannot see you.", icon: "rotate-cw", color: "bg-orange-500", border: "border-orange-600", resp: "Heard!", ex: "Shout this before passing through any swing doors." },
-            { cat: "SAFETY", title: "COMING THROUGH!", phon: "Kum-ing Thru", mean: "I have full hands and I am moving through.", icon: "move", color: "bg-orange-500", border: "border-orange-600", resp: "Heard, clear path!", ex: "When carrying a heavy tray or full bus tub." },
+            // SANITATION CATEGORY (Requested Update)
+            { cat: "SANITATION", title: "RAW MEAT ONLY", phon: "Raw Meet", mean: "RED BOARD. Only raw meat goes here. No vegetables!", icon: "beef", color: "bg-red-600", border: "border-red-700", resp: "Red Board, Heard!", ex: "Use for the chicken wings only." },
+            { cat: "SANITATION", title: "VEGGIES ONLY", phon: "Vej-ees", mean: "GREEN BOARD. Only produce goes here. No meat!", icon: "leaf", color: "bg-emerald-600", border: "border-emerald-700", resp: "Green Board, Heard!", ex: "Use for cucumbers, apples, and cabbage." },
+            { cat: "SANITATION", title: "WASH STATION", phon: "Wash", mean: "Where we clean the Earth Gifts (produce).", icon: "droplets", color: "bg-blue-500", border: "border-blue-600", resp: "Washing now!", ex: "Sink for washing fruits and vegetables." },
+            { cat: "SANITATION", title: "HAND WASH", phon: "Hand Wash", mean: "Scrub with soap for 20 seconds. Every time.", icon: "hand", color: "bg-sky-500", border: "border-sky-600", resp: "20 Seconds, Heard!", ex: "When arriving, after breaks, or switching tasks." },
+            { cat: "SANITATION", title: "SCRAP BUCKET", phon: "Scrap", mean: "Put food peels and scraps here. No trash!", icon: "sprout", color: "bg-emerald-700", border: "border-emerald-800", resp: "Scrap it!", ex: "Peels from cucumbers or beets go here." },
+            { cat: "SANITATION", title: "DIRTY SIDE", phon: "Dirty", mean: "Where unwashed produce or used dishes go.", icon: "x-circle", color: "bg-amber-800", border: "border-amber-900", resp: "Clear to dirty!", ex: "Keep this far away from prepared food." },
+            { cat: "SANITATION", title: "HOT!", phon: "H-ot", mean: "Hot surface or steam. This will burn you.", icon: "flame", color: "bg-red-600", border: "border-red-700", resp: "Checking Hot!", ex: "Stove, Oven, Heat Lamps, Warm Plates." },
+            { cat: "SANITATION", title: "SHARP!", phon: "Sh-arp", mean: "This item can cut. Use the claw grip.", icon: "alert-triangle", color: "bg-red-600", border: "border-red-700", resp: "Sharp, Heard!", ex: "Knives, Graters, Pealers, Mandolins." },
             
+            // SKILLS CATEGORY (Requested Update)
+            { cat: "SKILLS", title: "PINCH GRIP", phon: "Pinch", mean: "Hold the knife blade with thumb and pointer finger.", icon: "pointer", color: "bg-blue-600", border: "border-blue-700", resp: "Pinch grip set!", ex: "Provides the most control and safety when slicing." },
+            { cat: "SKILLS", title: "CLAW GRIP", phon: "Claw", mean: "Tuck fingertips in while holding the food.", icon: "hand-metal", color: "bg-blue-600", border: "border-blue-700", resp: "Claw grip set!", ex: "Protects your fingers from the sharp blade." },
+            { cat: "SKILLS", title: "CONSISTENCY", phon: "Con-sis-ten-cy", mean: "Make every piece look the exact same size.", icon: "layers", color: "bg-blue-600", border: "border-blue-700", resp: "Matching sizes!", ex: "The .5 inch cucumber rounds should all be identical." },
+            { cat: "SKILLS", title: "MISE EN PLACE", phon: "Meez-on-plahs", mean: "Everything in its place. Prep before you cook.", icon: "layout-grid", color: "bg-blue-600", border: "border-blue-700", resp: "Mise is set!", ex: "Gathering all ingredients for 'The Kit' before starting." },
+            { cat: "SKILLS", title: "THE FRAME", phon: "The Frame", mean: "Setting the guest table to a high standard.", icon: "square", color: "bg-sky-600", border: "border-sky-700", resp: "Frame Set!", ex: "Aligning forks, knives, and napkins perfectly." },
+            { cat: "SKILLS", title: "PLATING", phon: "Play-ting", mean: "Making the food look delightful on the dish.", icon: "sparkles", color: "bg-pink-600", border: "border-pink-700", resp: "Delightful plating!", ex: "Placing the herb butter on the potatoes neatly." },
+
             // LINGO CATEGORY
+            { cat: "LINGO", title: "BEHIND!", phon: "Bee-hind", mean: "I am walking behind you. Do not move back!", icon: "navigation", color: "bg-orange-500", border: "border-orange-600", resp: "Heard!", ex: "Use when someone is at a prep table or at the stove." },
             { cat: "LINGO", title: "HANDS!", phon: "Hands", mean: "Food is ready! I need someone to carry this.", icon: "hand", color: "bg-yellow-400 text-black", border: "border-yellow-500", resp: "Hands coming!", ex: "Chef yells this at the plating/staging window." },
-            { cat: "LINGO", title: "HEARD!", phon: "Herd", mean: "I understand and I will do the task.", icon: "check-circle-2", color: "bg-emerald-500", border: "border-emerald-600", resp: "Thank you!", ex: "Every instruction should be answered with Heard!" },
-            { cat: "LINGO", title: "YES, CHEF!", phon: "Yes, Chef", mean: "One clear response to show I registered the task.", icon: "heart", color: "bg-emerald-500", border: "border-emerald-600", resp: "Let's work!", ex: "Acknowledge a direction without needing an explanation." },
-            { cat: "LINGO", title: "IN THE WEEDS", phon: "In the weeds", mean: "I am overwhelmed and I need help now.", icon: "help-circle", color: "bg-purple-600", border: "border-purple-700", resp: "How can I help?", ex: "Use this dignified code when you are behind on a task." },
-            { cat: "LINGO", title: "86", phon: "Eighty-Six", mean: "We are out of this item. Stop selling it!", icon: "trash-2", color: "bg-slate-700", border: "border-slate-800", resp: "86 [Item], Heard!", ex: "86 Strawberries! We used the last box." },
-            { cat: "LINGO", title: "PICK UP", phon: "Pick Up", mean: "A dish is ready to be moved to the guest.", icon: "utensils", color: "bg-blue-600", border: "border-blue-700", resp: "Picking up!", ex: "The salad is ready to leave the kitchen." },
-            { cat: "LINGO", title: "CLEAN AS YOU GO", phon: "Clean...", mean: "Wipe your station between tasks.", icon: "sparkles", color: "bg-sky-500", border: "border-sky-600", resp: "Wiping now!", ex: "Don't wait for the end to clean the table." },
-            
-            // ZONE CATEGORY
-            { cat: "ZONE", title: "ON STAGE", phon: "On Stage", mean: "The Dining Room. Professional voices and smiles.", icon: "users", color: "bg-indigo-600", border: "border-indigo-700", resp: "On Stage!", ex: "Where we serve and greet our 45 guests." },
-            { cat: "ZONE", title: "BACKSTAGE", phon: "Backstage", mean: "The Kitchen. Hard work and team focus.", icon: "chef-hat", color: "bg-slate-600", border: "border-slate-700", resp: "Backstage!", ex: "Where we prep, cook, and clean together." },
-            { cat: "ZONE", title: "EARTH GIFTS", phon: "Earth Gifts", mean: "Produce station. Washing and prep for plants.", icon: "leaf", color: "bg-emerald-600", border: "border-emerald-700", resp: "Handling Gifts!", ex: "Used for cucumbers, herbs, apples, and beets." },
-            { cat: "ZONE", title: "THE HUDDLE", phon: "Hud-dle", mean: "Our meeting spot for check-ins.", icon: "info", color: "bg-blue-500", border: "border-blue-600", resp: "Huddling!", ex: "The whiteboard where we check the visual agenda." },
-            { cat: "ZONE", title: "STAGING", phon: "Stay-jing", mean: "Where finished plates wait for service.", icon: "layout", color: "bg-pink-600", border: "border-pink-700", resp: "Staging ready!", ex: "The window between the kitchen and guest room." },
-            { cat: "ZONE", title: "THE FRAME", phon: "The Frame", mean: "The perfect setup for a guest's place.", icon: "square", color: "bg-sky-600", border: "border-sky-700", resp: "Frame Set!", ex: "Setting the table correctly for our guests." },
-            { cat: "ZONE", title: "CLEAN SIDE", phon: "Clean", mean: "Where finished, clean prep goes.", icon: "check", color: "bg-emerald-500", border: "border-emerald-600", resp: "Placing on clean!", ex: "Keep finished ingredients here." },
-            { cat: "ZONE", title: "DIRTY SIDE", phon: "Dirty", mean: "Where unwashed produce or dishes go.", icon: "x", color: "bg-amber-700", border: "border-amber-800", resp: "Clearing to dirty!", ex: "Do not mix dirty with the clean prep." },
-            
-            // STEPS/PEDAGOGY CATEGORY
-            { cat: "STEPS", title: "WATCH", phon: "W-otch", mean: "Eyes on the Chef. Observe how it's done.", icon: "eye", color: "bg-blue-400", border: "border-blue-500", resp: "Watching!", ex: "Step 1: Learning the technique." },
-            { cat: "STEPS", title: "TRY", phon: "Tr-eye", mean: "Do the task with support from the Chef.", icon: "hand", color: "bg-orange-400", border: "border-orange-500", resp: "Trying!", ex: "Step 2: Practice with help." },
-            { cat: "STEPS", title: "OWN", phon: "O-wn", mean: "You are the expert. Do it independently.", icon: "star", color: "bg-yellow-400 text-black", border: "border-yellow-500", resp: "I own this!", ex: "Step 3: Mastery and Service." },
-            { cat: "STEPS", title: "SOUND!", phon: "Sound", mean: "A loud sound is about to happen (Countdown).", icon: "volume-2", color: "bg-purple-400", border: "border-purple-500", resp: "Ready for sound!", ex: "Chef counts 3-2-1 before using a blender." },
-            { cat: "STEPS", title: "PRE-MADE", phon: "Pre-made", mean: "Prepared in advance. Use it to finish the dish.", icon: "package", color: "bg-slate-400", border: "border-slate-500", resp: "Using pre-made!", ex: "South Asian spice mix or herb butter." },
-            { cat: "STEPS", title: "ACTIVITY", phon: "Activity", mean: "A group task we all do together.", icon: "users", color: "bg-indigo-400", border: "border-indigo-500", resp: "Let's go!", ex: "The Huddle or the Scavenger Hunt." },
+            { cat: "LINGO", title: "IN THE WEEDS", phon: "In the weeds", mean: "I am overwhelmed and I need help now.", icon: "help-circle", color: "bg-purple-600", border: "border-purple-700", resp: "How can I help?", ex: "Use this code when you are behind on a task." },
             
             // ADVOCACY CATEGORY
             { cat: "ADVOCACY", title: "MY RIGHTS", phon: "My Rights", mean: "I have the right to ask for what I need.", icon: "shield", color: "bg-pink-500", border: "border-pink-600", resp: "Advocating!", ex: "Rights to breaks, silence, and help." },
-            { cat: "ADVOCACY", title: "TAKE A BREAK", phon: "Break", mean: "I can step away any time. No need to ask.", icon: "coffee", color: "bg-pink-500", border: "border-pink-600", resp: "Taking a recharge!", ex: "Go to the exit or the stool when overwhelmed." },
-            { cat: "ADVOCACY", title: "ADJUST IT", phon: "Adjust", mean: "I can do it differently if the way isn't working.", icon: "settings", color: "bg-pink-500", border: "border-pink-600", resp: "Adjusting task!", ex: "Changing how I hold a tool or stand." },
-            { cat: "ADVOCACY", title: "SELF-ADVOCACY", phon: "Speak Up", mean: "A chance to share what you need with the Chef.", icon: "message-circle", color: "bg-pink-500", border: "border-pink-600", resp: "Heard, we will adjust!", ex: "Asking for the light to be dimmed." }
+            { cat: "ADVOCACY", title: "TAKE A BREAK", phon: "Break", mean: "I can step away any time. No need to ask.", icon: "coffee", color: "bg-pink-500", border: "border-pink-600", resp: "Taking a recharge!", ex: "Go to the stool when overwhelmed." }
         ];
 
         let currentFilter = 'ALL';
 
+        function showPortal() {
+            document.getElementById('portal-selection').classList.remove('hidden');
+            document.getElementById('tool-header').classList.add('hidden');
+            document.getElementById('lingo-container').classList.add('hidden');
+            document.getElementById('print-footer').classList.add('hidden');
+        }
+
         function setFilter(f) {
             currentFilter = f;
-            const buttons = ['ALL', 'SAFETY', 'LINGO', 'ZONE', 'STEPS', 'ADVOCACY'];
+            document.getElementById('portal-selection').classList.add('hidden');
+            document.getElementById('tool-header').classList.remove('hidden');
+            document.getElementById('lingo-container').classList.remove('hidden');
+            document.getElementById('print-footer').classList.remove('hidden');
+
+            const title = f === 'SANITATION' ? 'Sanitation & Safety Portal' : f === 'SKILLS' ? 'Kitchen Skills Portal' : 'Master Label Library';
+            document.getElementById('portal-title').innerText = title;
+
+            const buttons = ['ALL', 'SANITATION', 'SKILLS', 'LINGO', 'ZONE', 'ADVOCACY'];
             buttons.forEach(btn => {
                 const el = document.getElementById('filter-' + btn);
-                if (btn === f) {
-                    el.className = "px-5 py-2 rounded-2xl font-bold transition-all bg-blue-600 text-white shadow-lg";
-                } else {
-                    el.className = "px-5 py-2 rounded-2xl font-bold transition-all text-slate-400 hover:text-white";
+                if (el) {
+                    if (btn === f) {
+                        el.className = "px-5 py-2 rounded-2xl font-bold transition-all bg-blue-600 text-white shadow-lg";
+                    } else {
+                        el.className = "px-5 py-2 rounded-2xl font-bold transition-all text-slate-400 hover:text-white";
+                    }
                 }
             });
             render();
@@ -149,7 +188,7 @@
                             <p class="text-2xl font-black text-blue-700 italic uppercase">"${item.resp}"</p>
                         </div>
                         <div class="pt-4 border-t border-slate-100">
-                            <p class="text-slate-400 uppercase font-black text-xs tracking-widest mb-1">When to use</p>
+                            <p class="text-slate-400 uppercase font-black text-xs tracking-widest mb-1">Practical Use</p>
                             <p class="text-lg text-slate-600 font-medium italic">"${item.ex}"</p>
                         </div>
                     </div>
@@ -159,7 +198,8 @@
             lucide.createIcons();
         }
 
-        render();
+        // Initialize with portal view
+        lucide.createIcons();
     </script>
 </body>
 </html>
