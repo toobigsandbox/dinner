@@ -9,28 +9,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans', sans-serif; }
-        .hero-gradient { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
-        .card-hover:hover { transform: translateY(-8px); border-color: #3b82f6; }
+        .atrium-gradient { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); }
+        .card-anchor { border-color: #94a3b8; }
+        .card-river { border-color: #3b82f6; }
+        .card-safety { border-color: #ef4444; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen">
 
     <!-- Hero Section -->
-    <header class="hero-gradient text-white pt-20 pb-32 px-4 relative overflow-hidden">
+    <header class="atrium-gradient text-white pt-20 pb-32 px-4 relative overflow-hidden">
         <div class="max-w-6xl mx-auto relative z-10">
-            <div class="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest border border-blue-500/30 mb-6">
-                <i data-lucide="sparkles" class="w-4 h-4"></i> Let's Have a Dinner!!
+            <div class="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest border border-emerald-500/30 mb-6">
+                <i data-lucide="leaf" class="w-4 h-4"></i> Duke Integrative Medicine Atrium
             </div>
             <h1 class="text-6xl md:text-8xl font-black uppercase italic tracking-tighter mb-6 leading-none">
-                Training <span class="text-blue-500">Portal</span>
+                Training <span class="text-emerald-400">Portal</span>
             </h1>
-            <p class="text-xl md:text-2xl text-slate-400 max-w-2xl font-medium leading-relaxed">
-                Building professional kitchen and service skills through thoughtfulness, delightfulness, and lived experience.
+            <p class="text-xl md:text-2xl text-emerald-100/80 max-w-2xl font-medium leading-relaxed">
+                A prepared environment for Competitive Integrated Employment. Designed for stability, movement, and self-advocacy.
             </p>
         </div>
-        <!-- Decorative Background Element -->
-        <div class="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
-            <i data-lucide="chef-hat" class="w-96 h-96"></i>
+        <div class="absolute top-0 right-0 p-20 opacity-10 pointer-events-none">
+            <i data-lucide="map" class="w-96 h-96"></i>
         </div>
     </header>
 
@@ -39,71 +41,88 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             <!-- Agenda Card -->
-            <a href="visual_agenda.html" class="bg-white rounded-[3rem] p-10 shadow-2xl border-4 border-transparent card-hover transition-all group">
+            <a href="visual_agenda.html" class="bg-white rounded-[3rem] p-10 border-b-[12px] card-river card-hover transition-all group">
                 <div class="bg-blue-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <i data-lucide="calendar" class="w-10 h-10"></i>
                 </div>
                 <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-4 italic">Visual Agenda</h2>
-                <p class="text-slate-500 text-lg leading-snug">The live rhythm of our 5:00 - 7:00 sessions. Includes checklists and timers.</p>
+                <p class="text-slate-500 text-lg leading-snug">The live rhythm of the Atrium floor. 5:00 - 7:00 PM session flow.</p>
                 <div class="mt-8 flex items-center gap-2 text-blue-600 font-bold uppercase tracking-widest text-sm">
-                    Open Tool <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    Enter River Runway <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </div>
             </a>
 
             <!-- Lingo Card -->
-            <a href="lingo_cards.html" class="bg-white rounded-[3rem] p-10 shadow-2xl border-4 border-transparent card-hover transition-all group">
-                <div class="bg-orange-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+            <a href="lingo_cards.html" class="bg-white rounded-[3rem] p-10 border-b-[12px] card-safety card-hover transition-all group shadow-xl">
+                <div class="bg-red-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-red-500 group-hover:text-white transition-colors">
                     <i data-lucide="volume-2" class="w-10 h-10"></i>
                 </div>
-                <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-4 italic">Lingo Cards</h2>
-                <p class="text-slate-500 text-lg leading-snug">Master the language of the kitchen. High-contrast labels for safety and speed.</p>
-                <div class="mt-8 flex items-center gap-2 text-orange-600 font-bold uppercase tracking-widest text-sm">
-                    Open Tool <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-4 italic">Master Labels</h2>
+                <p class="text-slate-500 text-lg leading-snug">The full library of safety, sanitation, zone, and advocacy cards.</p>
+                <div class="mt-8 flex items-center gap-2 text-red-600 font-bold uppercase tracking-widest text-sm">
+                    Enter Safety Zone <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </div>
             </a>
 
             <!-- Recipes Card -->
-            <a href="visual_recipes.html" class="bg-white rounded-[3rem] p-10 shadow-2xl border-4 border-transparent card-hover transition-all group">
-                <div class="bg-purple-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+            <a href="visual_recipes.html" class="bg-white rounded-[3rem] p-10 border-b-[12px] border-emerald-800 card-hover transition-all group shadow-xl">
+                <div class="bg-emerald-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-emerald-800 group-hover:text-white transition-colors">
                     <i data-lucide="chef-hat" class="w-10 h-10"></i>
                 </div>
                 <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-4 italic">Visual Recipes</h2>
-                <p class="text-slate-500 text-lg leading-snug">Step-by-step storyboards for our menu. No math, just movement and prep.</p>
-                <div class="mt-8 flex items-center gap-2 text-purple-600 font-bold uppercase tracking-widest text-sm">
-                    Open Tool <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <p class="text-slate-500 text-lg leading-snug">Watch, Try, and Own storyboards for the Flagship Dinner menu.</p>
+                <div class="mt-8 flex items-center gap-2 text-emerald-800 font-bold uppercase tracking-widest text-sm">
+                    Enter Plating Station <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </div>
             </a>
 
         </div>
 
-        <!-- Mission Statement -->
-        <section class="mt-24 mb-20 bg-blue-600 rounded-[4rem] p-12 md:p-20 text-white flex flex-col md:flex-row items-center gap-12 shadow-2xl">
-            <div class="flex-1">
-                <h3 class="text-4xl font-black uppercase italic tracking-tighter mb-6">Our Mission</h3>
-                <p class="text-xl md:text-2xl text-blue-100 leading-relaxed font-medium">
-                    We are preparing individuals for Competitive Integrated Employment (CIE) by proving that accessible, neurodivergent-friendly training builds world-class hospitality teams.
-                </p>
-                <div class="mt-10 flex flex-wrap gap-4">
-                    <div class="bg-white/10 px-6 py-3 rounded-2xl border border-white/20 font-bold uppercase tracking-widest text-sm italic">Thoughtfulness</div>
-                    <div class="bg-white/10 px-6 py-3 rounded-2xl border border-white/20 font-bold uppercase tracking-widest text-sm italic">Delightfulness</div>
-                    <div class="bg-white/10 px-6 py-3 rounded-2xl border border-white/20 font-bold uppercase tracking-widest text-sm italic">Confidence</div>
+        <!-- Environmental Legend -->
+        <section class="mt-24 mb-20">
+            <h3 class="text-center text-slate-400 font-black uppercase tracking-widest mb-12">The Prepared Environment Legend</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center border-t-8 border-slate-400">
+                    <div class="text-slate-400 font-black text-xs uppercase mb-2">Anchor</div>
+                    <div class="bg-slate-100 w-10 h-10 rounded-full mx-auto mb-2"></div>
+                    <p class="text-[10px] font-bold text-slate-500">WATCH Stage</p>
                 </div>
-            </div>
-            <div class="w-full md:w-1/3 bg-white/10 rounded-[3rem] p-8 backdrop-blur-sm border border-white/20">
-                <h4 class="text-lg font-black uppercase tracking-widest mb-4 text-blue-300">April 16th Menu</h4>
-                <ul class="space-y-3 font-bold text-lg">
-                    <li class="flex items-center gap-2">🥒 Cucumber Rounds</li>
-                    <li class="flex items-center gap-2">🍢 Beet Skewers</li>
-                    <li class="flex items-center gap-2">🥗 Cabbage Wedge</li>
-                    <li class="flex items-center gap-2">🍗 Grilled Wings</li>
-                    <li class="flex items-center gap-2">🍚 Rice Pudding</li>
-                </ul>
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center border-t-8 border-blue-500">
+                    <div class="text-blue-500 font-black text-xs uppercase mb-2">River</div>
+                    <div class="bg-blue-100 w-10 h-10 rounded-full mx-auto mb-2"></div>
+                    <p class="text-[10px] font-bold text-slate-500">TRY Stage</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center border-t-8 border-red-500">
+                    <div class="text-red-500 font-black text-xs uppercase mb-2">Safety</div>
+                    <div class="bg-red-100 w-10 h-10 rounded-full mx-auto mb-2"></div>
+                    <p class="text-[10px] font-bold text-slate-500">Heat/Sharp</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center border-t-8 border-emerald-500">
+                    <div class="text-emerald-500 font-black text-xs uppercase mb-2">Earth</div>
+                    <div class="bg-emerald-100 w-10 h-10 rounded-full mx-auto mb-2"></div>
+                    <p class="text-[10px] font-bold text-slate-500">Regulation</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center border-t-8 border-emerald-900">
+                    <div class="text-emerald-900 font-black text-xs uppercase mb-2">Plating</div>
+                    <div class="bg-emerald-900 w-10 h-10 rounded-full mx-auto mb-2"></div>
+                    <p class="text-[10px] font-bold text-slate-500">OWN Stage</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center border-t-8 border-purple-500">
+                    <div class="text-purple-500 font-black text-xs uppercase mb-2">Voice</div>
+                    <div class="bg-purple-100 w-10 h-10 rounded-full mx-auto mb-2"></div>
+                    <p class="text-[10px] font-bold text-slate-500">Advocacy</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center border-t-8 border-yellow-500">
+                    <div class="text-yellow-500 font-black text-xs uppercase mb-2">Transition</div>
+                    <div class="bg-yellow-100 w-10 h-10 rounded-full mx-auto mb-2"></div>
+                    <p class="text-[10px] font-bold text-slate-500">Reflection</p>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="text-center pb-20 text-slate-400">
-        <p class="font-bold uppercase tracking-widest text-xs">Flagship Dinner 2026 • Designed for All Brains</p>
+        <p class="font-bold uppercase tracking-widest text-[10px]">Flagship Dinner 2026 • Duke Integrative Medicine</p>
     </footer>
 
     <script>
