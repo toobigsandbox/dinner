@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Lingo Labels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-grid { display: block !important; }
+            .card-break { page-break-after: always; height: 9in; width: 7in; margin: 0 auto !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 no-print">
+            <div>
+                <h1 class="text-4xl font-black text-white flex items-center gap-3">
+                    <i data-lucide="volume-2" class="text-blue-400"></i> KITCHEN LINGO LABELS
+                </h1>
+                <p class="text-slate-400 text-xl italic uppercase tracking-widest">Communication Mastery</p>
+            </div>
+            <div class="flex bg-slate-800 p-2 rounded-2xl border border-slate-700">
+                <button onclick="setView('grid')" id="btn-grid" class="px-6 py-3 rounded-xl font-bold bg-blue-600 text-white shadow-lg">Print View</button>
+                <button onclick="setView('single')" id="btn-single" class="px-6 py-3 rounded-xl font-bold text-slate-400">TV Mode</button>
+            </div>
+        </header>
+
+        <div id="lingo-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <!-- Cards injected via JS -->
+        </div>
+
+        <div class="mt-20 text-center text-slate-500 no-print pb-12">
+            <p class="text-lg font-bold">Pro-Tip: Print on cardstock and laminate heavily for magnetic backsplash use!</p>
+        </div>
+    </div>
+
+    <script>
+        const lingoData = [
+            { title: "BEHIND!", phon: "Bee-hind", mean: "I am walking behind you. Do not move back!", icon: "navigation", color: "bg-orange-500", border: "border-orange-600", resp: "Heard!", ex: "Use when someone is at the stove or holding a knife." },
+            { title: "CORNER!", phon: "Kor-ner", mean: "I am turning a corner and cannot see you.", icon: "rotate-cw", color: "bg-amber-500", border: "border-amber-600", resp: "Heard!", ex: "Shout this before entering the kitchen door." },
+            { title: "HANDS!", phon: "Hands", mean: "Food is ready! I need someone to carry this now.", icon: "hand", color: "bg-yellow-400", border: "border-yellow-500 text-black", resp: "Hands coming!", ex: "Chef yells this when plates are hot and ready." },
+            { title: "HEARD!", phon: "Herd", mean: "I understand you and I am doing the task.", icon: "check-circle-2", color: "bg-emerald-500", border: "border-emerald-600", resp: "Thank you!", ex: "Always say this after an instruction." },
+            { title: "IN THE WEEDS", phon: "In the weeds", mean: "I have too much to do and I need help now.", icon: "help-circle", color: "bg-purple-600", border: "border-purple-700", resp: "How can I help?", ex: "Use if you feel lost or overwhelmed." },
+            { title: "86", phon: "Eighty-Six", mean: "We are all out of this item. Stop selling it!", icon: "trash-2", color: "bg-red-600", border: "border-red-700", resp: "86 [Item], Heard!", ex: "86 Strawberries! We used the last one." },
+            { title: "THE FRAME", phon: "The Frame", mean: "The perfect setup for a guest's place at the table.", icon: "utensils", color: "bg-sky-500", border: "border-sky-600", resp: "Frame Set!", ex: "Check that forks are straight and napkins are crisp." }
+        ];
+
+        let currentView = 'grid';
+
+        function setView(v) {
+            currentView = v;
+            document.getElementById('btn-grid').className = v === 'grid' ? 'px-6 py-3 rounded-xl font-bold bg-blue-600 text-white' : 'px-6 py-3 rounded-xl font-bold text-slate-400';
+            document.getElementById('btn-single').className = v === 'single' ? 'px-6 py-3 rounded-xl font-bold bg-blue-600 text-white' : 'px-6 py-3 rounded-xl font-bold text-slate-400';
+            
+            const container = document.getElementById('lingo-container');
+            if (v === 'single') {
+                container.className = "max-w-3xl mx-auto space-y-24";
+            } else {
+                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12";
+            }
+            renderCards();
+        }
+
+        function renderCards() {
+            const container = document.getElementById('lingo-container');
+            container.innerHTML = '';
+            lingoData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `card-break flex flex-col h-[700px] border-8 rounded-[3rem] overflow-hidden shadow-2xl bg-white ${item.border}`;
+                card.innerHTML = `
+                    <div class="p-8 flex flex-col items-center justify-center text-white ${item.color}">
+                        <div class="bg-white/20 p-6 rounded-full mb-4"><i data-lucide="${item.icon}" class="w-16 h-16"></i></div>
+                        <h2 class="text-5xl font-black uppercase tracking-tighter text-center">${item.title}</h2>
+                        <p class="text-xl font-medium opacity-90 mt-2 tracking-widest uppercase">[${item.phon}]</p>
+                    </div>
+                    <div class="flex-1 p-8 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-slate-500 uppercase font-bold text-sm tracking-widest mb-2">Meaning</h3>
+                            <p class="text-3xl font-bold text-slate-800 leading-tight">${item.mean}</p>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-2xl border-2 border-dashed border-slate-200">
+                            <h3 class="text-slate-500 uppercase font-bold text-sm mb-2">Team Response</h3>
+                            <p class="text-2xl font-black text-blue-700 italic">"${item.resp}"</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 italic text-slate-500">"${item.ex}"</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        renderCards();
+    </script>
+</body>
+</html>
