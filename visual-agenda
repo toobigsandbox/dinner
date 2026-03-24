@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flagship Dinner - Visual Agenda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+        .done-item { opacity: 0.7; transform: translateX(10px); }
+        .current-item { border-color: #2563eb; transform: scale(1.02); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12">
+        
+        <!-- Main Agenda Column -->
+        <div class="flex-1 space-y-6">
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+                <div>
+                    <p class="text-blue-600 font-black uppercase tracking-widest mb-1 flex items-center gap-2">
+                        <i data-lucide="clock" class="w-5 h-5"></i> April 12: Session 1
+                    </p>
+                    <h1 class="text-5xl md:text-6xl font-black text-slate-900 uppercase italic tracking-tighter">Visual Agenda</h1>
+                </div>
+                <div class="bg-white px-8 py-4 rounded-3xl shadow-xl border-4 border-blue-600 text-center w-full md:w-auto">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1 tracking-widest">Live Clock</p>
+                    <p id="live-clock" class="text-4xl font-black text-slate-800 tracking-tight">00:00</p>
+                </div>
+            </header>
+
+            <div id="agenda-container" class="space-y-4">
+                <!-- Items injected via JS -->
+            </div>
+        </div>
+
+        <!-- Right Side: Focus & Values -->
+        <div class="w-full lg:w-96 space-y-8">
+            <!-- Assignment Card -->
+            <div class="bg-slate-900 rounded-[3rem] p-8 text-white shadow-2xl relative overflow-hidden">
+                <h2 class="text-2xl font-black uppercase mb-6 flex items-center gap-2">
+                    <i data-lucide="layout" class="text-blue-400"></i> My Home Base
+                </h2>
+                <div class="space-y-4 relative z-10">
+                    <div class="bg-white/10 p-6 rounded-3xl border border-white/20">
+                        <p class="text-xs font-bold text-blue-400 uppercase mb-1">Backstage (Prep)</p>
+                        <p class="text-2xl font-bold">The Kitchen</p>
+                        <p class="text-sm text-white/60 italic">"Focus on Earth Gifts"</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-3xl border border-white/20">
+                        <p class="text-xs font-bold text-purple-400 uppercase mb-1">On Stage (Service)</p>
+                        <p class="text-2xl font-bold">The Dining Room</p>
+                        <p class="text-sm text-white/60 italic">"Focus on The Frame"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Value Card -->
+            <div class="bg-blue-600 rounded-[3rem] p-8 text-white text-center shadow-lg">
+                <i data-lucide="sparkles" class="mx-auto mb-2 text-blue-200"></i>
+                <p class="text-sm font-bold uppercase tracking-widest opacity-80">Value of the Day</p>
+                <h4 class="text-3xl font-black uppercase tracking-tight">Thoughtfulness</h4>
+                <p class="mt-2 text-blue-100 italic">"We care for the earth and each other."</p>
+            </div>
+
+            <button onclick="resetAgenda()" class="w-full py-4 text-slate-400 hover:text-slate-600 font-bold uppercase tracking-widest text-sm">
+                Reset Checklist
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const agendaData = [
+            { id: 1, time: "5:00-5:15", title: "The Huddle", sub: "Magnets, Name Tags & Big Hello", icon: "users", color: "text-blue-600" },
+            { id: 2, time: "5:15-5:30", title: "The Walkthrough", sub: "Find the 'HOT' labels", icon: "map", color: "text-orange-500" },
+            { id: 3, time: "5:30-6:15", title: "Skills Lab", sub: "Prep 'The Kit' & Setting 'The Frame'", icon: "chef-hat", color: "text-purple-600" },
+            { id: 4, time: "6:15-6:30", title: "The Recharge", sub: "Hands Wash & Breathing Break", icon: "battery-charging", color: "text-pink-500" },
+            { id: 5, time: "6:30-6:50", title: "Family Meal", sub: "Eat Together & Share Delight", icon: "utensils", color: "text-emerald-600" },
+            { id: 6, time: "6:50-7:00", title: "The Reset", sub: "Clean Up & Star Tracker", icon: "sparkles", color: "text-blue-400" }
+        ];
+
+        let doneItems = JSON.parse(localStorage.getItem('agenda-done')) || [];
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function toggleItem(id) {
+            if (doneItems.includes(id)) {
+                doneItems = doneItems.filter(i => i !== id);
+            } else {
+                doneItems.push(id);
+            }
+            localStorage.setItem('agenda-done', JSON.stringify(doneItems));
+            renderAgenda();
+        }
+
+        function resetAgenda() {
+            doneItems = [];
+            localStorage.removeItem('agenda-done');
+            renderAgenda();
+        }
+
+        function renderAgenda() {
+            const container = document.getElementById('agenda-container');
+            container.innerHTML = '';
+
+            agendaData.forEach(item => {
+                const isDone = doneItems.includes(item.id);
+                const isCurrent = !isDone && (doneItems.length + 1 === item.id || (doneItems.length === 0 && item.id === 1));
+                
+                const btn = document.createElement('button');
+                btn.onclick = () => toggleItem(item.id);
+                btn.className = `w-full text-left flex items-center gap-6 p-6 rounded-[2.5rem] border-4 transition-all duration-500 ${isDone ? 'bg-emerald-500 border-emerald-600 done-item' : isCurrent ? 'bg-white border-blue-600 current-item' : 'bg-slate-50 border-slate-200'}`;
+
+                btn.innerHTML = `
+                    <div class="p-4 rounded-3xl ${isDone ? 'bg-white/20' : 'bg-white shadow-sm'}">
+                        <i data-lucide="${item.icon}" class="${isDone ? 'text-white' : item.color} w-10 h-10"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3">
+                            <p class="${isDone ? 'text-white/80' : 'text-blue-600'} font-black">${item.time}</p>
+                            ${isCurrent ? '<span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse font-black uppercase">Now</span>' : ''}
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-black uppercase tracking-tight ${isDone ? 'text-white line-through' : 'text-slate-800'}">${item.title}</h3>
+                        <p class="${isDone ? 'text-white/80' : 'text-slate-500'} font-medium">${item.sub}</p>
+                    </div>
+                    <div class="pr-2">
+                        <i data-lucide="${isDone ? 'check-circle-2' : 'circle'}" class="w-10 h-10 ${isDone ? 'text-white' : 'text-slate-200'}"></i>
+                    </div>
+                `;
+                container.appendChild(btn);
+            });
+            lucide.createIcons();
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+        renderAgenda();
+    </script>
+</body>
+</html>
