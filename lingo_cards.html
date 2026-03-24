@@ -16,10 +16,10 @@
             body { background: white !important; padding: 0 !important; }
             .grid { display: block !important; }
             .card-break { 
-                height: 9.5in !important; 
-                width: 7.5in !important; 
-                margin: 0 auto 1in auto !important; 
-                border: 2px solid #e2e8f0 !important;
+                height: 9.2in !important; 
+                width: 7.2in !important; 
+                margin: 0 auto 0.5in auto !important; 
+                border: 4px solid #e2e8f0 !important;
             }
             #portal-selection { display: none !important; }
         }
@@ -85,7 +85,7 @@
 
         <div id="print-footer" class="hidden mt-20 text-center text-slate-500 no-print pb-20">
             <p class="text-xl font-bold text-slate-400 mb-2">Ready to Print?</p>
-            <p class="max-w-2xl mx-auto italic mb-8 text-slate-500">Laminate these labels for the magnetic surfaces. Use the sorting and washing cards for the orientation session.</p>
+            <p class="max-w-2xl mx-auto italic mb-8 text-slate-500">Laminate these labels for the magnetic surfaces. Red is for raw meat areas, Green is for produce/veggie areas.</p>
             <button onclick="window.print()" class="bg-blue-600 text-white px-10 py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-blue-500 transition-all shadow-2xl flex items-center gap-3 mx-auto">
                 <i data-lucide="printer"></i> Print Labels
             </button>
@@ -94,7 +94,7 @@
 
     <script>
         const masterData = [
-            // SANITATION CATEGORY (Updated with Sorting & Washing Sequence)
+            // SANITATION CATEGORY
             { cat: "SANITATION", title: "SORT PRODUCE", phon: "Sor-t", mean: "Divide into: Fridge, Room Temp, or Wash First.", icon: "list-ordered", color: "bg-emerald-600", border: "border-emerald-700", resp: "Sorted and Ready!", ex: "Apples stay out, cucumbers get washed." },
             { cat: "SANITATION", title: "GENTLE WASH", phon: "Wash", mean: "Cold running water, gentle rub, place on drying rack.", icon: "droplets", color: "bg-blue-500", border: "border-blue-600", resp: "Clean and Ready!", ex: "Wash the Earth Gifts before they go to prep." },
             { cat: "SANITATION", title: "RAW MEAT ONLY", phon: "Raw Meet", mean: "RED BOARD. Only raw meat goes here. No vegetables!", icon: "beef", color: "bg-red-600", border: "border-red-700", resp: "Red Board, Heard!", ex: "Use for the South Asian Spiced wings." },
@@ -104,7 +104,7 @@
             { cat: "SANITATION", title: "HOT!", phon: "H-ot", mean: "Hot surface or steam. This will burn you.", icon: "flame", color: "bg-red-600", border: "border-red-700", resp: "Checking Hot!", ex: "Stove, Oven, Heat Lamps, Warm Plates." },
             { cat: "SANITATION", title: "SHARP!", phon: "Sh-arp", mean: "This item can cut. Move slowly.", icon: "alert-triangle", color: "bg-red-600", border: "border-red-700", resp: "Sharp, Heard!", ex: "Knives, Graters, Pealers." },
             
-            // SKILLS CATEGORY (Updated with Putting Away)
+            // SKILLS CATEGORY
             { cat: "SKILLS", title: "PUTTING AWAY", phon: "Put A-way", mean: "Return every item to its correct home. Ask if unsure.", icon: "archive", color: "bg-slate-500", border: "border-slate-600", resp: "Kitchen is Reset!", ex: "Cucumbers to fridge, salt to the spice shelf." },
             { cat: "SKILLS", title: "PINCH GRIP", phon: "Pinch", mean: "Hold the blade with thumb and pointer finger.", icon: "pointer", color: "bg-blue-600", border: "border-blue-700", resp: "Pinch grip set!", ex: "The safest way to control your knife." },
             { cat: "SKILLS", title: "CLAW GRIP", phon: "Claw", mean: "Tuck fingertips in while holding the food.", icon: "hand-metal", color: "bg-blue-600", border: "border-blue-700", resp: "Claw grip set!", ex: "The 'cat claw' protects your fingers from cuts." },
@@ -116,7 +116,7 @@
             { cat: "LINGO", title: "HANDS!", phon: "Hands", mean: "Food is ready! I need someone to carry this.", icon: "hand", color: "bg-yellow-400 text-black", border: "border-yellow-500", resp: "Hands coming!", ex: "Chef yells this when a plate is hot and ready." },
             { cat: "LINGO", title: "IN THE WEEDS", phon: "In the weeds", mean: "I am overwhelmed and I need help now.", icon: "help-circle", color: "bg-purple-600", border: "border-purple-700", resp: "How can I help?", ex: "Use this code when you are behind on a task." },
             
-            // ADVOCACY CATEGORY (Updated with Sensory/Texture Advocacy)
+            // ADVOCACY CATEGORY
             { cat: "ADVOCACY", title: "SENSORY CHECK", phon: "Sen-sor-ee", mean: "If water or food texture feels bad, tell the Chef.", icon: "hand", color: "bg-pink-500", border: "border-pink-600", resp: "I need an adjustment!", ex: "Saying 'The water is too cold' or 'I don't like this feel'." },
             { cat: "ADVOCACY", title: "MY RIGHTS", phon: "My Rights", mean: "I have the right to ask for what I need.", icon: "shield", color: "bg-pink-500", border: "border-pink-600", resp: "Advocating!", ex: "Rights to breaks, silence, and helping hands." },
             { cat: "ADVOCACY", title: "TAKE A BREAK", phon: "Break", mean: "I can step away any time. No need to ask.", icon: "coffee", color: "bg-pink-500", border: "border-pink-600", resp: "Recharging now!", ex: "Go to the stool or exit when you feel overwhelmed." }
@@ -163,33 +163,41 @@
             
             filteredData.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "card-break flex flex-col h-[700px] border-8 rounded-[3rem] overflow-hidden shadow-2xl bg-white " + item.border;
+                // Changed from h-[700px] to min-h-[700px] for better framing and flex-1 logic
+                const containerClassList = [
+                    "card-break", "flex", "flex-col", "min-h-[700px]", "h-full", 
+                    "border-[12px]", "rounded-[3.5rem]", "overflow-hidden", 
+                    "shadow-2xl", "bg-white", item.border
+                ];
+                card.className = containerClassList.join(" ");
                 
                 card.innerHTML = `
-                    <div class="p-8 flex flex-col items-center justify-center text-white ${item.color}">
+                    <div class="p-8 flex-shrink-0 flex flex-col items-center justify-center text-white ${item.color}">
                         <div class="bg-white/20 p-6 rounded-full mb-4">
                             <i data-lucide="${item.icon}" class="w-20 h-20"></i>
                         </div>
-                        <h2 class="text-5xl font-black uppercase tracking-tighter text-center leading-none italic">${item.title}</h2>
+                        <h2 class="text-5xl font-black uppercase tracking-tighter text-center leading-[1.1] italic">${item.title}</h2>
                         <p class="text-xl font-medium opacity-90 mt-3 tracking-widest uppercase italic font-bold">[${item.phon}]</p>
                     </div>
-                    <div class="flex-1 p-8 flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
+                    <div class="flex-1 p-10 flex flex-col justify-between bg-white">
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-slate-400 uppercase font-black text-xs tracking-widest">Meaning</h3>
                                 <span class="bg-slate-100 text-slate-400 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">${item.cat}</span>
                             </div>
-                            <p class="text-3xl font-black text-slate-800 leading-tight">${item.mean}</p>
+                            <p class="text-[2.25rem] font-black text-slate-800 leading-tight">${item.mean}</p>
                         </div>
-                        <div class="bg-slate-50 p-6 rounded-[2rem] border-2 border-dashed border-slate-200">
-                            <h3 class="text-slate-400 uppercase font-black text-xs tracking-widest mb-2 flex items-center gap-2">
-                                <i data-lucide="volume-2" class="w-3 h-3"></i> Team Response
-                            </h3>
-                            <p class="text-2xl font-black text-blue-700 italic uppercase">"${item.resp}"</p>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100">
-                            <p class="text-slate-400 uppercase font-black text-xs tracking-widest mb-1">Practical Use</p>
-                            <p class="text-lg text-slate-600 font-medium italic">"${item.ex}"</p>
+                        <div class="space-y-6">
+                            <div class="bg-slate-50 p-6 rounded-[2.5rem] border-4 border-dashed border-slate-200">
+                                <h3 class="text-slate-400 uppercase font-black text-xs tracking-widest mb-2 flex items-center gap-2">
+                                    <i data-lucide="volume-2" class="w-3 h-3"></i> Team Response
+                                </h3>
+                                <p class="text-2xl font-black text-blue-700 italic uppercase">"${item.resp}"</p>
+                            </div>
+                            <div class="pt-6 border-t-4 border-slate-100">
+                                <p class="text-slate-400 uppercase font-black text-xs tracking-widest mb-2">Practical Use</p>
+                                <p class="text-xl text-slate-600 font-medium italic leading-snug">"${item.ex}"</p>
+                            </div>
                         </div>
                     </div>
                 `;
