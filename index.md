@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flagship Dinner - Training Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
+        .card-hover:hover { transform: translateY(-8px); border-color: #3b82f6; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white pt-20 pb-32 px-4 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest border border-blue-500/30 mb-6">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> AKALAKA Flagship Dinner 2026
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black uppercase italic tracking-tighter mb-6 leading-none">
+                Training <span class="text-blue-500">Portal</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-400 max-w-2xl font-medium leading-relaxed">
+                Building professional kitchen and service skills through thoughtfulness, delightfulness, and lived experience.
+            </p>
+        </div>
+        <!-- Decorative Background Element -->
+        <div class="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
+            <i data-lucide="chef-hat" class="w-96 h-96"></i>
+        </div>
+    </header>
+
+    <!-- Tool Navigation -->
+    <main class="max-w-6xl mx-auto px-4 -mt-16 relative z-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Agenda Card -->
+            <a href="visual_agenda.html" class="bg-white rounded-[3rem] p-10 shadow-2xl border-4 border-transparent card-hover transition-all group">
+                <div class="bg-blue-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <i data-lucide="calendar" class="w-10 h-10"></i>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-4 italic">Visual Agenda</h2>
+                <p class="text-slate-500 text-lg leading-snug">The live rhythm of our 5:00 - 7:00 sessions. Includes checklists and timers.</p>
+                <div class="mt-8 flex items-center gap-2 text-blue-600 font-bold uppercase tracking-widest text-sm">
+                    Open Tool <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </div>
+            </a>
+
+            <!-- Lingo Card -->
+            <a href="lingo_cards.html" class="bg-white rounded-[3rem] p-10 shadow-2xl border-4 border-transparent card-hover transition-all group">
+                <div class="bg-orange-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                    <i data-lucide="volume-2" class="w-10 h-10"></i>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-4 italic">Lingo Cards</h2>
+                <p class="text-slate-500 text-lg leading-snug">Master the language of the kitchen. High-contrast labels for safety and speed.</p>
+                <div class="mt-8 flex items-center gap-2 text-orange-600 font-bold uppercase tracking-widest text-sm">
+                    Open Tool <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </div>
+            </a>
+
+            <!-- Recipes Card -->
+            <a href="visual_recipes.html" class="bg-white rounded-[3rem] p-10 shadow-2xl border-4 border-transparent card-hover transition-all group">
+                <div class="bg-purple-100 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <i data-lucide="chef-hat" class="w-10 h-10"></i>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-4 italic">Visual Recipes</h2>
+                <p class="text-slate-500 text-lg leading-snug">Step-by-step storyboards for our menu. No math, just movement and prep.</p>
+                <div class="mt-8 flex items-center gap-2 text-purple-600 font-bold uppercase tracking-widest text-sm">
+                    Open Tool <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Mission Statement -->
+        <section class="mt-24 mb-20 bg-blue-600 rounded-[4rem] p-12 md:p-20 text-white flex flex-col md:flex-row items-center gap-12 shadow-2xl">
+            <div class="flex-1">
+                <h3 class="text-4xl font-black uppercase italic tracking-tighter mb-6">Our Mission</h3>
+                <p class="text-xl md:text-2xl text-blue-100 leading-relaxed font-medium">
+                    We are preparing individuals for Competitive Integrated Employment (CIE) by proving that accessible, neurodivergent-friendly training builds world-class hospitality teams.
+                </p>
+                <div class="mt-10 flex flex-wrap gap-4">
+                    <div class="bg-white/10 px-6 py-3 rounded-2xl border border-white/20 font-bold uppercase tracking-widest text-sm italic">Thoughtfulness</div>
+                    <div class="bg-white/10 px-6 py-3 rounded-2xl border border-white/20 font-bold uppercase tracking-widest text-sm italic">Delightfulness</div>
+                    <div class="bg-white/10 px-6 py-3 rounded-2xl border border-white/20 font-bold uppercase tracking-widest text-sm italic">Confidence</div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 bg-white/10 rounded-[3rem] p-8 backdrop-blur-sm border border-white/20">
+                <h4 class="text-lg font-black uppercase tracking-widest mb-4 text-blue-300">April 16th Menu</h4>
+                <ul class="space-y-3 font-bold text-lg">
+                    <li class="flex items-center gap-2">🥒 Cucumber Rounds</li>
+                    <li class="flex items-center gap-2">🍢 Beet Skewers</li>
+                    <li class="flex items-center gap-2">🥗 Cabbage Wedge</li>
+                    <li class="flex items-center gap-2">🍗 Grilled Wings</li>
+                    <li class="flex items-center gap-2">🍚 Rice Pudding</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center pb-20 text-slate-400">
+        <p class="font-bold uppercase tracking-widest text-xs">Flagship Dinner 2026 • Designed for All Brains</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
