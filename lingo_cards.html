@@ -10,7 +10,7 @@
     <style>
         body { font-family: 'Noto Sans', sans-serif; }
         
-        /* PRINT OPTIMIZATION FOR HALF-PAGE LANDSCAPE */
+        /* THE CRITICAL FIX FOR COLOR PRINTING & HALF-PAGE LAYOUT */
         @media print {
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -35,7 +35,7 @@
                 flex-direction: row !important; /* Horizontal layout for landscape feel */
             }
 
-            /* Ensure two fit on one portrait page */
+            /* Forces a page break after every two cards (one portrait sheet) */
             .card-break:nth-child(even) {
                 page-break-after: always !important;
             }
@@ -44,6 +44,8 @@
         }
 
         .portal-card:hover { transform: translateY(-10px); }
+        .sync-indicator { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
 <body class="bg-slate-900 min-h-screen p-4 md:p-8">
@@ -51,6 +53,10 @@
         
         <!-- Portal Selection Screen -->
         <div id="portal-selection" class="min-h-[80vh] flex flex-col justify-center items-center py-10">
+            <div id="sync-status" class="mb-4 text-emerald-400 text-xs font-bold uppercase tracking-widest hidden flex items-center gap-2">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full sync-indicator"></span> 
+                Synced with Google Drive
+            </div>
             <h1 class="text-6xl font-black text-white uppercase italic tracking-tighter mb-4 text-center">Master <span class="text-emerald-400">Labels</span></h1>
             <p class="text-slate-400 text-xl mb-12 text-center max-w-xl italic">Half-Page Landscape Cards • Color-Coded to the Atrium Café Legend</p>
             
@@ -99,7 +105,7 @@
                 <h1 id="portal-title" class="text-4xl font-black text-white italic tracking-tighter uppercase leading-none">Master Labels</h1>
             </div>
             
-            <div class="flex flex-wrap gap-2 bg-slate-800 p-2 rounded-2xl border border-slate-700">
+            <div class="flex flex-wrap gap-2 bg-slate-800 p-2 rounded-3xl border border-slate-700">
                 <button onclick="setFilter('ALL')" id="filter-ALL" class="px-4 py-2 rounded-xl font-bold transition-all text-slate-400">All</button>
                 <button onclick="setFilter('ANCHOR')" id="filter-ANCHOR" class="px-4 py-2 rounded-xl font-bold transition-all text-slate-400">Anchor</button>
                 <button onclick="setFilter('RIVER')" id="filter-RIVER" class="px-4 py-2 rounded-xl font-bold transition-all text-slate-400">River</button>
@@ -123,42 +129,90 @@
     </div>
 
     <script>
-        const masterData = [
-            // ANCHOR ZONE (Gray)
-            { cat: "ANCHOR", title: "WATCH STAGE", phon: "W-otch", mean: "Anchor Zone. Stability and Chef Demos. Eyes on the Chef.", icon: "eye", color: "bg-slate-400", border: "border-slate-500", resp: "Watching!", ex: "The start of every new skill walkthrough." },
-            { cat: "ANCHOR", title: "DRESS READY", phon: "Dres Red-ee", mean: "Apron tied tight. Hair tied back. No loose ends.", icon: "user-check", color: "bg-slate-400", border: "border-slate-500", resp: "I am ready!", ex: "Orientation check: Chef can help with hair or aprons." },
-            
-            // RIVER RUNWAY (Blue)
-            { cat: "RIVER", title: "TRY STAGE", phon: "Tr-eye", mean: "River Runway. Movement and Flow. Practice with support.", icon: "hand", color: "bg-blue-500", border: "border-blue-600", resp: "Trying it!", ex: "Practicing a skill while the Chef is nearby." },
-            { cat: "RIVER", title: "PUTTING AWAY", phon: "Put A-way", mean: "Return every item to its home. Reset the flow.", icon: "archive", color: "bg-blue-500", border: "border-blue-600", resp: "River Reset!", ex: "Clean tools go back to their labeled spots." },
-            { cat: "RIVER", title: "BEHIND!", phon: "Bee-hind", mean: "I am walking behind you. Do not move back!", icon: "navigation", color: "bg-blue-500", border: "border-blue-600", resp: "Heard!", ex: "Critical for River Runway safety." },
-            
-            // SAFETY ZONE (Red)
-            { cat: "SAFETY", title: "HOT!", phon: "H-ot", mean: "Hot surface or steam. Use oven mitt.", icon: "flame", color: "bg-red-600", border: "border-red-700", resp: "Checking Hot!", ex: "Stove, Oven, and Heat Lamp areas." },
-            { cat: "SAFETY", title: "SHARP!", phon: "Sh-arp", mean: "This item can cut. Move slowly and tuck fingers.", icon: "alert-triangle", color: "bg-red-600", border: "border-red-700", resp: "Sharp, Heard!", ex: "Knives, Graters, and Mandolins." },
-            { cat: "SAFETY", title: "RAW MEAT ONLY", phon: "Raw Meet", mean: "RED BOARD. Only raw meat goes here. No vegetables!", icon: "beef", color: "bg-red-600", border: "border-red-700", resp: "Red Board, Heard!", ex: "Only for the South Asian Spiced Wings." },
-            
-            // EARTH / REGULATION ZONE (Light Green)
-            { cat: "EARTH", title: "GENTLE WASH", phon: "Wash", mean: "Cold running water, gentle rub, place on drying rack.", icon: "droplets", color: "bg-emerald-500", border: "border-emerald-600", resp: "Clean and Ready!", ex: "Wash station: Find the sink with the Green label." },
-            { cat: "EARTH", title: "SORT PRODUCE", phon: "Sor-t", mean: "Divide: Fridge, Room Temp, or Wash First.", icon: "list-ordered", color: "bg-emerald-500", border: "border-emerald-600", resp: "Sorted!", ex: "Cucumbers wash, Apples stay out." },
-            { cat: "EARTH", title: "VEGGIES ONLY", phon: "Vej-ees", mean: "GREEN BOARD. Only produce goes here. No meat!", icon: "leaf", color: "bg-emerald-500", border: "border-emerald-600", resp: "Green Board!", ex: "Veggies and fruits only on this board." },
-            { cat: "EARTH", title: "THE 20s SCRUB", phon: "Skrub", mean: "Scrub with soap for 20 seconds. Scrub-a-dub!", icon: "clock", color: "bg-emerald-500", border: "border-emerald-600", resp: "Clean Hands!", ex: "Orientation: Time yourself while scrubbing." },
-            
-            // PLATING STATION (Dark Green)
-            { cat: "PLATING", title: "OWN STAGE", phon: "O-wn", mean: "Expertise. Familiarity. You do this independently.", icon: "star", color: "bg-emerald-900", border: "border-emerald-950", resp: "I own this!", ex: "The final plating of the 45 dinner portions." },
-            { cat: "PLATING", title: "STAGING", phon: "Stay-jing", mean: "Where finished plates wait for service.", icon: "layout", color: "bg-emerald-900", border: "border-emerald-950", resp: "Plates Staged!", ex: "The window between the kitchen and guest room." },
-            
-            // VOICE / ADVOCACY (Purple)
-            { cat: "VOICE", title: "SENSORY CHECK", phon: "Sen-sor-ee", mean: "If water or texture feels bad, tell the Chef.", icon: "shield", color: "bg-purple-600", border: "border-purple-700", resp: "Adjustment Needed!", ex: "Advocacy Wall: Voice your preference." },
-            { cat: "VOICE", title: "IN THE WEEDS", phon: "In the weeds", mean: "I am overwhelmed and I need help now.", icon: "help-circle", color: "bg-purple-600", border: "border-purple-700", resp: "How can I help?", ex: "Our dignified code for support." },
-            { cat: "VOICE", title: "TAKE A BREAK", phon: "Break", mean: "I can step away any time. No need to ask.", icon: "coffee", color: "bg-purple-600", border: "border-purple-700", resp: "Recharging!", ex: "Go to the stool or patio when overwhelmed." },
+        /**
+         * COLLABORATION SETTINGS
+         */
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRfBBMG6zBTDEoRqr-9Ba00omHHezE3_c7zVvo_L2sQ8b_hRu84EM-ofczFRyYTHoqVZ31ZVsZIDMBo/pub?output=csv"; 
 
-            // TRANSITION / REFLECTION (Yellow)
-            { cat: "TRANSITION", title: "SKILLS PASSPORT", phon: "Pass-port", mean: "Stickers, integration, and reflection on new skills.", icon: "book-open", color: "bg-yellow-500", border: "border-yellow-600", resp: "Reflecting!", ex: "End of session sticker celebration." },
-            { cat: "TRANSITION", title: "DELIGHT!", phon: "Dee-light", mean: "Joy, listening, and teamwork. Our final goal.", icon: "sparkles", color: "bg-yellow-500", border: "border-yellow-600", resp: "Shared Delight!", ex: "When the guest smiles at the meal." }
+        let masterData = [
+            { cat: "ANCHOR", title: "WATCH STAGE", phon: "W-otch", mean: "Anchor Zone. Stability and Chef Demos. Eyes on the Chef.", icon: "eye", color: "bg-slate-400", border: "border-slate-500", resp: "Watching!", ex: "The start of every new skill walkthrough." }
         ];
 
         let currentFilter = 'ALL';
+
+        function parseCSV(text) {
+            const rows = [];
+            let currentRow = [];
+            let currentCell = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
+
+                if (char === '"' && inQuotes && nextChar === '"') {
+                    currentCell += '"';
+                    i++;
+                } else if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    currentRow.push(currentCell.trim());
+                    currentCell = '';
+                } else if ((char === '\n' || char === '\r') && !inQuotes) {
+                    if (currentCell || currentRow.length > 0) {
+                        currentRow.push(currentCell.trim());
+                        rows.push(currentRow);
+                        currentRow = [];
+                        currentCell = '';
+                    }
+                } else {
+                    currentCell += char;
+                }
+            }
+            if (currentCell || currentRow.length > 0) {
+                currentRow.push(currentCell.trim());
+                rows.push(currentRow);
+            }
+
+            if (rows.length === 0) return [];
+
+            const headers = rows[0].map(h => h.toLowerCase().trim());
+            return rows.slice(1).map(row => {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    let key = header;
+                    if (key.includes('category')) key = 'cat';
+                    if (key.includes('phonetic')) key = 'phon';
+                    if (key.includes('meaning')) key = 'mean';
+                    if (key.includes('response')) key = 'resp';
+                    if (key.includes('example')) key = 'ex';
+                    if (key.includes('title')) key = 'title';
+                    if (key.includes('icon')) key = 'icon';
+                    if (key.includes('color')) key = 'color';
+                    if (key.includes('border')) key = 'border';
+                    obj[key] = row[index] || "";
+                });
+                return obj;
+            });
+        }
+
+        async function fetchLiveData() {
+            if (!SHEET_CSV_URL) return;
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const text = await response.text();
+                const data = parseCSV(text);
+                if (data && data.length > 0) {
+                    masterData = data;
+                    document.getElementById('sync-status').classList.remove('hidden');
+                    if (!document.getElementById('lingo-container').classList.contains('hidden')) {
+                        render();
+                    }
+                }
+            } catch (err) {
+                console.error("Sync error:", err);
+            }
+        }
 
         function showPortal() {
             document.getElementById('portal-selection').classList.remove('hidden');
@@ -190,11 +244,9 @@
             buttons.forEach(btn => {
                 const el = document.getElementById('filter-' + btn);
                 if (el) {
-                    if (btn === f) {
-                        el.className = "px-4 py-2 rounded-xl font-bold transition-all bg-emerald-600 text-white shadow-lg";
-                    } else {
-                        el.className = "px-4 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-white";
-                    }
+                    el.className = (btn === f) ? 
+                        "px-4 py-2 rounded-xl font-bold transition-all bg-emerald-600 text-white shadow-lg" : 
+                        "px-4 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-white";
                 }
             });
             render();
@@ -208,22 +260,24 @@
             
             filteredData.forEach(item => {
                 const card = document.createElement('div');
-                const containerClassList = [
-                    "card-break", "flex", "flex-col", "md:flex-row", "min-h-[400px]", "md:min-h-[4.5in]", 
-                    "border-[10px]", "rounded-[2.5rem]", "overflow-hidden", 
-                    "shadow-2xl", "bg-white", item.border
-                ];
-                card.className = containerClassList.join(" ");
+                card.className = "card-break flex flex-col md:flex-row min-h-[400px] md:min-h-[4.5in] border-[10px] rounded-[2.5rem] overflow-hidden shadow-2xl bg-white " + (item.border || "border-slate-200");
                 
+                // Detection logic: Is this a literal emoji character?
+                const emojiRegex = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
+                const isEmoji = emojiRegex.test(item.icon);
+
                 card.innerHTML = `
-                    <div class="w-full md:w-2/5 p-6 flex flex-col items-center justify-center text-white ${item.color}">
-                        <div class="bg-white/20 p-4 rounded-full mb-3">
-                            <i data-lucide="${item.icon}" class="w-16 h-16"></i>
+                    <div class="w-full md:w-2/5 p-6 flex flex-col items-center justify-center text-white ${item.color || 'bg-slate-500'}">
+                        <div class="bg-white/20 p-4 rounded-full mb-3 flex items-center justify-center min-w-24 min-h-24">
+                            ${isEmoji 
+                                ? `<span class="text-6xl select-none">${item.icon}</span>` 
+                                : `<i data-lucide="${item.icon || 'circle'}" class="w-16 h-16"></i>`
+                            }
                         </div>
                         <h2 class="text-4xl font-black uppercase tracking-tighter text-center leading-tight italic">${item.title}</h2>
-                        <p class="text-lg font-bold opacity-90 mt-2 tracking-widest uppercase italic">[${item.phon}]</p>
+                        <p class="text-lg font-bold opacity-90 mt-2 tracking-widest uppercase italic font-bold">[${item.phon}]</p>
                     </div>
-                    <div class="flex-1 p-8 flex flex-col justify-between bg-white overflow-hidden">
+                    <div class="flex-1 p-8 flex flex-col justify-between bg-white overflow-hidden text-left">
                         <div class="mb-4">
                             <div class="flex justify-between items-center mb-2">
                                 <h3 class="text-slate-400 uppercase font-black text-[10px] tracking-widest">Meaning</h3>
@@ -250,6 +304,7 @@
             lucide.createIcons();
         }
 
+        fetchLiveData();
         lucide.createIcons();
     </script>
 </body>
