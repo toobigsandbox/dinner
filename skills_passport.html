@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Passport - CCC Dinner Series</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
+        
+        /* Print Optimization for Half-Page Booklet */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            
+            /* Letter Landscape to fit two 5.5x8.5 pages side-by-side */
+            @page { size: letter landscape; margin: 0; }
+            
+            .print-sheet {
+                display: flex !important;
+                flex-direction: row !important;
+                width: 11in;
+                height: 8.5in;
+                page-break-after: always;
+                box-shadow: none !important;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .passport-page {
+                width: 5.5in;
+                height: 8.5in;
+                border-right: 1px dashed #cbd5e1 !important; /* Cut line down the middle */
+                padding: 0.4in;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .passport-page:nth-child(even) {
+                border-right: none !important;
+            }
+        }
+
+        /* Screen Preview Styles */
+        .preview-container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 2rem; 
+            padding: 2rem; 
+        }
+        
+        .print-sheet {
+            display: flex;
+            width: 11in;
+            height: 8.5in;
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            border: 1px solid #e2e8f0;
+        }
+
+        .passport-page {
+            width: 5.5in;
+            height: 8.5in;
+            border-right: 1px dashed #94a3b8;
+            padding: 0.5in;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+        }
+
+        .passport-page:last-child { border-right: none; }
+
+        /* Stylized Checkbox */
+        .custom-check {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #cbd5e1;
+            border-radius: 6px;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .visa-box {
+            border: 4px solid #fef08a; /* yellow-200 */
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: #fefce8; /* yellow-50 */
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen Controls -->
+    <div class="no-print bg-slate-900 text-white p-8 text-center sticky top-0 z-50 shadow-2xl">
+        <h1 class="text-4xl font-black uppercase italic tracking-tighter mb-2 text-yellow-400 flex items-center justify-center gap-3">
+            <i data-lucide="award" class="w-8 h-8"></i> Skills Passport
+        </h1>
+        <p class="text-slate-400 mb-6">Prints on Landscape Letter Paper. Cut down the middle, stack, and bind at the top or side to create a 5.5" x 8.5" booklet.</p>
+        <button onclick="window.print()" class="bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black uppercase tracking-widest px-8 py-4 rounded-2xl flex items-center gap-3 mx-auto transition-all shadow-lg shadow-yellow-500/20">
+            <i data-lucide="printer"></i> Print Booklet Pages
+        </button>
+    </div>
+
+    <div class="preview-container">
+
+        <!-- SHEET 1: Page 1 (Identity) & Page 2 (Visas 1) -->
+        <div class="print-sheet">
+            
+            <!-- Page 1: Identity & Cover -->
+            <div class="passport-page border-t-[16px] border-yellow-400">
+                <div class="text-center mb-8 mt-4">
+                    <i data-lucide="book-open" class="w-16 h-16 mx-auto text-yellow-500 mb-4"></i>
+                    <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-2">Skills Passport</h1>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">CCC Dinner Series • 2026</p>
+                </div>
+
+                <!-- Photo Box -->
+                <div class="w-40 h-40 border-4 border-dashed border-slate-300 rounded-2xl mx-auto mb-8 flex flex-col items-center justify-center bg-slate-50">
+                    <i data-lucide="camera" class="text-slate-300 w-8 h-8 mb-2"></i>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Tape Photo<br/>Here</p>
+                </div>
+
+                <div class="space-y-6 flex-1">
+                    <div class="border-b-2 border-slate-200 pb-2">
+                        <p class="text-[10px] font-black text-yellow-600 uppercase tracking-widest mb-1">My Name</p>
+                        <div class="h-8"></div>
+                    </div>
+                    <div class="border-b-2 border-slate-200 pb-2">
+                        <p class="text-[10px] font-black text-yellow-600 uppercase tracking-widest mb-1">My Pronouns</p>
+                        <div class="h-6"></div>
+                    </div>
+                    <div class="border-b-2 border-slate-200 pb-2">
+                        <p class="text-[10px] font-black text-yellow-600 uppercase tracking-widest mb-1">My Home Base (Favorite Zone)</p>
+                        <div class="h-6"></div>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-purple-500 uppercase tracking-widest mb-3">My Voice (How I communicate)</p>
+                        <div class="grid grid-cols-2 gap-3 text-xs font-bold text-slate-600">
+                            <div><span class="custom-check"></span> Say it out loud</div>
+                            <div><span class="custom-check"></span> Tap the chef</div>
+                            <div><span class="custom-check"></span> Raise hand</div>
+                            <div><span class="custom-check"></span> Hold up cards</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 2: Visas (Prep & Safety) -->
+            <div class="passport-page border-t-[16px] border-slate-200">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-black text-slate-800 uppercase italic tracking-tighter">Kitchen Visas</h2>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Prep & Safety Skills</p>
+                </div>
+
+                <!-- Visa 1 -->
+                <div class="visa-box flex-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-red-100 text-red-600 p-2 rounded-xl"><i data-lucide="scissors" class="w-6 h-6"></i></div>
+                        <h3 class="text-xl font-black uppercase text-slate-800 leading-tight">Knife Safety:<br/>Pinch & Claw</h3>
+                    </div>
+                    <div class="space-y-3 text-sm font-bold text-slate-600 mb-6">
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">WATCHED</span> the Chef.</div>
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">TRIED</span> with support.</div>
+                    </div>
+                    <div class="absolute bottom-4 right-4 w-20 h-20 bg-white rounded-full border-4 border-dashed border-yellow-400 flex flex-col items-center justify-center transform rotate-12 shadow-sm">
+                        <i data-lucide="star" class="text-yellow-400 w-5 h-5 mb-1"></i>
+                        <p class="text-[8px] font-black text-yellow-600 uppercase text-center leading-tight">I OWN IT!<br/>Sticker</p>
+                    </div>
+                </div>
+
+                <!-- Visa 2 -->
+                <div class="visa-box flex-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-emerald-100 text-emerald-700 p-2 rounded-xl"><i data-lucide="shield-alert" class="w-6 h-6"></i></div>
+                        <h3 class="text-xl font-black uppercase text-slate-800 leading-tight">Sanitation &<br/>Clean As You Go</h3>
+                    </div>
+                    <div class="space-y-3 text-sm font-bold text-slate-600 mb-6">
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">WATCHED</span> the Chef.</div>
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">TRIED</span> with support.</div>
+                    </div>
+                    <div class="absolute bottom-4 right-4 w-20 h-20 bg-white rounded-full border-4 border-dashed border-yellow-400 flex flex-col items-center justify-center transform rotate-12 shadow-sm">
+                        <i data-lucide="star" class="text-yellow-400 w-5 h-5 mb-1"></i>
+                        <p class="text-[8px] font-black text-yellow-600 uppercase text-center leading-tight">I OWN IT!<br/>Sticker</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SHEET 2: Page 3 (Visas 2) & Page 4 (Reflection Block) -->
+        <div class="print-sheet">
+            
+            <!-- Page 3: Visas (Service & Flow) -->
+            <div class="passport-page border-t-[16px] border-slate-200">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-black text-slate-800 uppercase italic tracking-tighter">Kitchen Visas</h2>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Service & Flow Skills</p>
+                </div>
+
+                <!-- Visa 3 -->
+                <div class="visa-box flex-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-sky-100 text-sky-600 p-2 rounded-xl"><i data-lucide="utensils" class="w-6 h-6"></i></div>
+                        <h3 class="text-xl font-black uppercase text-slate-800 leading-tight">Service:<br/>"The Frame"</h3>
+                    </div>
+                    <div class="space-y-3 text-sm font-bold text-slate-600 mb-6">
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">WATCHED</span> the Chef.</div>
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">TRIED</span> with support.</div>
+                    </div>
+                    <div class="absolute bottom-4 right-4 w-20 h-20 bg-white rounded-full border-4 border-dashed border-yellow-400 flex flex-col items-center justify-center transform rotate-12 shadow-sm">
+                        <i data-lucide="star" class="text-yellow-400 w-5 h-5 mb-1"></i>
+                        <p class="text-[8px] font-black text-yellow-600 uppercase text-center leading-tight">I OWN IT!<br/>Sticker</p>
+                    </div>
+                </div>
+
+                <!-- Visa 4 -->
+                <div class="visa-box flex-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-blue-100 text-blue-600 p-2 rounded-xl"><i data-lucide="message-square" class="w-6 h-6"></i></div>
+                        <h3 class="text-xl font-black uppercase text-slate-800 leading-tight">Team Flow:<br/>Kitchen Lingo</h3>
+                    </div>
+                    <div class="space-y-3 text-sm font-bold text-slate-600 mb-6">
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">WATCHED</span> the Chef.</div>
+                        <div><span class="custom-check"></span> I <span class="text-slate-800 font-black">TRIED</span> with support.</div>
+                    </div>
+                    <div class="absolute bottom-4 right-4 w-20 h-20 bg-white rounded-full border-4 border-dashed border-yellow-400 flex flex-col items-center justify-center transform rotate-12 shadow-sm">
+                        <i data-lucide="star" class="text-yellow-400 w-5 h-5 mb-1"></i>
+                        <p class="text-[8px] font-black text-yellow-600 uppercase text-center leading-tight">I OWN IT!<br/>Sticker</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 4: Reflection Paste Page -->
+            <div class="passport-page border-t-[16px] border-slate-200">
+                <div class="mb-6 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800 uppercase italic tracking-tighter">Integration</h2>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Daily Reflection Log</p>
+                    </div>
+                    <p class="text-xs font-black text-slate-300 uppercase tracking-widest">Date: ________</p>
+                </div>
+
+                <div class="flex-1 border-4 border-dashed border-slate-300 rounded-[2rem] bg-slate-50 flex flex-col items-center justify-center p-8 text-center">
+                    <i data-lucide="image-plus" class="text-slate-300 w-12 h-12 mb-4"></i>
+                    <h3 class="text-lg font-black text-slate-400 uppercase tracking-widest mb-2">Paste Reflection Card Here</h3>
+                    <p class="text-xs font-bold text-slate-400">Use tape or glue to add your daily yellow reflection card from the Transition Station to this page.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SHEET 3: Page 5 (Reflection 2) & Page 6 (Back Cover / CIE Translation) -->
+        <div class="print-sheet">
+            
+            <!-- Page 5: Reflection Paste Page 2 -->
+            <div class="passport-page border-t-[16px] border-slate-200">
+                <div class="mb-6 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800 uppercase italic tracking-tighter">Integration</h2>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Daily Reflection Log</p>
+                    </div>
+                    <p class="text-xs font-black text-slate-300 uppercase tracking-widest">Date: ________</p>
+                </div>
+
+                <div class="flex-1 border-4 border-dashed border-slate-300 rounded-[2rem] bg-slate-50 flex flex-col items-center justify-center p-8 text-center">
+                    <i data-lucide="image-plus" class="text-slate-300 w-12 h-12 mb-4"></i>
+                    <h3 class="text-lg font-black text-slate-400 uppercase tracking-widest mb-2">Paste Reflection Card Here</h3>
+                    <p class="text-xs font-bold text-slate-400">Use tape or glue to add your daily yellow reflection card from the Transition Station to this page.</p>
+                </div>
+            </div>
+
+            <!-- Page 6: Back Cover (CIE Translation) -->
+            <div class="passport-page bg-slate-900 border-t-[16px] border-emerald-500 text-white">
+                <div class="mb-8 text-center mt-4">
+                    <i data-lucide="briefcase" class="w-12 h-12 mx-auto text-emerald-400 mb-4"></i>
+                    <h2 class="text-3xl font-black text-white uppercase italic tracking-tighter leading-none mb-2">Professional Experience</h2>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Your Resume Cheat Sheet</p>
+                </div>
+
+                <p class="text-sm font-medium text-slate-300 mb-8 text-center italic">"Lived experience is expertise. The skills you built here translate directly to Competitive Integrated Employment (CIE)."</p>
+
+                <div class="space-y-6 flex-1">
+                    
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i data-lucide="scissors" class="text-red-400 w-4 h-4"></i>
+                            <h4 class="text-xs font-black text-white uppercase tracking-widest">If you earned the Knife Visa:</h4>
+                        </div>
+                        <p class="text-sm font-bold text-emerald-400">➡️ "Demonstrated safe handling and portioning of fresh produce."</p>
+                    </div>
+
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i data-lucide="shield-alert" class="text-emerald-400 w-4 h-4"></i>
+                            <h4 class="text-xs font-black text-white uppercase tracking-widest">If you earned the Sanitation Visa:</h4>
+                        </div>
+                        <p class="text-sm font-bold text-emerald-400">➡️ "Maintained commercial sanitation standards and clean-as-you-go practices."</p>
+                    </div>
+
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i data-lucide="message-square" class="text-blue-400 w-4 h-4"></i>
+                            <h4 class="text-xs font-black text-white uppercase tracking-widest">If you earned the Lingo Visa:</h4>
+                        </div>
+                        <p class="text-sm font-bold text-emerald-400">➡️ "Communicated effectively in a fast-paced team environment using standard BOH calls."</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
