@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atrium Café - Station Labels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
+        
+        /* A4 Size Print Optimization */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            
+            /* A4 Page Setup */
+            @page { size: A4 portrait; margin: 0; }
+            
+            .print-page {
+                width: 210mm;
+                height: 297mm;
+                page-break-after: always;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 15mm; /* Outer margin to allow the colored paper behind it to show if cut */
+                box-sizing: border-box;
+            }
+
+            /* The actual label card, sized to leave a colored margin when mounted on A4 */
+            .mount-card {
+                width: 100%;
+                height: 100%;
+                background: white !important;
+                border-radius: 2rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                box-shadow: none !important;
+            }
+        }
+
+        /* Screen Preview Styles */
+        .preview-grid { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; padding: 2rem; }
+        .preview-card { width: 210mm; height: 297mm; background: white; padding: 15mm; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.6); transform-origin: top center; margin-bottom: -100mm; }
+    </style>
+</head>
+<body>
+    <!-- Screen Controls -->
+    <div class="no-print bg-slate-900 text-white p-8 text-center sticky top-0 z-50 shadow-2xl">
+        <h1 class="text-4xl font-black uppercase italic tracking-tighter mb-2">Station Label Generator</h1>
+        <p class="text-slate-400 mb-6">Designed to be printed, cut slightly inside the border, and mounted onto colored A4 paper.</p>
+        <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-black uppercase tracking-widest px-8 py-4 rounded-2xl flex items-center gap-3 mx-auto transition-all shadow-lg shadow-emerald-500/20">
+            <i data-lucide="printer"></i> Print A4 Station Labels
+        </button>
+    </div>
+
+    <!-- Labels Container -->
+    <div id="labels-container" class="preview-grid">
+        <!-- Injected via JS -->
+    </div>
+
+    <script>
+        const stations = [
+            {
+                title: "ANCHOR ZONE",
+                colorClass: "border-slate-400",
+                textClass: "text-slate-600",
+                bgClass: "bg-slate-100",
+                icon: "eye",
+                meaning: "WATCH • Stability • Chef Demo",
+                location: "Stage-Left Demo Area",
+                use: "Chef Demos • Group Orientation • Whiteboard"
+            },
+            {
+                title: "RIVER RUNWAY",
+                colorClass: "border-blue-500",
+                textClass: "text-blue-600",
+                bgClass: "bg-blue-50",
+                icon: "wind",
+                meaning: "Movement • Flow • TRY Stage",
+                location: "Central Aisle between counter & tables",
+                use: "Lingo Loop • Carrying plates • Movement"
+            },
+            {
+                title: "SAFETY ZONE",
+                colorClass: "border-red-500",
+                textClass: "text-red-600",
+                bgClass: "bg-red-50",
+                icon: "flame",
+                meaning: "Heat • Sharp • Danger",
+                location: "Behind Counter / Hot Line",
+                use: "Knife skills • Oven • Hot pan safety"
+            },
+            {
+                title: "REGULATION ZONE",
+                colorClass: "border-emerald-400",
+                textClass: "text-emerald-500",
+                bgClass: "bg-emerald-50",
+                icon: "leaf",
+                meaning: "Earth • Sensory Break • Grounding",
+                location: "Window Seating Area",
+                use: "Mood Meter • Break cards • Quiet seating"
+            },
+            {
+                title: "PLATING STATION",
+                colorClass: "border-emerald-800",
+                textClass: "text-emerald-800",
+                bgClass: "bg-emerald-50",
+                icon: "star",
+                meaning: "Pre-Made • Familiarity • OWN Stage",
+                location: "Straight Counter Section",
+                use: "Pre-made components • Garnish • Final plating"
+            },
+            {
+                title: "SELF-ADVOCACY WALL",
+                colorClass: "border-purple-500",
+                textClass: "text-purple-600",
+                bgClass: "bg-purple-50",
+                icon: "shield",
+                meaning: "Voice • Preference • Confidence",
+                location: "Front Counter / POS Area",
+                use: "“How I Ask” • “My Rights” • “In the Weeds”"
+            },
+            {
+                title: "TRANSITION STATION",
+                colorClass: "border-yellow-400",
+                textClass: "text-yellow-600",
+                bgClass: "bg-yellow-50",
+                icon: "arrow-right-left",
+                meaning: "Reflection • Stickers • Skills Passport",
+                location: "Espresso Bar",
+                use: "Stickers • Skills Passport • Reflection Prompts"
+            }
+        ];
+
+        // Special Cooldown Cart (Split Colors)
+        const cooldownCart = {
+            title: "COOLDOWN CART",
+            icon: "headphones",
+            meaning: "Regulation + Expression",
+            location: "Near Dish Pit",
+            use: "Visual recipes • Sorting cards • Scenario cards"
+        };
+
+        // Table Signs
+        const tables = [
+            { name: "Table Basil", icon: "leaf", colorClass: "text-emerald-600", borderClass: "border-emerald-500", bgClass: "bg-emerald-50" },
+            { name: "Table Lantern", icon: "sun", colorClass: "text-amber-500", borderClass: "border-amber-400", bgClass: "bg-amber-50" },
+            { name: "Table River", icon: "droplets", colorClass: "text-blue-500", borderClass: "border-blue-500", bgClass: "bg-blue-50" },
+            { name: "Table Sunflower", icon: "flower-2", colorClass: "text-yellow-500", borderClass: "border-yellow-400", bgClass: "bg-yellow-50" }
+        ];
+
+        const container = document.getElementById('labels-container');
+
+        // Render Standard Zones
+        stations.forEach(station => {
+            const cardHTML = `
+                <div class="print-page preview-card">
+                    <div class="mount-card border-[24px] ${station.colorClass} p-12 flex flex-col justify-between">
+                        
+                        <div class="text-center mt-12">
+                            <div class="${station.bgClass} ${station.textClass} w-48 h-48 rounded-full flex items-center justify-center mx-auto mb-12">
+                                <i data-lucide="${station.icon}" style="width: 100px; height: 100px;"></i>
+                            </div>
+                            <h1 class="text-[5rem] font-black uppercase tracking-tighter leading-none text-slate-900 mb-6">${station.title}</h1>
+                            <p class="text-3xl font-bold ${station.textClass} uppercase tracking-widest px-8 leading-snug">${station.meaning}</p>
+                        </div>
+
+                        <div class="mb-12">
+                            <div class="border-t-4 border-slate-200 pt-8 mb-8">
+                                <p class="text-xl font-black uppercase tracking-widest text-slate-400 mb-2">Location</p>
+                                <p class="text-4xl font-bold text-slate-800">${station.location}</p>
+                            </div>
+                            <div class="border-t-4 border-slate-200 pt-8">
+                                <p class="text-xl font-black uppercase tracking-widest text-slate-400 mb-2">Used For</p>
+                                <p class="text-3xl font-medium text-slate-700 leading-snug">${station.use}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', cardHTML);
+        });
+
+        // Render Cooldown Cart (Custom Gradient Border for Green+Purple)
+        const cooldownHTML = `
+            <div class="print-page preview-card">
+                <div class="mount-card p-12 flex flex-col justify-between relative" style="border: 24px solid transparent; border-image: linear-gradient(to bottom right, #34d399, #a855f7) 1;">
+                    
+                    <div class="text-center mt-12">
+                        <div class="w-48 h-48 rounded-full flex items-center justify-center mx-auto mb-12 relative overflow-hidden" style="background: linear-gradient(to bottom right, #ecfdf5, #faf5ff);">
+                            <i data-lucide="${cooldownCart.icon}" style="width: 100px; height: 100px; color: #64748b; position: relative; z-index: 10;"></i>
+                        </div>
+                        <h1 class="text-[5rem] font-black uppercase tracking-tighter leading-none text-slate-900 mb-6">${cooldownCart.title}</h1>
+                        <div class="flex items-center justify-center gap-4 text-3xl font-bold uppercase tracking-widest">
+                            <span class="text-emerald-500">Regulation</span>
+                            <span class="text-slate-300">+</span>
+                            <span class="text-purple-500">Expression</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-12">
+                        <div class="border-t-4 border-slate-200 pt-8 mb-8">
+                            <p class="text-xl font-black uppercase tracking-widest text-slate-400 mb-2">Location</p>
+                            <p class="text-4xl font-bold text-slate-800">${cooldownCart.location}</p>
+                        </div>
+                        <div class="border-t-4 border-slate-200 pt-8">
+                            <p class="text-xl font-black uppercase tracking-widest text-slate-400 mb-2">Used For</p>
+                            <p class="text-3xl font-medium text-slate-700 leading-snug">${cooldownCart.use}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', cooldownHTML);
+
+        // Render Named Tables
+        tables.forEach(table => {
+            const tableHTML = `
+                <div class="print-page preview-card">
+                    <div class="mount-card border-[24px] ${table.borderClass} p-12 flex flex-col justify-center items-center text-center">
+                        
+                        <div class="${table.bgClass} ${table.colorClass} w-64 h-64 rounded-[4rem] flex items-center justify-center mb-16">
+                            <i data-lucide="${table.icon}" style="width: 140px; height: 140px;"></i>
+                        </div>
+                        
+                        <p class="text-4xl font-black text-slate-400 uppercase tracking-widest mb-4">Guest Table</p>
+                        <h1 class="text-[6rem] font-black uppercase tracking-tighter leading-none text-slate-900 mb-12">${table.name.replace('Table ', '')}</h1>
+                        
+                        <div class="mt-8 border-t-4 border-slate-200 pt-12 max-w-lg w-full">
+                            <p class="text-2xl font-bold text-slate-500 uppercase tracking-widest">Accessibility • Identity</p>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', tableHTML);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
