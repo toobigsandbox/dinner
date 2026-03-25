@@ -16,94 +16,169 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* FUN PRINTABLE LAYOUT */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white !important; padding: 0 !important; margin: 0 !important; }
+            .no-print { display: none !important; }
+            
+            /* Reformat the layout for paper */
+            .print-container { display: block !important; max-width: 100% !important; padding: 0 !important; }
+            .print-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start; }
+            
+            /* Force cards to look fresh (remove interactive screen states) */
+            .agenda-card {
+                background: white !important;
+                border: 3px solid #e2e8f0 !important;
+                transform: none !important;
+                page-break-inside: avoid;
+                margin-bottom: 0.75rem;
+                padding: 1rem !important;
+                display: flex !important;
+                align-items: center !important;
+                opacity: 1 !important;
+            }
+            .agenda-card .line-through { text-decoration: none !important; color: #1e293b !important; }
+            .agenda-card .text-slate-500 { color: #475569 !important; }
+            
+            /* Force empty check circles for physical checking */
+            .check-icon { display: none !important; }
+            .print-checkbox { display: block !important; width: 32px; height: 32px; border: 3px solid #cbd5e1; border-radius: 50%; }
+
+            /* Reformat Sidebars */
+            .sidebar-box {
+                background: #f8fafc !important;
+                color: #0f172a !important;
+                border: 4px solid #e2e8f0 !important;
+                padding: 1.5rem !important;
+                margin-bottom: 1.5rem;
+                page-break-inside: avoid;
+                border-radius: 1.5rem !important;
+            }
+            .sidebar-box * { color: #0f172a !important; }
+            .sidebar-box i { color: #0f172a !important; }
+            .sidebar-box ul li i { color: #10b981 !important; } /* Keep green checks */
+        }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen p-4 md:p-8 overflow-x-hidden">
-    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+    
+    <!-- Screen-Only Controls -->
+    <div class="no-print max-w-7xl mx-auto mb-8 flex justify-end">
+        <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-black uppercase tracking-widest px-6 py-3 rounded-2xl flex items-center gap-3 transition-all shadow-lg shadow-emerald-500/20">
+            <i data-lucide="printer" class="w-5 h-5"></i> Print Fun Checklist
+        </button>
+    </div>
+
+    <div class="max-w-7xl mx-auto print-container">
         
-        <!-- Left Column: The Agenda -->
-        <div class="flex-1 space-y-6 w-full pb-20">
-            <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
-                <div>
-                    <p class="text-emerald-600 font-black uppercase tracking-widest mb-1 flex items-center gap-2">
-                        <i data-lucide="flag" class="w-5 h-5"></i> Session 1
-                    </p>
-                    <h1 class="text-5xl md:text-6xl font-black text-slate-900 uppercase italic tracking-tighter">Day One Agenda</h1>
-                    <p class="text-slate-500 font-medium text-lg mt-2 max-w-xl leading-snug">
-                        No cooking today. We are learning the space, the ingredients, and each other.
-                    </p>
-                </div>
-                <div class="bg-white px-8 py-4 rounded-3xl shadow-xl border-4 border-emerald-600 text-center w-full md:w-auto">
-                    <p id="live-clock" class="text-4xl font-black text-slate-800 tracking-tight">00:00</p>
-                </div>
-            </header>
-
-            <div id="agenda-container" class="space-y-4">
-                <!-- Items injected via JS -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b-4 border-slate-200 pb-6">
+            <div>
+                <p class="text-emerald-600 font-black uppercase tracking-widest mb-1 flex items-center gap-2">
+                    <i data-lucide="flag" class="w-5 h-5"></i> Session 1
+                </p>
+                <h1 class="text-5xl md:text-6xl font-black text-slate-900 uppercase italic tracking-tighter">Day One Agenda</h1>
+                <p class="text-slate-500 font-bold text-lg mt-2 max-w-2xl leading-snug">
+                    No cooking today. We are learning the space, the ingredients, and each other.
+                </p>
             </div>
-        </div>
+            <div class="bg-white px-8 py-4 rounded-3xl shadow-xl border-4 border-emerald-600 text-center w-full md:w-auto no-print">
+                <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">Live Time</p>
+                <p id="live-clock" class="text-4xl font-black text-slate-800 tracking-tight">00:00</p>
+            </div>
+        </header>
 
-        <!-- Right Column: Focus Areas (Sticky) -->
-        <div class="w-full lg:w-[400px] space-y-8 lg:sticky lg:top-8">
+        <div class="print-grid flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
             
-            <!-- Advocacy Box -->
-            <div class="bg-slate-900 rounded-[3rem] p-8 text-white shadow-2xl relative overflow-hidden border-b-8 border-purple-500">
-                <h2 class="text-2xl font-black uppercase mb-6 flex items-center gap-2 text-purple-400">
-                    <i data-lucide="shield" class="text-purple-400"></i> Self-Advocacy
-                </h2>
-                <div class="space-y-4 relative z-10">
-                    <p class="font-bold text-lg italic text-purple-100">"I have the right to..."</p>
-                    <ul class="space-y-3 text-slate-300 text-sm font-medium">
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5"></i> Ask for what I need.</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5"></i> Take a break without explaining.</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5"></i> Say when something is too loud, strong, or difficult.</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5"></i> Do a task differently if needed.</li>
-                    </ul>
+            <!-- Left Column: The Agenda -->
+            <div class="flex-1 w-full pb-20 print:pb-0">
+                <div id="agenda-container" class="space-y-4">
+                    <!-- Items injected via JS -->
                 </div>
             </div>
 
-            <!-- Core Values Box -->
-            <div class="bg-blue-600 rounded-[3rem] p-8 text-white shadow-lg">
-                <h2 class="text-2xl font-black uppercase mb-6 flex items-center gap-2">
-                    <i data-lucide="heart-handshake" class="text-blue-200"></i> Core Values
-                </h2>
-                <div class="space-y-5">
-                    <div>
-                        <h4 class="text-lg font-black uppercase tracking-tight text-blue-200">Thoughtfulness</h4>
-                        <p class="text-sm italic font-medium leading-snug">We care for the earth and each other.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-black uppercase tracking-tight text-blue-200">Lived Experience</h4>
-                        <p class="text-sm italic font-medium leading-snug">Skills from home matter here.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-black uppercase tracking-tight text-blue-200">Delightfulness</h4>
-                        <p class="text-sm italic font-medium leading-snug">Smiling, listening, teamwork.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-black uppercase tracking-tight text-blue-200">Confidence</h4>
-                        <p class="text-sm italic font-medium leading-snug">Practice → readiness → bravery.</p>
+            <!-- Right Column: Focus Areas (Sticky on Screen) -->
+            <div class="w-full lg:w-[400px] space-y-6 lg:sticky lg:top-8 print:w-full">
+                
+                <!-- Color Legend (Useful for the printed packet) -->
+                <div class="sidebar-box bg-white rounded-[2rem] p-6 shadow-xl border-2 border-slate-200">
+                    <h2 class="text-xl font-black uppercase mb-4 flex items-center gap-2 text-slate-800">
+                        <i data-lucide="palette" class="text-blue-500 w-5 h-5"></i> Today's Zones
+                    </h2>
+                    <div class="grid grid-cols-2 gap-3 text-xs font-bold uppercase tracking-widest">
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-red-500"></span> Safety</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Movement</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-400"></span> Regulation</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-800"></span> Pre-Made</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-purple-500"></span> Voice</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-yellow-400"></span> Transition</div>
+                        <div class="flex items-center gap-2 col-span-2"><span class="w-3 h-3 rounded-full bg-slate-400"></span> Anchor (Chef Zone)</div>
                     </div>
                 </div>
-            </div>
 
+                <!-- Advocacy Box -->
+                <div class="sidebar-box bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden border-b-8 border-purple-500">
+                    <h2 class="text-xl font-black uppercase mb-4 flex items-center gap-2 text-purple-400">
+                        <i data-lucide="shield" class="text-purple-400 w-6 h-6"></i> Self-Advocacy
+                    </h2>
+                    <div class="space-y-3 relative z-10">
+                        <p class="font-bold text-base italic text-purple-100">"I have the right to..."</p>
+                        <ul class="space-y-2 text-slate-300 text-sm font-medium">
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i> Ask for what I need.</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i> Take a break without explaining.</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i> Say when something is too loud, strong, or difficult.</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i> Do a task differently if needed.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Core Values Box -->
+                <div class="sidebar-box bg-blue-600 rounded-[2.5rem] p-8 text-white shadow-lg">
+                    <h2 class="text-xl font-black uppercase mb-4 flex items-center gap-2">
+                        <i data-lucide="heart-handshake" class="text-blue-200 w-6 h-6"></i> AKALAKA Values
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Thoughtfulness</h4>
+                            <p class="text-xs italic font-medium leading-snug">We care for the earth and each other.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Lived Experience is Expertise</h4>
+                            <p class="text-xs italic font-medium leading-snug">Skills from home matter here.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Delightfulness</h4>
+                            <p class="text-xs italic font-medium leading-snug">Smiling, listening, teamwork.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Confidence</h4>
+                            <p class="text-xs italic font-medium leading-snug">Practice → readiness → bravery.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <script>
-        // Detailed Day One Orientation Curriculum
+        // Detailed Day One Orientation Curriculum (ALIGNED TO CONSTANT WEEKLY SCHEDULE)
         const agendaData = [
-            { id: 1, time: "5:00-5:10", title: "Arrival & Settling", sub: "I'm Here Board & Aprons", icon: "user-check", color: "text-yellow-600" },
-            { id: 2, time: "5:10-5:15", title: "What This Is", sub: "Event Overview & Roles", icon: "info", color: "text-slate-500" },
-            { id: 3, time: "5:15-5:30", title: "Tour of the Space", sub: "Stations, Tools & Supports", icon: "map", color: "text-blue-600" },
-            { id: 4, time: "5:30-5:35", title: "Hang Posters", sub: "Kitchen Orientation & Lingo", icon: "image", color: "text-slate-500" },
-            { id: 5, time: "5:35-5:50", title: "Meet Ingredients", sub: "Sensorial Introductions", icon: "leaf", color: "text-emerald-600" },
-            { id: 6, time: "5:50-6:05", title: "Sort & Wash", sub: "Fridge vs. Room Temp", icon: "droplets", color: "text-emerald-500" },
-            { id: 7, time: "6:05-6:20", title: "Kitchen Language", sub: "Behind, Corner, Heard", icon: "message-square", color: "text-blue-500" },
-            { id: 8, time: "6:20-6:30", title: "Sanitation & Safety", sub: "20s Wash & Cutting Boards", icon: "shield-alert", color: "text-red-600" },
-            { id: 9, time: "6:30-6:50", title: "Self-Advocacy", sub: "Rights & Scenario Practice", icon: "megaphone", color: "text-purple-600" },
-            { id: 10, time: "6:50-7:00", title: "Knife Skills", sub: "Pinch & Claw Grips", icon: "utensils-crossed", color: "text-red-500" },
-            { id: 11, time: "7:00 PM", title: "Close & Reset", sub: "Wipe Down & Passports", icon: "sparkles", color: "text-yellow-500" }
+            { id: 1, time: "5:00-5:10", title: "Arrival & Settling", sub: "I'm Here Board & Aprons", icon: "user-check", colors: ['bg-yellow-400', 'bg-emerald-400', 'bg-purple-500'], mainColor: "text-yellow-600" },
+            { id: 2, time: "5:10-5:15", title: "What This Is", sub: "Event Overview & Roles", icon: "info", colors: ['bg-slate-400', 'bg-yellow-400'], mainColor: "text-slate-500" },
+            { id: 3, time: "5:15-5:30", title: "Tour & Posters", sub: "Stations, Tools & Guides", icon: "map", colors: ['bg-blue-500', 'bg-red-500', 'bg-emerald-400', 'bg-purple-500'], mainColor: "text-blue-600" },
+            { id: 4, time: "5:30-5:40", title: "Meet Ingredients", sub: "Sensorial Introductions", icon: "leaf", colors: ['bg-emerald-400', 'bg-emerald-800'], mainColor: "text-emerald-600" },
+            { id: 5, time: "5:40-5:50", title: "Sort & Wash", sub: "Fridge vs. Room Temp", icon: "droplets", colors: ['bg-red-500', 'bg-emerald-400', 'bg-blue-500'], mainColor: "text-blue-500" },
+            { id: 6, time: "5:50-6:00", title: "Kitchen Language", sub: "Behind, Corner, Heard", icon: "message-square", colors: ['bg-blue-500', 'bg-red-500', 'bg-slate-400'], mainColor: "text-blue-600" },
+            { id: 7, time: "6:00-6:10", title: "Sanitation & Safety", sub: "20s Wash & Cutting Boards", icon: "shield-alert", colors: ['bg-red-500', 'bg-slate-400', 'bg-blue-500'], mainColor: "text-red-600" },
+            { id: 8, time: "6:10-6:20", title: "Self-Advocacy", sub: "Rights & Scenario Practice", icon: "megaphone", colors: ['bg-purple-500', 'bg-emerald-400', 'bg-yellow-400'], mainColor: "text-purple-600" },
+            { id: 9, time: "6:20-6:30", title: "Knife Skills", sub: "Pinch & Claw Grips", icon: "utensils-crossed", colors: ['bg-red-500', 'bg-slate-400', 'bg-blue-500'], mainColor: "text-red-500" },
+            { id: 10, time: "6:30-6:50", title: "Family Meal", sub: "Eat together & Hospitality", icon: "utensils", colors: ['bg-yellow-400', 'bg-blue-500'], mainColor: "text-yellow-600" },
+            { id: 11, time: "6:50-7:00", title: "Close & Reset", sub: "Wipe Down & Passports", icon: "sparkles", colors: ['bg-yellow-400', 'bg-purple-500'], mainColor: "text-yellow-600" }
         ];
 
         let doneItems = [];
@@ -131,24 +206,36 @@
                 
                 const btn = document.createElement('button');
                 btn.onclick = () => toggleItem(item.id);
-                btn.className = `w-full text-left flex items-center gap-6 p-5 md:p-6 rounded-[2.5rem] border-4 transition-all duration-500 focus:outline-none ${
+                btn.className = `agenda-card w-full text-left flex items-center gap-4 md:gap-6 p-5 md:p-6 rounded-[2rem] border-4 transition-all duration-500 focus:outline-none ${
                     isDone 
-                        ? 'bg-slate-300 border-slate-400 opacity-60' 
+                        ? 'bg-slate-200 border-slate-300 opacity-60' 
                         : isCurrent 
                             ? 'bg-white current-item shadow-2xl z-10 relative' 
                             : 'bg-white border-slate-100 hover:border-slate-200'
                 }`;
                 
+                // Color dots for print/visual reference
+                const colorDots = item.colors.map(color => `<span class="w-3 h-3 rounded-full ${color} inline-block border border-slate-200"></span>`).join('');
+
                 btn.innerHTML = `
-                    <div class="flex-1">
-                        <p class="${isDone ? 'text-slate-500' : item.color} font-black text-sm mb-1 uppercase tracking-widest flex items-center gap-2">
-                            <i data-lucide="${item.icon}" class="w-4 h-4"></i> ${item.time}
-                        </p>
-                        <h3 class="text-2xl md:text-3xl font-black uppercase tracking-tight ${isDone ? 'text-slate-500 line-through' : 'text-slate-800'}">${item.title}</h3>
-                        <p class="${isDone ? 'text-slate-500' : 'text-slate-500'} font-bold text-xs md:text-sm uppercase italic mt-1">${item.sub}</p>
+                    <div class="flex-shrink-0 bg-slate-100 p-3 md:p-4 rounded-2xl ${item.mainColor}">
+                        <i data-lucide="${item.icon}" class="w-6 h-6 md:w-8 md:h-8"></i>
                     </div>
-                    <div class="flex-shrink-0">
-                        <i data-lucide="${isDone ? 'check-circle' : 'circle'}" class="w-10 h-10 md:w-12 md:h-12 ${isDone ? 'text-emerald-600' : isCurrent ? 'text-emerald-500' : 'text-slate-200'}"></i>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-1">
+                            <p class="${isDone ? 'text-slate-500' : item.mainColor} font-black text-xs md:text-sm uppercase tracking-widest">
+                                ${item.time}
+                            </p>
+                            <div class="flex gap-1">${colorDots}</div>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-black uppercase tracking-tight ${isDone ? 'text-slate-500 line-through' : 'text-slate-800'}">${item.title}</h3>
+                        <p class="${isDone ? 'text-slate-400' : 'text-slate-500'} font-bold text-xs uppercase italic mt-1">${item.sub}</p>
+                    </div>
+                    <div class="flex-shrink-0 ml-2">
+                        <!-- Screen Check Icon -->
+                        <i data-lucide="${isDone ? 'check-circle-2' : 'circle'}" class="check-icon w-8 h-8 md:w-10 md:h-10 ${isDone ? 'text-emerald-500' : isCurrent ? 'text-emerald-400' : 'text-slate-200'}"></i>
+                        <!-- Print Only Empty Circle -->
+                        <div class="print-checkbox hidden"></div>
                     </div>
                 `;
                 container.appendChild(btn);
