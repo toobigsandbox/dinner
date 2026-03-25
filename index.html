@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flagship Dinner - Training Hub</title>
+    <title>Community Care Conversation Dinner - Training Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -37,11 +37,12 @@
 
     <!-- Sidebar Navigation -->
     <nav id="sidebar" class="bg-slate-900 w-72 h-full flex-shrink-0 flex flex-col text-slate-300 absolute lg:relative z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:shadow-none">
-        <div class="p-6 atrium-gradient h-32 flex flex-col justify-end">
-            <div class="font-black italic uppercase tracking-tighter text-2xl text-white flex items-center gap-2 leading-none">
-                <i data-lucide="leaf" class="w-6 h-6 text-emerald-400"></i> AKALAKA
+        <div class="p-6 atrium-gradient h-36 flex flex-col justify-end">
+            <div class="font-black italic uppercase tracking-tighter text-2xl text-white flex items-center gap-2 leading-none mb-1">
+                <i data-lucide="utensils" class="w-6 h-6 text-emerald-400"></i> CCC Dinner
             </div>
-            <p class="text-emerald-100/70 text-xs font-bold uppercase tracking-widest mt-1">Flagship Dinner 2026</p>
+            <p class="text-emerald-100/70 text-[10px] font-bold uppercase tracking-widest mt-1">Community Care Conversation</p>
+            <p class="text-emerald-100/50 text-[10px] uppercase mt-1">April 16, 2026</p>
         </div>
 
         <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
@@ -53,7 +54,7 @@
                 <i data-lucide="flag" class="w-4 h-4 text-slate-400"></i> Day One Orientation
             </button>
             <button onclick="showSection('s-values')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
-                <i data-lucide="heart-handshake" class="w-4 h-4 text-slate-400"></i> AKALAKA Values
+                <i data-lucide="heart-handshake" class="w-4 h-4 text-slate-400"></i> Shared Values
             </button>
 
             <p class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 mt-6">Pedagogy & Space</p>
@@ -72,13 +73,13 @@
 
             <p class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 mt-6">Execution</p>
             <button onclick="showSection('s-service')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
-                <i data-lucide="wind" class="w-4 h-4 text-slate-400"></i> Flow of Service
+                <i data-lucide="wind" class="w-4 h-4 text-slate-400"></i> Flow of Service <i data-lucide="lock" class="w-3 h-3 ml-auto text-slate-600 auth-icon"></i>
             </button>
             <button onclick="showSection('s-runofshow')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
-                <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400"></i> Staff Run-of-Show
+                <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400"></i> Staff Run-of-Show <i data-lucide="lock" class="w-3 h-3 ml-auto text-slate-600 auth-icon"></i>
             </button>
             <button onclick="showSection('s-printables')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
-                <i data-lucide="printer" class="w-4 h-4 text-slate-400"></i> Day One Printables
+                <i data-lucide="printer" class="w-4 h-4 text-slate-400"></i> Day One Printables <i data-lucide="lock" class="w-3 h-3 ml-auto text-slate-600 auth-icon"></i>
             </button>
         </div>
         
@@ -99,9 +100,49 @@
         </div>
     </nav>
 
+    <!-- Password Modal -->
+    <div id="password-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2.5rem] p-8 max-w-md w-full shadow-2xl border-4 border-slate-100">
+            <div class="bg-slate-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                <i data-lucide="lock" class="w-8 h-8 text-slate-700"></i>
+            </div>
+            <h3 class="text-3xl font-black uppercase text-slate-800 mb-2 italic tracking-tighter">Staff Access</h3>
+            <p class="text-slate-500 mb-6 font-medium">Please enter the internal team password to view execution and logistical documents.</p>
+            
+            <input type="password" id="staff-password" placeholder="Enter Password" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 mb-2 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20 transition-all font-bold text-lg" onkeypress="if(event.key === 'Enter') submitPassword()" />
+            <p id="password-error" class="text-red-500 text-sm font-bold hidden mb-4 uppercase tracking-widest flex items-center gap-1"><i data-lucide="alert-circle" class="w-4 h-4"></i> Incorrect password</p>
+            
+            <div class="flex justify-end gap-3 mt-8">
+                <button onclick="closePasswordModal()" class="px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-100 transition-colors uppercase tracking-widest text-xs">Cancel</button>
+                <button onclick="submitPassword()" class="px-8 py-4 rounded-2xl font-black bg-slate-900 text-white hover:bg-slate-800 transition-colors uppercase tracking-widest text-sm flex items-center gap-2">Unlock <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content Area -->
     <main class="flex-1 overflow-y-auto bg-slate-50 pt-20 lg:pt-0 relative">
         <div class="max-w-5xl mx-auto p-6 md:p-12 pb-32">
+
+            <!-- Title & Benefactors Header -->
+            <div class="mb-12 border-b-4 border-slate-200 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                 <div>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tighter">Community Care Conversation</h2>
+                    <p class="text-xl text-slate-500 font-medium mt-1">Intern Training Guide · April 16, 2026</p>
+                 </div>
+                 <div class="flex flex-col gap-2 text-right">
+                    <div class="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 w-fit ml-auto">
+                        <i data-lucide="leaf" class="w-4 h-4"></i> Chef Harini, Duke Campus Farms
+                    </div>
+                    <div class="flex gap-2 justify-end">
+                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-xs font-bold w-fit">
+                            Benefactor: Root Causes
+                        </div>
+                        <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-lg text-xs font-bold w-fit">
+                            Curriculum: Needle's World
+                        </div>
+                    </div>
+                 </div>
+            </div>
 
             <!-- 1. WEEKLY TRAINING SCHEDULE -->
             <section id="s-schedule" class="section-content active">
@@ -142,7 +183,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                                     <div class="font-bold text-slate-700 flex items-center gap-2"><i data-lucide="eye" class="w-4 h-4"></i> WATCH</div>
-                                    <p class="text-sm text-slate-500 mt-1">Chef demonstrates the skill in the Anchor Zone.</p>
+                                    <p class="text-sm text-slate-500 mt-1">Chef Harini demonstrates the skill in the Anchor Zone.</p>
                                 </div>
                                 <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
                                     <div class="font-bold text-blue-700 flex items-center gap-2"><i data-lucide="hand" class="w-4 h-4"></i> TRY</div>
@@ -266,20 +307,23 @@
                 </div>
             </section>
 
-            <!-- 3. AKALAKA VALUES -->
+            <!-- 3. SHARED VALUES -->
             <section id="s-values" class="section-content">
                 <div class="mb-10">
                     <div class="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
                         <i data-lucide="heart-handshake" class="w-4 h-4"></i> The Mission
                     </div>
-                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">AKALAKA Values</h1>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Shared Values</h1>
                     <p class="text-xl text-slate-500">How our core values show up in the kitchen during setup, practice, and service.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Value 1 -->
                     <div class="bg-white p-8 rounded-[3rem] shadow-xl border-t-[16px] border-emerald-500">
-                        <h2 class="text-3xl font-black uppercase text-slate-800 mb-2">Thoughtfulness</h2>
+                        <div class="flex justify-between items-start mb-2">
+                            <h2 class="text-3xl font-black uppercase text-slate-800">Thoughtfulness</h2>
+                            <span class="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded-lg">AKALAKA Value</span>
+                        </div>
                         <p class="text-emerald-600 font-bold italic mb-6">"We care for the earth and each other."</p>
                         <div class="space-y-2 text-sm text-slate-600">
                             <p><b>Setup:</b> Preparing ingredients mindfully (Earth Gifts).</p>
@@ -301,7 +345,10 @@
 
                     <!-- Value 3 -->
                     <div class="bg-white p-8 rounded-[3rem] shadow-xl border-t-[16px] border-yellow-500">
-                        <h2 class="text-3xl font-black uppercase text-slate-800 mb-2">Delightfulness</h2>
+                        <div class="flex justify-between items-start mb-2">
+                            <h2 class="text-3xl font-black uppercase text-slate-800">Delightfulness</h2>
+                            <span class="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded-lg">AKALAKA Value</span>
+                        </div>
                         <p class="text-yellow-600 font-bold italic mb-6">"Smiling, listening, teamwork."</p>
                         <div class="space-y-2 text-sm text-slate-600">
                             <p><b>Setup:</b> The warm Huddle and greeting.</p>
@@ -330,7 +377,7 @@
                         <i data-lucide="shield" class="w-4 h-4"></i> Voice & Agency
                     </div>
                     <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Advocacy & Access</h1>
-                    <p class="text-xl text-slate-500">Every intern has the right to adjust the environment to succeed.</p>
+                    <p class="text-xl text-slate-500">Every intern has the right to adjust the environment to succeed. Developed by Needle's World.</p>
                 </div>
 
                 <!-- Rights & Communication -->
@@ -473,7 +520,7 @@
                     <div class="flex-1 bg-slate-100 p-8 rounded-[2.5rem] border-t-[12px] border-slate-400">
                         <div class="bg-slate-200 w-16 h-16 rounded-full flex items-center justify-center mb-6"><i data-lucide="eye" class="w-8 h-8 text-slate-600"></i></div>
                         <h2 class="text-3xl font-black uppercase text-slate-800 mb-2">Watch</h2>
-                        <p class="text-slate-600 mb-4">The chef shows you. You observe from the Anchor Zone.</p>
+                        <p class="text-slate-600 mb-4">Chef Harini shows you. You observe from the Anchor Zone.</p>
                         <div class="bg-white p-4 rounded-xl text-sm border border-slate-200"><b>Day 1 Ex:</b> Chef shows the pinch grip.</div>
                     </div>
                     <div class="flex-1 bg-blue-50 p-8 rounded-[2.5rem] border-t-[12px] border-blue-500">
@@ -673,8 +720,56 @@
     </main>
 
     <script>
+        // Auth Logic
+        const PROTECTED_SECTIONS = ['s-service', 's-runofshow', 's-printables'];
+        const STAFF_PASSWORD = "FLAGSHIP"; // Internal password
+        let isStaffAuth = false;
+        let pendingSection = null;
+
+        function submitPassword() {
+            const input = document.getElementById('staff-password').value;
+            if (input.toUpperCase() === STAFF_PASSWORD) {
+                isStaffAuth = true;
+                document.getElementById('password-modal').classList.add('hidden');
+                
+                // Update UI to show unlocked state
+                document.querySelectorAll('.auth-icon').forEach(icon => {
+                    icon.setAttribute('data-lucide', 'unlock');
+                    icon.classList.remove('text-slate-600');
+                    icon.classList.add('text-emerald-400');
+                });
+                lucide.createIcons();
+
+                if (pendingSection) {
+                    showSection(pendingSection);
+                    pendingSection = null;
+                }
+            } else {
+                document.getElementById('password-error').classList.remove('hidden');
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.add('hidden');
+            pendingSection = null;
+        }
+
         // Tab Navigation Logic
         function showSection(id) {
+            // Auth Check
+            if (PROTECTED_SECTIONS.includes(id) && !isStaffAuth) {
+                pendingSection = id;
+                document.getElementById('password-modal').classList.remove('hidden');
+                document.getElementById('staff-password').value = '';
+                document.getElementById('password-error').classList.add('hidden');
+                setTimeout(() => document.getElementById('staff-password').focus(), 100);
+                
+                if (window.innerWidth < 1024) {
+                    document.getElementById('sidebar').classList.add('-translate-x-full');
+                }
+                return;
+            }
+
             // Hide all sections
             document.querySelectorAll('.section-content').forEach(el => {
                 el.classList.remove('active');
