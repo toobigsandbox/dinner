@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Advocacy Printables</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
+        
+        /* Print Optimization */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            
+            @page { size: letter portrait; margin: 0.5in; }
+            
+            .print-page {
+                width: 100%;
+                height: 100%;
+                page-break-after: always;
+                page-break-inside: avoid;
+                margin-bottom: 0;
+                padding: 0;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .print-page:last-child {
+                page-break-after: auto;
+            }
+        }
+
+        /* Screen Preview Styles */
+        .preview-container { display: flex; flex-direction: column; gap: 4rem; padding: 2rem; align-items: center; }
+        .preview-page { 
+            width: 8.5in; 
+            min-height: 11in; 
+            background: white; 
+            padding: 0.5in; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); 
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen Controls -->
+    <div class="no-print bg-slate-900 text-white p-8 text-center sticky top-0 z-50 shadow-2xl">
+        <h1 class="text-4xl font-black uppercase italic tracking-tighter mb-2 text-purple-400">Self-Advocacy Printables</h1>
+        <p class="text-slate-400 mb-6">4 Pages: Rights, Communication Checklist, Scenarios, and Wall Signage.</p>
+        <button onclick="window.print()" class="bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest px-8 py-4 rounded-2xl flex items-center gap-3 mx-auto transition-all shadow-lg shadow-purple-500/20">
+            <i data-lucide="printer"></i> Print All Pages
+        </button>
+    </div>
+
+    <div class="preview-container">
+
+        <!-- PAGE 1: RIGHTS POSTER -->
+        <div class="print-page preview-page flex flex-col">
+            <div class="border-b-8 border-purple-600 pb-6 mb-8 flex justify-between items-end">
+                <div>
+                    <h2 class="text-purple-600 font-black uppercase tracking-widest mb-1 flex items-center gap-2">
+                        <i data-lucide="shield" class="w-6 h-6"></i> CCC Dinner Series
+                    </h2>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase tracking-tighter">I have the right to...</h1>
+                </div>
+            </div>
+
+            <div class="flex-1 space-y-6">
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Ask for what I need in this kitchen.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Take a break without explaining why.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Say when something is too loud, too strong, or too difficult.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Do a task differently if the standard way is not working for me.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Ask for help at any time — even in the middle of a task.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Step outside or sit down whenever I need to regulate.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Use my communication method of choice.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-purple-100 text-purple-600 p-2 rounded-full mt-1 shrink-0"><i data-lucide="check" class="w-8 h-8"></i></div>
+                    <p class="text-3xl font-bold text-slate-800 leading-snug">Be treated with respect, patience, and dignity.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-slate-100 p-6 rounded-2xl text-center border-2 border-slate-200">
+                <p class="text-2xl font-black uppercase text-slate-500 tracking-widest">These rights are honored every week.</p>
+            </div>
+        </div>
+
+        <!-- PAGE 2: COMMUNICATION OPTIONS -->
+        <div class="print-page preview-page flex flex-col">
+            <div class="bg-purple-600 text-white p-8 rounded-3xl mb-8 text-center shadow-md">
+                <i data-lucide="message-circle" class="w-12 h-12 mx-auto mb-4 text-purple-200"></i>
+                <h1 class="text-4xl font-black uppercase tracking-tighter mb-2">How I will ask for what I need</h1>
+                <p class="text-xl font-medium text-purple-100">Students choose one. Staff honor it all four weeks.</p>
+            </div>
+
+            <p class="text-2xl font-bold text-slate-600 mb-8 text-center">Circle or select the one that works best for you:</p>
+
+            <div class="flex-1 space-y-6 max-w-3xl mx-auto w-full">
+                <div class="flex items-center gap-6 p-6 border-4 border-slate-200 rounded-3xl">
+                    <div class="w-10 h-10 rounded-full border-4 border-slate-300 shrink-0"></div>
+                    <p class="text-3xl font-black text-slate-800 uppercase">Say it out loud</p>
+                </div>
+                <div class="flex items-center gap-6 p-6 border-4 border-slate-200 rounded-3xl">
+                    <div class="w-10 h-10 rounded-full border-4 border-slate-300 shrink-0"></div>
+                    <p class="text-3xl font-black text-slate-800 uppercase">Tap the chef on the shoulder</p>
+                </div>
+                <div class="flex items-center gap-6 p-6 border-4 border-slate-200 rounded-3xl">
+                    <div class="w-10 h-10 rounded-full border-4 border-slate-300 shrink-0"></div>
+                    <p class="text-3xl font-black text-slate-800 uppercase">Raise my hand</p>
+                </div>
+                <div class="flex items-center gap-6 p-6 border-4 border-slate-200 rounded-3xl">
+                    <div class="w-10 h-10 rounded-full border-4 border-slate-300 shrink-0"></div>
+                    <p class="text-3xl font-black text-slate-800 uppercase">Hold up a card or written note</p>
+                </div>
+                <div class="flex items-center gap-6 p-6 border-4 border-slate-200 rounded-3xl">
+                    <div class="w-10 h-10 rounded-full border-4 border-slate-300 shrink-0"></div>
+                    <p class="text-3xl font-black text-slate-800 uppercase">Use a gesture or signal we agree on</p>
+                </div>
+                <div class="flex items-center gap-6 p-6 border-4 border-slate-200 rounded-3xl">
+                    <div class="w-10 h-10 rounded-full border-4 border-slate-300 shrink-0"></div>
+                    <p class="text-3xl font-black text-slate-800 uppercase">My own way: <span class="border-b-4 border-slate-300 inline-block w-48 align-bottom"></span></p>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-8 text-center">
+                <p class="text-2xl font-bold text-slate-500 italic">The chef will use this method with you every week.</p>
+            </div>
+        </div>
+
+        <!-- PAGE 3: SCENARIO CARDS -->
+        <div class="print-page preview-page flex flex-col">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tighter">Practice Scenarios</h1>
+                <p class="text-xl text-slate-500 font-bold uppercase tracking-widest mt-2">Cut into 3 cards</p>
+            </div>
+
+            <div class="flex-1 flex flex-col gap-6">
+                <!-- Card 1 -->
+                <div class="border-4 border-dashed border-slate-300 p-8 rounded-3xl flex-1 flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg font-black uppercase text-sm tracking-widest">Scenario 1</span>
+                        <h2 class="text-3xl font-black text-slate-800 uppercase">Need To Sit</h2>
+                    </div>
+                    <div class="grid grid-cols-3 gap-6 flex-1">
+                        <div class="col-span-1 bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
+                            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Prompt</p>
+                            <p class="text-lg font-medium text-slate-700 leading-snug">You feel tired, dizzy, or overwhelmed.</p>
+                        </div>
+                        <div class="col-span-1 bg-blue-50 p-4 rounded-2xl border-2 border-blue-100">
+                            <p class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-1">Your Action</p>
+                            <p class="text-xl font-bold text-blue-900 leading-snug">Walk to the stool and sit down.</p>
+                        </div>
+                        <div class="col-span-1 bg-purple-50 p-4 rounded-2xl border-2 border-purple-100">
+                            <p class="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Communication</p>
+                            <p class="text-lg font-medium text-purple-900 leading-snug">Use your chosen method to say: <br/><b class="text-xl italic mt-1 block">"I need to sit."</b></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="border-4 border-dashed border-slate-300 p-8 rounded-3xl flex-1 flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg font-black uppercase text-sm tracking-widest">Scenario 2</span>
+                        <h2 class="text-3xl font-black text-slate-800 uppercase">Smell Too Strong</h2>
+                    </div>
+                    <div class="grid grid-cols-3 gap-6 flex-1">
+                        <div class="col-span-1 bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
+                            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Prompt</p>
+                            <p class="text-lg font-medium text-slate-700 leading-snug">A smell (onion, vinegar, garlic) is too intense.</p>
+                        </div>
+                        <div class="col-span-1 bg-blue-50 p-4 rounded-2xl border-2 border-blue-100">
+                            <p class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-1">Your Action</p>
+                            <p class="text-xl font-bold text-blue-900 leading-snug">Step back from the station.</p>
+                        </div>
+                        <div class="col-span-1 bg-purple-50 p-4 rounded-2xl border-2 border-purple-100">
+                            <p class="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Communication</p>
+                            <p class="text-lg font-medium text-purple-900 leading-snug">Use your chosen method to say: <br/><b class="text-xl italic mt-1 block">"That smell is too strong for me."</b></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="border-4 border-dashed border-slate-300 p-8 rounded-3xl flex-1 flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg font-black uppercase text-sm tracking-widest">Scenario 3</span>
+                        <h2 class="text-3xl font-black text-slate-800 uppercase">"In The Weeds"</h2>
+                    </div>
+                    <div class="grid grid-cols-3 gap-6 flex-1">
+                        <div class="col-span-1 bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
+                            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Prompt</p>
+                            <p class="text-lg font-medium text-slate-700 leading-snug">You are behind, overwhelmed, or stuck.</p>
+                        </div>
+                        <div class="col-span-1 bg-blue-50 p-4 rounded-2xl border-2 border-blue-100">
+                            <p class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-1">Your Action</p>
+                            <p class="text-xl font-bold text-blue-900 leading-snug">Pause your task.</p>
+                        </div>
+                        <div class="col-span-1 bg-purple-50 p-4 rounded-2xl border-2 border-purple-100">
+                            <p class="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Communication</p>
+                            <p class="text-lg font-medium text-purple-900 leading-snug">Use your chosen method to say: <br/><b class="text-xl italic mt-1 block">"In the weeds."</b></p>
+                        </div>
+                    </div>
+                    <p class="text-center text-slate-500 font-bold mt-4">This is a dignified, professional way to ask for help.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: WALL SIGNAGE -->
+        <div class="print-page preview-page flex flex-col bg-slate-900 text-white border-[16px] border-purple-600">
+            <div class="text-center py-8 border-b-4 border-slate-800 mb-8">
+                <i data-lucide="shield" class="w-16 h-16 mx-auto mb-4 text-purple-400"></i>
+                <h1 class="text-6xl font-black uppercase tracking-tighter text-white mb-2">Self-Advocacy Wall</h1>
+                <p class="text-2xl font-bold text-purple-300 uppercase tracking-widest">Your Voice · Your Needs · Your Choices</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-12 px-8 flex-1">
+                <div>
+                    <h2 class="text-3xl font-black uppercase text-purple-400 mb-6 border-b-2 border-purple-900 pb-2">You Can Always:</h2>
+                    <ul class="space-y-4 text-2xl font-bold text-slate-200">
+                        <li>Ask for help</li>
+                        <li>Ask for space</li>
+                        <li>Ask for a break</li>
+                        <li>Ask for a different tool</li>
+                        <li>Ask for a different task</li>
+                        <li>Ask for a different way to do it</li>
+                        <li>Ask for clarification</li>
+                        <li>Ask for repetition</li>
+                        <li>Ask for time</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-black uppercase text-emerald-400 mb-6 border-b-2 border-emerald-900 pb-2">You Can Say:</h2>
+                    <ul class="space-y-4 text-2xl font-bold text-slate-200 italic">
+                        <li>"I need a break."</li>
+                        <li>"I need space."</li>
+                        <li>"I need help."</li>
+                        <li>"This is too loud."</li>
+                        <li>"This is too strong."</li>
+                        <li>"I'm in the weeds."</li>
+                        <li>"Can you show me again?"</li>
+                        <li>"Can I do this a different way?"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-purple-900 p-8 m-8 rounded-3xl text-center">
+                <h3 class="text-3xl font-black uppercase text-white mb-4">Your Communication is Valid</h3>
+                <p class="text-xl text-purple-200 font-medium mb-4">Use Words • Cards • Gestures • Notes • Signals • Your own method</p>
+                <p class="text-2xl font-bold text-emerald-400">We will meet you where you are.</p>
+            </div>
+            
+            <div class="text-center pb-8">
+                <p class="text-2xl font-black uppercase text-slate-500 tracking-widest">A place to feel seen and supported.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
