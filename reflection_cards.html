@@ -6,7 +6,7 @@
     <title>Skills Passport - Reflection Cards</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
         
@@ -24,7 +24,7 @@
             .print-container {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr;
-                gap: 0.25in;
+                gap: 0.3in;
                 box-shadow: none !important;
                 background: white !important;
                 padding: 0 !important;
@@ -34,7 +34,7 @@
             .reflection-card {
                 page-break-inside: avoid;
                 height: 4.75in; /* Forces 4 cards per page perfectly */
-                border: 2px dashed #cbd5e1 !important; /* Cut lines */
+                box-shadow: none !important;
             }
         }
 
@@ -44,27 +44,20 @@
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem; 
             padding: 2rem; 
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
         }
         
         .reflection-card {
             background: white;
-            border: 4px solid #fef08a; /* Yellow-200 */
-            border-radius: 2rem;
+            border: 2px dashed #cbd5e1; /* Dashed slate-300 */
+            border-radius: 1.5rem;
             padding: 2rem;
             display: flex;
             flex-direction: column;
             position: relative;
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            min-height: 400px;
-        }
-
-        .writing-area {
-            background-image: repeating-linear-gradient(transparent, transparent 39px, #e2e8f0 39px, #e2e8f0 40px);
-            flex-grow: 1;
-            margin-top: 1rem;
-            border-radius: 1rem;
+            min-height: 4.75in;
         }
     </style>
 </head>
@@ -74,7 +67,7 @@
         <h1 class="text-4xl font-black uppercase italic tracking-tighter mb-2 text-yellow-400 flex items-center justify-center gap-3">
             <i data-lucide="book-open" class="w-8 h-8"></i> Reflection Prompts
         </h1>
-        <p class="text-slate-400 mb-6">Day One Edition. Designed for the Yellow Transition Station. Prints 4 per page with cut lines.</p>
+        <p class="text-slate-400 mb-6">Pixel-perfect redesign matching the Yellow Transition Station aesthetics.</p>
         <button onclick="window.print()" class="bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black uppercase tracking-widest px-8 py-4 rounded-2xl flex items-center gap-3 mx-auto transition-all shadow-lg shadow-yellow-500/20">
             <i data-lucide="printer"></i> Print Passport Cards
         </button>
@@ -88,18 +81,6 @@
     <script>
         const prompts = [
             {
-                title: "The Kitchen Space",
-                icon: "map",
-                focus: "Orientation",
-                prompt: "We walked the whole kitchen today. Which color zone felt the most comfortable to you, and why?"
-            },
-            {
-                title: "My Voice",
-                icon: "shield",
-                focus: "Self-Advocacy",
-                prompt: "You chose a communication method today. How did it feel to use it when you needed something?"
-            },
-            {
                 title: "First Knife Skills",
                 icon: "scissors",
                 focus: "Confidence",
@@ -110,6 +91,18 @@
                 icon: "message-square",
                 focus: "Delightfulness",
                 prompt: "We used words like 'Behind!' and 'Heard!' today. How did it feel to talk with the team this way?"
+            },
+            {
+                title: "The Kitchen Space",
+                icon: "map",
+                focus: "Orientation",
+                prompt: "We walked the whole kitchen today. Which color zone felt the most comfortable to you, and why?"
+            },
+            {
+                title: "My Voice",
+                icon: "shield",
+                focus: "Self-Advocacy",
+                prompt: "You chose a communication method today. How did it feel to use it when you needed something?"
             },
             {
                 title: "Meet the Ingredients",
@@ -127,32 +120,41 @@
 
         const container = document.getElementById('cards-container');
 
-        prompts.forEach((card, index) => {
+        prompts.forEach((card) => {
             const cardHTML = `
                 <div class="reflection-card">
-                    <!-- Sticker Target -->
-                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-yellow-100 rounded-full border-4 border-dashed border-yellow-400 flex items-center justify-center transform rotate-12 shadow-sm">
-                        <p class="text-[10px] font-black text-yellow-600 uppercase text-center leading-tight">Place<br/>Sticker<br/>Here!</p>
+                    
+                    <!-- Sticker Target (Corner Overlap) -->
+                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-white rounded-full border-[3px] border-dashed border-yellow-400 flex items-center justify-center transform rotate-12 z-10">
+                        <p class="text-[10px] font-black text-yellow-500 uppercase text-center leading-tight">Place<br/>Sticker<br/>Here!</p>
                     </div>
 
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-2xl">
+                    <!-- Header -->
+                    <div class="flex items-center gap-4 mb-6 relative z-0">
+                        <div class="border-2 border-yellow-200 bg-yellow-50 text-yellow-600 p-3 rounded-2xl shrink-0">
                             <i data-lucide="${card.icon}" class="w-6 h-6"></i>
                         </div>
-                        <div>
-                            <p class="text-[10px] font-black uppercase text-yellow-600 tracking-widest">Day One • ${card.focus}</p>
-                            <h2 class="text-2xl font-black text-slate-800 uppercase italic tracking-tighter leading-none">${card.title}</h2>
+                        <div class="flex flex-col">
+                            <p class="text-[9px] font-black uppercase text-yellow-600 tracking-widest mb-0.5">Day One • ${card.focus}</p>
+                            <h2 class="text-2xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">${card.title}</h2>
                         </div>
                     </div>
 
-                    <p class="text-lg font-bold text-slate-600 leading-snug mb-2">
+                    <!-- Prompt -->
+                    <p class="text-[15px] font-bold text-slate-600 leading-snug mb-6 pr-4">
                         ${card.prompt}
                     </p>
 
-                    <!-- Lined Writing Area / Blank Drawing Space -->
-                    <div class="writing-area bg-slate-50/50 border-2 border-slate-100 p-4">
-                        <p class="text-xs font-bold text-slate-300 uppercase tracking-widest text-center mt-2 opacity-50">Write or draw your answer here</p>
+                    <!-- Lined Writing Area -->
+                    <div class="flex-1 border-2 border-slate-100 rounded-3xl flex flex-col overflow-hidden">
+                        <div class="h-12 border-b-2 border-slate-100 flex items-center justify-center bg-white">
+                            <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest">Write or draw your answer here</span>
+                        </div>
+                        <div class="h-12 border-b-2 border-slate-100 bg-white"></div>
+                        <div class="h-12 border-b-2 border-slate-100 bg-white"></div>
+                        <div class="flex-1 bg-slate-50/50"></div>
                     </div>
+
                 </div>
             `;
             container.insertAdjacentHTML('beforeend', cardHTML);
