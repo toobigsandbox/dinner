@@ -608,17 +608,17 @@
                         <p class="text-xs text-slate-500 mt-2">Step-by-Step Training</p>
                     </a>
 
-                    <div class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block opacity-50">
+                    <a href="advocacy_printables.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block">
                         <i data-lucide="shield" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
-                        <h3 class="font-black text-slate-800">Rights Card</h3>
-                        <p class="text-xs text-slate-500 mt-2">Coming Soon</p>
-                    </div>
+                        <h3 class="font-black text-slate-800">Rights & Advocacy</h3>
+                        <p class="text-xs text-slate-500 mt-2">Wall Signs & Cards</p>
+                    </a>
                     
-                    <div class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block opacity-50">
-                        <i data-lucide="book-open" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
-                        <h3 class="font-black text-slate-800">Reflection Card</h3>
-                        <p class="text-xs text-slate-500 mt-2">Coming Soon</p>
-                    </div>
+                    <a href="observation_guide.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block">
+                        <i data-lucide="clipboard-list" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
+                        <h3 class="font-black text-slate-800">Observation Guide</h3>
+                        <p class="text-xs text-slate-500 mt-2">Staff Tracking Sheet</p>
+                    </a>
                 </div>
             </section>
 
@@ -731,12 +731,11 @@
         }
 
         function renderDynamicContent() {
-            // Render Schedule (Fixing border logic using inner divs)
+            // Render Schedule
             const scheduleContainer = document.getElementById('schedule-container');
             scheduleContainer.innerHTML = scheduleData.map(item => {
                 const c = colorMap[item.color] || colorMap['slate'];
                 
-                // Protect the special WATCH/TRY/OWN HTML block if the title matches
                 let extraHTML = "";
                 if (item.title.toLowerCase().includes("skill block") || item.title.includes("WATCH")) {
                     extraHTML = `
@@ -772,7 +771,7 @@
                 `;
             }).join('');
 
-            // Render Values (Fixing grid height and border clipping)
+            // Render Values
             const valuesContainer = document.getElementById('values-container');
             valuesContainer.innerHTML = valuesData.map(item => {
                 const c = colorMap[item.color] || colorMap['emerald'];
