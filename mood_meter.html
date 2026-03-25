@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Meter & Confidence Tiles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
+        
+        /* Print Optimization */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            
+            /* Standard Letter Page Setup */
+            @page { size: letter portrait; margin: 0.5in; }
+            
+            .print-container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 0.5in !important; /* Space between tiles on paper */
+                box-shadow: none !important;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .tile-card {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Screen Preview Styles */
+        .preview-container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 2rem; 
+            padding: 2rem; 
+        }
+        
+        /* Exact Dimension Enforcement */
+        .tile-card {
+            width: 5.5in;
+            height: 3in;
+            display: flex;
+            background: white;
+            /* Faint cut line to guide scissors on white paper */
+            border: 1px dashed #cbd5e1; 
+            box-sizing: border-box;
+        }
+
+        .tile-left {
+            width: 2.5in;
+            height: 100%;
+            background: white;
+        }
+
+        .tile-right {
+            width: 3in;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5in 0.25in;
+            text-align: center;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen Controls -->
+    <div class="no-print bg-slate-900 text-white p-8 text-center sticky top-0 z-50 shadow-2xl">
+        <h1 class="text-4xl font-black uppercase italic tracking-tighter mb-2 text-emerald-400 flex items-center justify-center gap-3">
+            <i data-lucide="smile" class="w-8 h-8"></i> Confidence Tiles
+        </h1>
+        <p class="text-slate-400 mb-6">Designed with a 2.5" blank left margin for Velcro/Names, and a 3x3" color block on the right.</p>
+        <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-widest px-8 py-4 rounded-2xl flex items-center gap-3 mx-auto transition-all shadow-lg shadow-emerald-500/20">
+            <i data-lucide="printer"></i> Print Tiles
+        </button>
+    </div>
+
+    <!-- Printable Tiles Container -->
+    <div class="preview-container print-container" id="tiles-container">
+        <!-- Tiles Injected via JS -->
+    </div>
+
+    <script>
+        const tilesData = [
+            {
+                bgColor: "#D32F2F", // Red
+                textColor: "text-white",
+                emoji: "😣",
+                label: "Need a Break",
+                cue: "Please pause this for me."
+            },
+            {
+                bgColor: "#F57C00", // Orange
+                textColor: "text-white",
+                emoji: "😕",
+                label: "Need Someone to Check on Me",
+                cue: "Please ask how to support me."
+            },
+            {
+                bgColor: "#FBC02D", // Yellow
+                textColor: "text-slate-900", // Dark text for contrast on yellow
+                emoji: "😐",
+                label: "Need Some Help",
+                cue: "Please stay nearby and guide me."
+            },
+            {
+                bgColor: "#66BB6A", // Light Green
+                textColor: "text-slate-900", // Dark text for contrast on light green
+                emoji: "🙂",
+                label: "I've Got This (With Backup)",
+                cue: "Please be within reach."
+            },
+            {
+                bgColor: "#8E24AA", // Purple
+                textColor: "text-white",
+                emoji: "😁",
+                label: "I Can Teach This",
+                cue: "I can help others if needed."
+            }
+        ];
+
+        const container = document.getElementById('tiles-container');
+
+        tilesData.forEach(tile => {
+            // Using bg-black/10 creates a perfectly matching, slightly darker circle on any background color
+            const circleClass = "w-[1.25in] h-[1.25in] rounded-full bg-black/10 flex items-center justify-center text-[0.65in] mb-3 leading-none shadow-inner";
+
+            const tileHTML = `
+                <div class="tile-card shadow-xl print:shadow-none">
+                    <!-- Left Blank Side -->
+                    <div class="tile-left"></div>
+                    
+                    <!-- Right Color Block -->
+                    <div class="tile-right ${tile.textColor}" style="background-color: ${tile.bgColor};">
+                        <div class="${circleClass}">
+                            ${tile.emoji}
+                        </div>
+                        <h2 class="text-base font-black uppercase leading-tight tracking-tight">${tile.label}</h2>
+                        <p class="text-[0.6rem] font-bold italic mt-1.5 leading-snug opacity-90">${tile.cue}</p>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', tileHTML);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
