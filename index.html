@@ -56,8 +56,8 @@
             <button onclick="showSection('s-schedule')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
                 <i data-lucide="calendar-clock" class="w-4 h-4 text-slate-400"></i> Weekly Schedule
             </button>
-            <button onclick="showSection('s-dayone')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
-                <i data-lucide="flag" class="w-4 h-4 text-slate-400"></i> Day One Orientation
+            <button onclick="showSection('s-session2')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="flame" class="w-4 h-4 text-slate-400"></i> Session 2 Flow
             </button>
             <button onclick="showSection('s-values')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
                 <i data-lucide="heart-handshake" class="w-4 h-4 text-slate-400"></i> Shared Values
@@ -169,90 +169,80 @@
                 </div>
             </section>
 
-            <!-- 2. DAY ONE ORIENTATION -->
-            <section id="s-dayone" class="section-content">
+            <!-- 2. SESSION 2 FLOW -->
+            <section id="s-session2" class="section-content">
                 <div class="mb-10">
-                    <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
-                        <i data-lucide="flag" class="w-4 h-4"></i> Session 1
+                    <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="flame" class="w-4 h-4"></i> Session 2
                     </div>
-                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Day One Orientation</h1>
-                    <p class="text-xl text-slate-500">No cooking today. We are learning the space, the ingredients, and each other.</p>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Session 2 Flow</h1>
+                    <p class="text-xl text-slate-500">Chop → Skewer → Heat → Plate → Deliver → Eat. Full kitchen immersion with unified sensory practice.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
                         <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
-                            <div class="bg-blue-100 p-2 rounded-xl text-blue-600"><i data-lucide="map"></i></div> Tour of Space
+                            <div class="bg-blue-100 p-2 rounded-xl text-blue-600"><i data-lucide="smile"></i></div> Arrival & Orientation
                         </h3>
                         <ul class="space-y-3 font-medium text-slate-600">
-                            <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5"></i> Find the Prep & Plating Stations</li>
-                            <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5"></i> Locate Wash Station, Stove, Oven, Sink</li>
-                            <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5"></i> Review the Cutting Board Color Rack</li>
-                            <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5"></i> Identify Tool/Glove storage</li>
-                            <li class="flex items-center gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5"></i> Locate the Stool & Exit Door (Regulation)</li>
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Regulation:</b> Mood Meter, Cooldown Cart, and sticker photos.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Sensory Prep:</b> Preparing for heat, fans, tears, and smells.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>The Arc:</b> Harini frames the "Why" behind knife skills and today's path.</li>
                         </ul>
                     </div>
 
                     <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
                         <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
-                            <div class="bg-emerald-100 p-2 rounded-xl text-emerald-600"><i data-lucide="leaf"></i></div> Meet the Ingredients
-                        </h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🥒 Cucumbers</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🏮 Beets</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🍎 Apples</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🥬 Cabbage</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🥕 Carrots</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🧅 Onions</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🥔 Fingerlings</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🍓 Strawberries</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🥜 Pecans</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🌿 Herbs</span>
-                            <span class="px-3 py-1 bg-slate-100 rounded-lg font-bold text-sm border border-slate-200">🍗 Chicken Wings</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
-                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
-                            <div class="bg-purple-100 p-2 rounded-xl text-purple-600"><i data-lucide="image"></i></div> Hang Posters
-                        </h3>
-                        <p class="text-sm text-slate-500 mb-4">Trainees help hang the reference materials:</p>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Orientation Map</div>
-                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Kitchen Lingo</div>
-                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Cutting Boards</div>
-                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Handwashing</div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
-                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
-                            <div class="bg-orange-100 p-2 rounded-xl text-orange-600"><i data-lucide="scissors"></i></div> First Skills
+                            <div class="bg-emerald-100 p-2 rounded-xl text-emerald-600"><i data-lucide="rotate-cw"></i></div> Warm-Up & Demo
                         </h3>
                         <ul class="space-y-3 font-medium text-slate-600">
-                            <li class="flex items-center gap-3"><i data-lucide="arrow-right" class="text-orange-400 w-5 h-5"></i> <b>Sorting:</b> Fridge vs Room Temp</li>
-                            <li class="flex items-center gap-3"><i data-lucide="arrow-right" class="text-orange-400 w-5 h-5"></i> <b>Washing:</b> Produce handling</li>
-                            <li class="flex items-center gap-3"><i data-lucide="arrow-right" class="text-orange-400 w-5 h-5"></i> <b>Sanitation:</b> 20s scrub, glove feel</li>
-                            <li class="flex items-center gap-3"><i data-lucide="arrow-right" class="text-orange-400 w-5 h-5"></i> <b>Knife Intro:</b> Pinch & Claw grips</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Review:</b> 20s scrub, "Heard!", and "Sharp!" calls.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Mixes:</b> Prep Pickling Liquid & Cumin Honey Glaze.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Chef Demo:</b> Safe grip, claw, and demoing 4 specific vegetable cuts.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-orange-100 p-2 rounded-xl text-orange-600"><i data-lucide="scissors"></i></div> Skills Rotation
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-4">6-7 minutes per station. Everyone rotates:</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Onions<br/><span class="text-xs text-slate-400 font-normal">Thin Slices</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Beets<br/><span class="text-xs text-slate-400 font-normal">1" Cubes</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Apples<br/><span class="text-xs text-slate-400 font-normal">1" Cubes</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Cucumbers<br/><span class="text-xs text-slate-400 font-normal">½" Rounds</span></div>
+                            <div class="bg-orange-50 p-3 rounded-xl text-sm font-bold text-center border border-orange-200 col-span-2 text-orange-800">Assemble Skewers</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-red-100 p-2 rounded-xl text-red-600"><i data-lucide="flame"></i></div> Heat & Service
+                        </h3>
+                        <ul class="space-y-3 font-medium text-slate-600">
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-red-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>Heat Practice:</b> Vinegar boil (Zone A) & Grilling (Zone B). Unified sensory practice for all.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-red-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>Plating:</b> Clean edges, height, contrast, and portioning.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-red-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>Delivery:</b> Safe pathways, table approach, and Family Meal!</li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="mt-8 bg-purple-600 text-white p-8 rounded-[3rem] shadow-xl">
-                    <h3 class="text-3xl font-black uppercase italic mb-4">Self-Advocacy Practice</h3>
-                    <p class="text-purple-200 mb-6 text-lg">"I have the right to..."</p>
+                <div class="mt-8 bg-red-600 text-white p-8 rounded-[3rem] shadow-xl">
+                    <h3 class="text-3xl font-black uppercase italic mb-4">Sensory & Heat Advocacy</h3>
+                    <p class="text-red-200 mb-6 text-lg">"Today we introduce heat, smells, and fans. You have the right to..."</p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-white/10 p-4 rounded-2xl">
-                            <p class="font-bold text-sm text-purple-200 uppercase mb-2">Scenario: Need to sit</p>
-                            <p class="font-bold text-lg">Walk to the stool and sit.</p>
+                            <p class="font-bold text-sm text-red-200 uppercase mb-2">Check In</p>
+                            <p class="font-bold text-lg">Use the Mood Meter to share your confidence level.</p>
                         </div>
                         <div class="bg-white/10 p-4 rounded-2xl">
-                            <p class="font-bold text-sm text-purple-200 uppercase mb-2">Scenario: Smell too strong</p>
-                            <p class="font-bold text-lg">Step back, signal Chef.</p>
+                            <p class="font-bold text-sm text-red-200 uppercase mb-2">Set Boundaries</p>
+                            <p class="font-bold text-lg">Say "That smell is too strong" or "The fan is too loud."</p>
                         </div>
                         <div class="bg-white/10 p-4 rounded-2xl">
-                            <p class="font-bold text-sm text-purple-200 uppercase mb-2">Scenario: Behind on step</p>
-                            <p class="font-bold text-lg">Say "In the weeds."</p>
+                            <p class="font-bold text-sm text-red-200 uppercase mb-2">Control Exposure</p>
+                            <p class="font-bold text-lg">You control how close you get to the hot pan.</p>
                         </div>
                     </div>
                 </div>
