@@ -1,1 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day Two - Visual Agenda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+        .current-item { border-color: #3b82f6; border-left-width: 16px; transform: scale(1.02); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* FUN PRINTABLE LAYOUT */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white !important; padding: 0 !important; margin: 0 !important; }
+            .no-print { display: none !important; }
+            
+            .print-container { display: block !important; max-width: 100% !important; padding: 0 !important; }
+            .print-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start; }
+            
+            .agenda-card {
+                background: white !important;
+                border: 3px solid #e2e8f0 !important;
+                transform: none !important;
+                page-break-inside: avoid;
+                margin-bottom: 0.75rem;
+                padding: 1rem !important;
+                display: flex !important;
+                align-items: center !important;
+                opacity: 1 !important;
+            }
+            .agenda-card .line-through { text-decoration: none !important; color: #1e293b !important; }
+            .agenda-card .text-slate-500 { color: #475569 !important; }
+            
+            .check-icon { display: none !important; }
+            .print-checkbox { display: block !important; width: 32px; height: 32px; border: 3px solid #cbd5e1; border-radius: 50%; }
+
+            .sidebar-box {
+                background: #f8fafc !important;
+                color: #0f172a !important;
+                border: 4px solid #e2e8f0 !important;
+                padding: 1.5rem !important;
+                margin-bottom: 1.5rem;
+                page-break-inside: avoid;
+                border-radius: 1.5rem !important;
+            }
+            .sidebar-box * { color: #0f172a !important; }
+            .sidebar-box i { color: #0f172a !important; }
+            .sidebar-box ul li i { color: #3b82f6 !important; } 
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-4 md:p-8 overflow-x-hidden">
+    
+    <!-- Screen-Only Controls -->
+    <div class="no-print max-w-7xl mx-auto mb-8 flex justify-end">
+        <button onclick="window.print()" class="bg-blue-500 hover:bg-blue-400 text-white font-black uppercase tracking-widest px-6 py-3 rounded-2xl flex items-center gap-3 transition-all shadow-lg shadow-blue-500/20">
+            <i data-lucide="printer" class="w-5 h-5"></i> Print Fun Checklist
+        </button>
+    </div>
+
+    <div class="max-w-7xl mx-auto print-container">
+        
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b-4 border-slate-200 pb-6">
+            <div>
+                <p class="text-blue-600 font-black uppercase tracking-widest mb-1 flex items-center gap-2">
+                    <i data-lucide="flame" class="w-5 h-5"></i> Session 2
+                </p>
+                <h1 class="text-5xl md:text-6xl font-black text-slate-900 uppercase italic tracking-tighter">Day Two Agenda</h1>
+                <p class="text-slate-500 font-bold text-lg mt-2 max-w-2xl leading-snug">
+                    Chop → Skewer → Heat → Plate → Deliver → Eat. The whole flow feels like a real kitchen line!
+                </p>
+            </div>
+            <div class="bg-white px-8 py-4 rounded-3xl shadow-xl border-4 border-blue-600 text-center w-full md:w-auto no-print">
+                <p class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Live Time</p>
+                <p id="live-clock" class="text-4xl font-black text-slate-800 tracking-tight">00:00</p>
+            </div>
+        </header>
+
+        <div class="print-grid flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+            
+            <!-- Left Column: The Agenda -->
+            <div class="flex-1 w-full pb-20 print:pb-0">
+                <div id="agenda-container" class="space-y-4">
+                    <!-- Items injected via JS -->
+                </div>
+            </div>
+
+            <!-- Right Column: Focus Areas -->
+            <div class="w-full lg:w-[400px] space-y-6 lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto hide-scroll print:w-full print:max-h-none print:overflow-visible">
+                
+                <!-- Color Legend -->
+                <div class="sidebar-box bg-white rounded-[2rem] p-6 shadow-xl border-2 border-slate-200">
+                    <h2 class="text-xl font-black uppercase mb-4 flex items-center gap-2 text-slate-800">
+                        <i data-lucide="palette" class="text-blue-500 w-5 h-5"></i> Today's Zones
+                    </h2>
+                    <div class="grid grid-cols-2 gap-3 text-xs font-bold uppercase tracking-widest">
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-red-500"></span> Safety</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Movement</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-400"></span> Regulation</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-800"></span> Pre-Made</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-purple-500"></span> Voice</div>
+                        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-yellow-400"></span> Transition</div>
+                        <div class="flex items-center gap-2 col-span-2"><span class="w-3 h-3 rounded-full bg-slate-400"></span> Anchor (Chef Zone)</div>
+                    </div>
+                </div>
+
+                <!-- Advocacy Box (Day 2 Focus) -->
+                <div class="sidebar-box bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden border-b-8 border-red-500">
+                    <h2 class="text-xl font-black uppercase mb-4 flex items-center gap-2 text-red-400">
+                        <i data-lucide="shield" class="text-red-400 w-6 h-6"></i> Heat & Sensory
+                    </h2>
+                    <div class="space-y-4 relative z-10">
+                        <p class="font-bold text-sm italic text-slate-300">Today we introduce heat, smells, and fans. Remember your rights:</p>
+                        <ul class="space-y-3 text-white text-sm font-medium">
+                            <li class="flex items-start gap-2"><i data-lucide="smile" class="w-5 h-5 text-blue-400 shrink-0"></i> <b>Mood Meter:</b> Check in. Where is your confidence today?</li>
+                            <li class="flex items-start gap-2"><i data-lucide="wind" class="w-5 h-5 text-emerald-400 shrink-0"></i> <b>Smells & Fans:</b> "That smell is too strong" or "The fan is too loud."</li>
+                            <li class="flex items-start gap-2"><i data-lucide="flame" class="w-5 h-5 text-red-400 shrink-0"></i> <b>Heat Practice:</b> You control how close you get to the pan.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Core Values Box -->
+                <div class="sidebar-box bg-blue-600 rounded-[2.5rem] p-8 text-white shadow-lg">
+                    <h2 class="text-xl font-black uppercase mb-4 flex items-center gap-2">
+                        <i data-lucide="heart-handshake" class="text-blue-200 w-6 h-6"></i> AKALAKA Values
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Thoughtfulness</h4>
+                            <p class="text-xs italic font-medium leading-snug">We care for the earth and each other.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Lived Experience is Expertise</h4>
+                            <p class="text-xs italic font-medium leading-snug">Skills from home matter here.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Delightfulness</h4>
+                            <p class="text-xs italic font-medium leading-snug">Smiling, listening, teamwork.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black uppercase tracking-tight text-blue-200">Confidence</h4>
+                            <p class="text-xs italic font-medium leading-snug">Practice → readiness → bravery.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WEEK 2 — Updated Flow (with full‑team heat practice + skewering + plating + delivery)
+        const agendaData = [
+            { id: 1, time: "5:00-5:10", title: "Arrival & Regulation", sub: "Mood Meter & Cooldown Cart", icon: "smile", colors: ['bg-yellow-400', 'bg-emerald-400', 'bg-purple-500'], mainColor: "text-yellow-600" },
+            { id: 2, time: "5:10-5:15", title: "Orientation & Purpose", sub: "Sensory Prep: Heat & Fans", icon: "info", colors: ['bg-slate-400', 'bg-red-500'], mainColor: "text-slate-500" },
+            { id: 3, time: "5:15-5:30", title: "Review & Warm-Up", sub: "Lingo & Glaze Mixing", icon: "rotate-cw", colors: ['bg-emerald-400', 'bg-blue-500'], mainColor: "text-emerald-600" },
+            { id: 4, time: "5:30-5:40", title: "Chef's Knife Demo", sub: "Safe Grip & Claw", icon: "eye", colors: ['bg-slate-400', 'bg-red-500'], mainColor: "text-slate-600" },
+            { id: 5, time: "5:40-6:10", title: "Knives & Skewering", sub: "Station Rotations & Assembly", icon: "scissors", colors: ['bg-blue-500', 'bg-red-500', 'bg-emerald-800'], mainColor: "text-blue-600" },
+            { id: 6, time: "6:10-6:30", title: "Full-Team Heat Practice", sub: "Grilling & Vinegar Boil", icon: "flame", colors: ['bg-red-500', 'bg-purple-500'], mainColor: "text-red-600" },
+            { id: 7, time: "6:30-6:45", title: "Plating Practice", sub: "Clean Edges, Height, Color", icon: "star", colors: ['bg-emerald-800'], mainColor: "text-emerald-700" },
+            { id: 8, time: "6:45-7:00", title: "Delivery & Meal", sub: "Safe Pathways & Family Meal", icon: "utensils", colors: ['bg-blue-500', 'bg-yellow-400'], mainColor: "text-blue-600" }
+        ];
+
+        let doneItems = [];
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function toggleItem(id) {
+            if (doneItems.includes(id)) {
+                doneItems = doneItems.filter(i => i !== id);
+            } else {
+                doneItems.push(id);
+            }
+            renderAgenda();
+        }
+
+        function renderAgenda() {
+            const container = document.getElementById('agenda-container');
+            container.innerHTML = '';
+            agendaData.forEach(item => {
+                const isDone = doneItems.includes(item.id);
+                const isCurrent = !isDone && (doneItems.length + 1 === item.id || (doneItems.length === 0 && item.id === 1));
+                
+                const btn = document.createElement('button');
+                btn.onclick = () => toggleItem(item.id);
+                btn.className = `agenda-card w-full text-left flex items-center gap-4 md:gap-6 p-5 md:p-6 rounded-[2rem] border-4 transition-all duration-500 focus:outline-none ${
+                    isDone 
+                        ? 'bg-slate-200 border-slate-300 opacity-60' 
+                        : isCurrent 
+                            ? 'bg-white current-item shadow-2xl z-10 relative' 
+                            : 'bg-white border-slate-100 hover:border-slate-200'
+                }`;
+                
+                const colorDots = item.colors.map(color => `<span class="w-3 h-3 rounded-full ${color} inline-block border border-slate-200"></span>`).join('');
+
+                btn.innerHTML = `
+                    <div class="flex-shrink-0 bg-slate-100 p-3 md:p-4 rounded-2xl ${item.mainColor}">
+                        <i data-lucide="${item.icon}" class="w-6 h-6 md:w-8 md:h-8"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-1">
+                            <p class="${isDone ? 'text-slate-500' : item.mainColor} font-black text-xs md:text-sm uppercase tracking-widest">
+                                ${item.time}
+                            </p>
+                            <div class="flex gap-1">${colorDots}</div>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-black uppercase tracking-tight ${isDone ? 'text-slate-500 line-through' : 'text-slate-800'}">${item.title}</h3>
+                        <p class="${isDone ? 'text-slate-400' : 'text-slate-500'} font-bold text-xs uppercase italic mt-1">${item.sub}</p>
+                    </div>
+                    <div class="flex-shrink-0 ml-2">
+                        <i data-lucide="${isDone ? 'check-circle-2' : 'circle'}" class="check-icon w-8 h-8 md:w-10 md:h-10 ${isDone ? 'text-blue-500' : isCurrent ? 'text-blue-400' : 'text-slate-200'}"></i>
+                        <div class="print-checkbox hidden"></div>
+                    </div>
+                `;
+                container.appendChild(btn);
+            });
+            lucide.createIcons();
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+        renderAgenda();
+    </script>
+</body>
+</html>
