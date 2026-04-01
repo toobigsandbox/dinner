@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flagship Dinner - Visual Training Modules</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+        .step-transition { transition: all 0.3s ease-in-out; }
+        #module-selector::-webkit-scrollbar { height: 6px; }
+        #module-selector::-webkit-scrollbar-track { background: #1e293b; }
+        #module-selector::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        
+        /* Legend-Based Border Colors */
+        .border-anchor { border-color: #94a3b8; } /* Gray */
+        .border-river { border-color: #3b82f6; } /* Blue */
+        .border-safety { border-color: #ef4444; } /* Red */
+        .border-regulation { border-color: #10b981; } /* Light Green */
+        .border-plating { border-color: #064e3b; } /* Dark Green */
+        .border-advocacy { border-color: #a855f7; } /* Purple */
+        .border-transition { border-color: #eab308; } /* Yellow */
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-1 rounded-full text-sm font-bold uppercase border border-emerald-600/30">
+                    <i data-lucide="map" class="w-4 h-4"></i> Atrium Prepared Environment
+                </div>
+                <h1 id="main-title" class="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter">Training Modules</h1>
+            </div>
+            
+            <div class="flex flex-col gap-4 w-full lg:max-w-4xl">
+                <div class="flex flex-wrap gap-2 no-print">
+                    <button onclick="setCategory('SKILLS')" id="cat-SKILLS" class="px-6 py-2 rounded-2xl font-black uppercase text-sm bg-blue-600 text-white shadow-lg transition-all">Orientation Skills</button>
+                    <button onclick="setCategory('KNIVES')" id="cat-KNIVES" class="px-6 py-2 rounded-2xl font-black uppercase text-sm text-slate-400 hover:text-white transition-all">Lab & Heat (Day 2)</button>
+                    <button onclick="setCategory('RECIPES')" id="cat-RECIPES" class="px-6 py-2 rounded-2xl font-black uppercase text-sm text-slate-400 hover:text-white transition-all">Dinner Recipes</button>
+                </div>
+                <div id="module-selector" class="flex bg-slate-800 p-2 rounded-3xl border border-slate-700 overflow-x-auto">
+                    <!-- Buttons injected via JS -->
+                </div>
+            </div>
+        </header>
+
+        <main id="display-area" class="min-h-[650px] lg:h-[750px]">
+            <!-- Content injected here -->
+        </main>
+
+        <footer class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 no-print">
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-slate-400 text-center">
+                <p class="text-[10px] font-black text-slate-400 uppercase">Anchor</p>
+                <p class="text-[9px] text-white/60">WATCH Stage</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-blue-500 text-center">
+                <p class="text-[10px] font-black text-blue-400 uppercase">River</p>
+                <p class="text-[9px] text-white/60">TRY Stage</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-red-500 text-center">
+                <p class="text-[10px] font-black text-red-500 uppercase">Safety</p>
+                <p class="text-[9px] text-white/60">Heat & Sharp</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-500 text-center">
+                <p class="text-[10px] font-black text-emerald-400 uppercase">Earth</p>
+                <p class="text-[9px] text-white/60">Regulation</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-900 text-center">
+                <p class="text-[10px] font-black text-emerald-900 uppercase">Plating</p>
+                <p class="text-[9px] text-white/60">OWN Stage</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-purple-500 text-center">
+                <p class="text-[10px] font-black text-purple-400 uppercase">Voice</p>
+                <p class="text-[9px] text-white/60">Advocacy</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-yellow-500 text-center">
+                <p class="text-[10px] font-black text-yellow-500 uppercase">Transition</p>
+                <p class="text-[9px] text-white/60">Reflection</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const modules = {
+            SKILLS: [
+                {
+                    title: "Sanitation & Dress", emoji: "🧼", tip: "Ask the chef for help with hair ties or aprons.",
+                    ingredients: [{n: "Apron", e: "🎽"}, {n: "Hair Tie", e: "👱"}, {n: "Soap", e: "🧼"}, {n: "Gloves", e: "🧤"}],
+                    heroVisual: `
+                        <div class="flex items-center justify-center gap-6 w-full">
+                            <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center border-4 border-blue-300">🧼</div>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300"></i>
+                            <div class="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center border-4 border-emerald-400"><span class="text-4xl">✨</span></div>
+                            <span class="text-2xl font-black text-emerald-600 uppercase tracking-widest ml-4">Clean & Ready</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "DRESS READY", d: "Anchor Zone: Chef shows how to tie an apron so it's not loose.", i: "user-check", zone: "border-anchor" },
+                        { l: "TRY", a: "20s SCRUB", d: "Earth Zone: Follow the poster. Scrub for 20 seconds. Use a timer!", i: "timer", zone: "border-regulation" },
+                        { l: "TRY", a: "GLOVE FEEL", d: "River Runway: Put on gloves. Notice how they feel on your skin.", i: "hand", zone: "border-river" },
+                        { l: "OWN", a: "BOARD CHECK", d: "Safety Zone: Find the RED and GREEN boards. Place them in their spots.", i: "layers", zone: "border-safety" }
+                    ]
+                },
+                {
+                    title: "Sorting & Washing", emoji: "🧺", tip: "If the water is too cold, say 'I need an adjustment!'",
+                    ingredients: [{n: "Produce", e: "🥬"}, {n: "Crates", e: "📦"}, {n: "Cold Water", e: "🚰"}, {n: "Towel", e: "🧼"}],
+                    heroVisual: `
+                        <div class="flex items-center justify-center gap-6 w-full">
+                            <span class="text-7xl">🥬</span>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300"></i>
+                            <div class="flex gap-3">
+                                <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center border-4 border-blue-300 shadow-sm"><i data-lucide="droplets" class="w-8 h-8 text-blue-500"></i></div>
+                                <div class="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center border-4 border-slate-300 shadow-sm"><i data-lucide="wind" class="w-8 h-8 text-slate-500"></i></div>
+                            </div>
+                            <span class="text-2xl font-black text-blue-600 uppercase tracking-widest ml-4">Wash & Dry</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "SORT GROUPS", d: "Anchor Zone: Sort into Fridge, Room Temp, or Needs Washing.", i: "list-ordered", zone: "border-anchor" },
+                        { l: "TRY", a: "GENTLE WASH", d: "Earth Zone: Use cold water and a gentle rub. Pat them dry.", i: "droplets", zone: "border-regulation" },
+                        { l: "ADVOCATE", a: "SENSORY CHECK", d: "Advocacy Wall: Is the texture okay? Is the water temp okay?", i: "shield", zone: "border-advocacy" },
+                        { l: "OWN", a: "RESET SPACE", d: "River Runway: Put every item away in its correct home.", i: "archive", zone: "border-river" }
+                    ]
+                }
+            ],
+            KNIVES: [
+                {
+                    title: "Onions (Thin Slices)", emoji: "🧅", tip: "Keep your fingers tucked in the Claw Grip!",
+                    ingredients: [{n: "Onions", e: "🧅"}, {n: "Knife", e: "🔪"}, {n: "Container", e: "🥡"}, {n: "Tape", e: "🏷️"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <span class="text-7xl mr-4">🧅</span>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block"></i>
+                            <div class="flex flex-col gap-1.5 mx-4">
+                                <div class="w-32 h-3 rounded-full bg-amber-100 border-2 border-amber-300"></div>
+                                <div class="w-32 h-3 rounded-full bg-amber-100 border-2 border-amber-300"></div>
+                                <div class="w-32 h-3 rounded-full bg-amber-100 border-2 border-amber-300"></div>
+                                <div class="w-32 h-3 rounded-full bg-amber-100 border-2 border-amber-300"></div>
+                                <div class="w-32 h-3 rounded-full bg-amber-100 border-2 border-amber-300"></div>
+                            </div>
+                            <span class="text-2xl font-black text-amber-500 uppercase tracking-widest ml-4">Thin<br/>Slices</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "ANCHOR DEMO", d: "Anchor Zone: Watch the chef demonstrate how to cut thin slices.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "DANGER ZONE", d: "Safety Zone: Practice thin slices with the claw grip. Call out 'Sharp!' and 'Behind!' when moving.", i: "flame", zone: "border-safety" },
+                        { l: "SORT", a: "WALK-IN RUN", d: "River Runway: Scoop slices into labeled containers and put them away in the walk-in fridge.", i: "archive", zone: "border-river" },
+                        { l: "OWN", a: "DELIVER & DELIGHT", d: "Transition & Service: Plate the hors d'oeuvres, deliver on the River Runway with happy service, and get your stickers and stamps!", i: "star", zone: "border-transition" }
+                    ]
+                },
+                {
+                    title: "Cooked Beets (1\" Cubes)", emoji: "🏮", tip: "Red juice will stain, make sure you wear your gloves!",
+                    ingredients: [{n: "Beets", e: "🏮"}, {n: "Knife", e: "🔪"}, {n: "Container", e: "🥡"}, {n: "Gloves", e: "🧤"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <span class="text-7xl mr-4">🏮</span>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block"></i>
+                            <div class="grid grid-cols-2 gap-2 mx-4">
+                                <div class="w-16 h-16 rounded-xl bg-rose-600 border-4 border-rose-800 flex items-center justify-center shadow-inner"><span class="text-white font-black text-lg">1"</span></div>
+                                <div class="w-16 h-16 rounded-xl bg-rose-600 border-4 border-rose-800 shadow-inner"></div>
+                                <div class="w-16 h-16 rounded-xl bg-rose-600 border-4 border-rose-800 shadow-inner"></div>
+                                <div class="w-16 h-16 rounded-xl bg-rose-600 border-4 border-rose-800 shadow-inner"></div>
+                            </div>
+                            <span class="text-2xl font-black text-rose-600 uppercase tracking-widest ml-4">1" Cubes</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "ANCHOR DEMO", d: "Anchor Zone: Chef shows how to cut soft cooked beets into 1-inch cubes.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "DANGER ZONE", d: "Safety Zone: Gently cut the cubes. Share space safely by calling out 'Sharp!' and 'Behind!'", i: "flame", zone: "border-safety" },
+                        { l: "SORT", a: "WALK-IN RUN", d: "River Runway: Place cubes in labeled containers and securely run them to the walk-in.", i: "archive", zone: "border-river" },
+                        { l: "OWN", a: "DELIVER & DELIGHT", d: "Transition & Service: Plate the bright red beets, deliver on the River Runway with a smile, and earn your stickers and stamps!", i: "star", zone: "border-transition" }
+                    ]
+                },
+                {
+                    title: "Apples (1\" Cubes)", emoji: "🍎", tip: "Apples are crunchy. Press your knife straight down firmly.",
+                    ingredients: [{n: "Apples", e: "🍎"}, {n: "Knife", e: "🔪"}, {n: "Container", e: "🥡"}, {n: "Tape", e: "🏷️"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <span class="text-7xl mr-4">🍎</span>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block"></i>
+                            <div class="grid grid-cols-2 gap-2 mx-4">
+                                <div class="w-16 h-16 rounded-xl bg-yellow-50 border-4 border-yellow-200 flex items-center justify-center shadow-inner"><span class="text-yellow-600 font-black text-lg">1"</span></div>
+                                <div class="w-16 h-16 rounded-xl bg-yellow-50 border-4 border-yellow-200 shadow-inner"></div>
+                                <div class="w-16 h-16 rounded-xl bg-yellow-50 border-4 border-yellow-200 shadow-inner"></div>
+                                <div class="w-16 h-16 rounded-xl bg-yellow-50 border-4 border-yellow-200 shadow-inner"></div>
+                            </div>
+                            <span class="text-2xl font-black text-yellow-600 uppercase tracking-widest ml-4">1" Cubes<br/><span class="text-sm text-slate-400">(Matches Beets)</span></span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "ANCHOR DEMO", d: "Anchor Zone: Chef demonstrates cutting apples into 1-inch cubes to match the beets.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "DANGER ZONE", d: "Safety Zone: Press firmly to cut. Navigate the space using your kitchen lingo: 'Sharp!' and 'Behind!'", i: "flame", zone: "border-safety" },
+                        { l: "SORT", a: "WALK-IN RUN", d: "River Runway: Scoop apples into their labeled container and carefully store them in the walk-in.", i: "archive", zone: "border-river" },
+                        { l: "OWN", a: "DELIVER & DELIGHT", d: "Transition & Service: Plate your apples, walk the River Runway for happy service, and collect your stamps!", i: "star", zone: "border-transition" }
+                    ]
+                },
+                {
+                    title: "Cucumbers (½\" Rounds)", emoji: "🥒", tip: "Let the knife do the work. Don't chop too hard!",
+                    ingredients: [{n: "Cucumbers", e: "🥒"}, {n: "Knife", e: "🔪"}, {n: "Container", e: "🥡"}, {n: "Tape", e: "🏷️"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <span class="text-7xl mr-4">🥒</span>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block"></i>
+                            <div class="flex gap-3 mx-4">
+                                <div class="w-16 h-16 rounded-full bg-emerald-100 border-4 border-emerald-400 flex items-center justify-center shadow-inner"><span class="text-emerald-700 font-black text-lg">½"</span></div>
+                                <div class="w-16 h-16 rounded-full bg-emerald-100 border-4 border-emerald-400 shadow-inner"></div>
+                                <div class="w-16 h-16 rounded-full bg-emerald-100 border-4 border-emerald-400 shadow-inner"></div>
+                            </div>
+                            <span class="text-2xl font-black text-emerald-600 uppercase tracking-widest ml-4">½" Rounds</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "ANCHOR DEMO", d: "Anchor Zone: Chef shows the rhythm for cutting perfect ½-inch rounds.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "DANGER ZONE", d: "Safety Zone: Slice evenly. Take turns and communicate with the team using 'Sharp!' and 'Behind!'", i: "flame", zone: "border-safety" },
+                        { l: "SORT", a: "WALK-IN RUN", d: "River Runway: Organize the rounds into labeled containers and store them in the walk-in.", i: "archive", zone: "border-river" },
+                        { l: "OWN", a: "DELIVER & DELIGHT", d: "Transition & Service: Plate the cucumbers, deliver the hors d'oeuvres with joy, and grab your well-earned stickers!", i: "star", zone: "border-transition" }
+                    ]
+                },
+                {
+                    title: "Skewers & Storage", emoji: "🍢", tip: "Create a repeating pattern: Beet, Apple, Beet, Apple!",
+                    ingredients: [{n: "Apples", e: "🍎"}, {n: "Beets", e: "🏮"}, {n: "Skewers", e: "🥢"}, {n: "Tray", e: "🍱"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <div class="flex"><span class="text-6xl">🏮</span><span class="text-6xl">🍎</span></div>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block mx-2"></i>
+                            <div class="relative flex items-center justify-center w-64 mx-4">
+                                <div class="absolute h-2 w-full bg-amber-700 rounded-full shadow-sm"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-rose-600 border-4 border-rose-800 mx-1 shadow-md"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-yellow-50 border-4 border-yellow-200 mx-1 shadow-md"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-rose-600 border-4 border-rose-800 mx-1 shadow-md"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-yellow-50 border-4 border-yellow-200 mx-1 shadow-md"></div>
+                            </div>
+                            <span class="text-2xl font-black text-orange-600 uppercase tracking-widest ml-2">Pattern</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "ANCHOR DEMO", d: "Anchor Zone: Chef demonstrates assembling the apple-beet pattern on the skewers.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "DANGER ZONE", d: "Safety Zone: Carefully assemble the pointy skewers. Keep the space safe by saying 'Sharp!' and 'Behind!'", i: "flame", zone: "border-safety" },
+                        { l: "SORT", a: "WALK-IN RUN", d: "River Runway: Place finished skewers on a sheet tray and carefully carry them to the walk-in.", i: "archive", zone: "border-river" },
+                        { l: "OWN", a: "DELIVER & DELIGHT", d: "Transition & Service: Plate the completed hors d'oeuvres, use the River Runway to deliver with happy service, and celebrate with stickers!", i: "star", zone: "border-transition" }
+                    ]
+                },
+                {
+                    title: "Heat Practice (Vinegar)", emoji: "🔥", tip: "You control how close you get to the pan!",
+                    ingredients: [{n: "Vinegar Mix", e: "🫙"}, {n: "Stove", e: "🔥"}, {n: "Fan", e: "💨"}, {n: "Tongs", e: "🥢"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-8 w-full px-4">
+                            <!-- The Stove & Pot -->
+                            <div class="relative flex flex-col items-center">
+                                <!-- Steam -->
+                                <div class="flex gap-4 mb-2 opacity-60">
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-400 -rotate-90 animate-pulse"></i>
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-400 -rotate-90 mt-4 animate-pulse" style="animation-delay: 0.5s;"></i>
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-400 -rotate-90 animate-pulse"></i>
+                                </div>
+                                <!-- Pot -->
+                                <div class="w-40 h-32 bg-slate-200 rounded-b-3xl border-4 border-slate-400 relative overflow-hidden flex items-end justify-center shadow-inner z-10">
+                                    <div class="w-full h-3/4 bg-amber-500/60 border-t-4 border-amber-400 animate-pulse flex justify-around items-end pb-2">
+                                        <!-- Bubbles -->
+                                        <div class="w-4 h-4 bg-white/80 rounded-full mb-2"></div>
+                                        <div class="w-5 h-5 bg-white/80 rounded-full mb-6"></div>
+                                        <div class="w-3 h-3 bg-white/80 rounded-full mb-4"></div>
+                                    </div>
+                                </div>
+                                <!-- Pot Handle -->
+                                <div class="absolute right-[-40px] top-16 w-12 h-4 bg-slate-800 rounded-r-full z-0"></div>
+                                <!-- Burner Glow -->
+                                <div class="w-48 h-8 bg-red-500 rounded-full mt-[-15px] blur-md opacity-80 z-0 animate-pulse"></div>
+                                <!-- Stove Base -->
+                                <div class="w-44 h-6 bg-slate-800 rounded-b-xl z-20 shadow-xl mt-[-15px]"></div>
+                            </div>
+
+                            <!-- Sensory Checklist -->
+                            <div class="flex flex-col gap-3 mt-6 md:mt-0">
+                                <div class="bg-red-50 border-2 border-red-200 px-6 py-3 rounded-2xl flex items-center gap-4 shadow-sm">
+                                    <div class="bg-red-100 p-2 rounded-full"><i data-lucide="flame" class="text-red-500 w-6 h-6"></i></div>
+                                    <div><p class="text-[10px] font-black uppercase text-red-800 tracking-widest">Feel</p><p class="text-xl font-bold text-slate-800 leading-none">The Heat</p></div>
+                                </div>
+                                <div class="bg-blue-50 border-2 border-blue-200 px-6 py-3 rounded-2xl flex items-center gap-4 shadow-sm">
+                                    <div class="bg-blue-100 p-2 rounded-full"><i data-lucide="fan" class="text-blue-500 w-6 h-6"></i></div>
+                                    <div><p class="text-[10px] font-black uppercase text-blue-800 tracking-widest">Hear</p><p class="text-xl font-bold text-slate-800 leading-none">The Fan</p></div>
+                                </div>
+                                <div class="bg-amber-50 border-2 border-amber-200 px-6 py-3 rounded-2xl flex items-center gap-4 shadow-sm">
+                                    <div class="bg-amber-100 p-2 rounded-full"><span class="text-2xl leading-none">👃</span></div>
+                                    <div><p class="text-[10px] font-black uppercase text-amber-800 tracking-widest">Smell</p><p class="text-xl font-bold text-slate-800 leading-none">The Vinegar</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "THE BOIL", d: "Zone A: Bring the vinegar, water, sugar, and salt mix to a rolling boil.", i: "flame", zone: "border-safety" },
+                        { l: "ADVOCATE", a: "SENSORY CYCLE", d: "Safety Zone: Everyone cycles through! Feel the heat, hear the loud fan, smell the strong vinegar, and practice your self-advocacy phrases.", i: "shield", zone: "border-advocacy" },
+                        { l: "TRY", a: "THE POUR", d: "Safety Zone: Safely pour the hot vinegar liquid over your containers of sliced onions.", i: "droplets", zone: "border-safety" },
+                        { l: "OWN", a: "SEAL & REST", d: "River Runway: Seal the containers tightly and set aside for at least 30 minutes.", i: "archive", zone: "border-transition" }
+                    ]
+                }
+            ],
+            RECIPES: [
+                {
+                    title: "Pickling Brine", emoji: "🫙", tip: "1 part vinegar to 1 part water. It's an easy ratio to double!",
+                    ingredients: [{n: "Vinegar", e: "🍎"}, {n: "Water", e: "🚰"}, {n: "Sugar", e: "🍬"}, {n: "Salt", e: "🧂"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-2 w-full">
+                            <!-- Liquids (Quarts) -->
+                            <div class="flex gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 h-24 bg-amber-50 border-4 border-amber-300 rounded-t-sm rounded-b-xl flex flex-col items-center justify-end pb-2 shadow-inner relative overflow-hidden">
+                                        <div class="absolute bottom-0 w-full h-[80%] bg-amber-200/50 border-t-4 border-amber-300"></div>
+                                        <span class="z-10 font-black text-amber-700 text-lg leading-none">1<br/><span class="text-xs">Qt</span></span>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase mt-2 text-amber-600 tracking-widest">ACV</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 h-24 bg-blue-50 border-4 border-blue-300 rounded-t-sm rounded-b-xl flex flex-col items-center justify-end pb-2 shadow-inner relative overflow-hidden">
+                                        <div class="absolute bottom-0 w-full h-[80%] bg-blue-200/50 border-t-4 border-blue-300"></div>
+                                        <span class="z-10 font-black text-blue-700 text-lg leading-none">1<br/><span class="text-xs">Qt</span></span>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase mt-2 text-blue-600 tracking-widest">Water</span>
+                                </div>
+                            </div>
+                            
+                            <span class="text-4xl font-black text-slate-300 mx-4 pb-6 hidden md:block">+</span>
+                            
+                            <!-- Dry (1/4 Cups) -->
+                            <div class="flex gap-4 mt-4 md:mt-0">
+                                <div class="flex flex-col items-center justify-end h-full">
+                                    <div class="w-14 h-12 bg-slate-50 border-4 border-slate-300 rounded-b-xl flex items-center justify-center shadow-inner mt-auto">
+                                        <span class="font-black text-slate-600 text-sm">¼ c</span>
+                                    </div>
+                                    <span class="text-[10px] font-bold uppercase mt-2 text-slate-500 tracking-widest">Sugar</span>
+                                </div>
+                                <div class="flex flex-col items-center justify-end h-full">
+                                    <div class="w-14 h-12 bg-slate-50 border-4 border-slate-300 rounded-b-xl flex items-center justify-center shadow-inner mt-auto">
+                                        <span class="font-black text-slate-600 text-sm">¼ c</span>
+                                    </div>
+                                    <span class="text-[10px] font-bold uppercase mt-2 text-slate-500 tracking-widest">Salt</span>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "THE RATIO", d: "Anchor Zone: Chef shows the 1-to-1 liquid ratio using quart containers.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "DRY MEASURE", d: "River Runway: Measure 1/4 cup of sugar and 1/4 cup of salt into the mix.", i: "hand", zone: "border-river" },
+                        { l: "TRY", a: "WET MEASURE", d: "River Runway: Measure 1 Quart of Water and 1 Quart of Apple Cider Vinegar.", i: "droplets", zone: "border-river" },
+                        { l: "OWN", a: "READY FOR HEAT", d: "Safety Zone: Carefully carry the combined mixture to the stove for the heat practice.", i: "flame", zone: "border-safety" }
+                    ]
+                },
+                {
+                    title: "Cumin Honey Glaze", emoji: "🍯", tip: "Taste with a clean spoon, think about what it needs, then share your idea!",
+                    ingredients: [{n: "Honey", e: "🍯"}, {n: "Lemon", e: "🍋"}, {n: "Cumin", e: "🧂"}, {n: "Salt", e: "🧂"}],
+                    heroVisual: `
+                        <div class="flex flex-col items-center justify-center w-full gap-4">
+                            <div class="flex gap-2 md:gap-4 items-end">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-12 h-16 md:w-16 md:h-20 bg-amber-100 border-4 border-amber-400 rounded-b-xl flex items-center justify-center shadow-inner"><span class="text-2xl md:text-3xl">🍯</span></div>
+                                    <span class="text-[10px] md:text-xs font-black mt-2 text-amber-600 uppercase tracking-widest">4 tbsp</span>
+                                </div>
+                                <span class="text-xl md:text-2xl font-black text-slate-300 pb-6">+</span>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-12 h-12 md:w-16 md:h-16 bg-yellow-100 border-4 border-yellow-400 rounded-b-xl flex items-center justify-center shadow-inner"><span class="text-2xl md:text-3xl">🍋</span></div>
+                                    <span class="text-[10px] md:text-xs font-black mt-2 text-yellow-600 uppercase tracking-widest">2 tbsp</span>
+                                </div>
+                                <span class="text-xl md:text-2xl font-black text-slate-300 pb-6">+</span>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-10 h-8 md:w-14 md:h-12 bg-orange-50 border-4 border-orange-300 rounded-b-lg flex items-center justify-center shadow-inner"><span class="text-xl md:text-2xl">🧂</span></div>
+                                    <span class="text-[10px] md:text-xs font-black mt-2 text-orange-600 uppercase tracking-widest">1 tsp</span>
+                                </div>
+                                 <span class="text-xl md:text-2xl font-black text-slate-300 pb-6">+</span>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-6 md:w-12 md:h-8 bg-slate-50 border-4 border-slate-300 rounded-b-lg flex items-center justify-center shadow-inner"><span class="text-sm md:text-lg">🧂</span></div>
+                                    <span class="text-[10px] md:text-xs font-black mt-2 text-slate-500 uppercase tracking-widest">2 pinch</span>
+                                </div>
+                            </div>
+                            <i data-lucide="arrow-down" class="text-slate-300 w-6 h-6 md:w-8 md:h-8"></i>
+                            <div class="flex items-center gap-4">
+                                <i data-lucide="users" class="text-blue-500 w-6 h-6 md:w-8 md:h-8"></i>
+                                <div class="w-32 h-12 md:w-40 md:h-16 bg-blue-100 border-4 border-blue-400 rounded-b-full shadow-inner flex items-center justify-center">
+                                    <span class="text-blue-600 font-black uppercase tracking-widest text-xs md:text-sm">Group Mix</span>
+                                </div>
+                                <i data-lucide="users" class="text-blue-500 w-6 h-6 md:w-8 md:h-8"></i>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "TRY", a: "ASSEMBLY LINE", d: "River Runway: Form a line! Each person measures their doubled ingredient and passes the bowl to the next.", i: "users", zone: "border-river" },
+                        { l: "TRY", a: "THE BIG MIX", d: "River Runway: Take turns stirring until the thick honey and lemon juice are perfectly blended.", i: "rotate-cw", zone: "border-river" },
+                        { l: "ADVOCATE", a: "TASTING LINE", d: "Advocacy Wall: Pass the bowl back down the line! Everyone uses a clean tasting spoon to try the glaze.", i: "utensils", zone: "border-advocacy" },
+                        { l: "OWN", a: "GROUP SYNERGY", d: "Plating Station: Discuss together—Does it need more sweet? More sour? Adjust the flavor as a team!", i: "message-square", zone: "border-plating" }
+                    ]
+                },
+                {
+                    title: "Cucumber Rounds", emoji: "🥒", tip: "Salt draws out the water to make them crisp!",
+                    ingredients: [{n: "Cucumber", e: "🥒"}, {n: "Salt", e: "🧂"}, {n: "Yogurt", e: "🥣"}, {n: "Dill", e: "🌿"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <span class="text-7xl mr-4">🥒</span>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block"></i>
+                            <div class="flex gap-4 mx-4">
+                                <div class="w-20 h-20 rounded-full bg-emerald-100 border-4 border-emerald-400 relative shadow-sm">
+                                    <div class="absolute inset-0 m-auto w-6 h-6 rounded-full bg-white shadow-sm border border-slate-200"></div>
+                                    <div class="absolute top-3 right-3 w-4 h-1.5 bg-rose-400 rounded-full rotate-45"></div>
+                                </div>
+                                <div class="w-20 h-20 rounded-full bg-emerald-100 border-4 border-emerald-400 relative shadow-sm">
+                                    <div class="absolute inset-0 m-auto w-6 h-6 rounded-full bg-white shadow-sm border border-slate-200"></div>
+                                    <div class="absolute top-3 right-3 w-4 h-1.5 bg-rose-400 rounded-full rotate-45"></div>
+                                </div>
+                            </div>
+                            <span class="text-xl font-black text-emerald-700 uppercase tracking-widest ml-4">Yogurt +<br/>Onion Top</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "0.5 INCH SLICE", d: "Anchor Zone: Chef shows the .5 inch thickness.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "SALT & SIT", d: "River Runway: Lay flat on paper towels. Salt for 20 minutes.", i: "timer", zone: "border-river" },
+                        { l: "OWN", a: "PLATING", d: "Plating Station: Dot with spicy yogurt and onion fronds.", i: "star", zone: "border-plating" }
+                    ]
+                },
+                {
+                    title: "Beet Skewers", emoji: "🍢", tip: "Rub the skin off—it's very satisfying!",
+                    ingredients: [{n: "Beets", e: "🏮"}, {n: "Apple", e: "🍎"}, {n: "Honey", e: "🍯"}, {n: "Cloth", e: "🧼"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <span class="text-7xl mr-4">🍢</span>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block"></i>
+                            <div class="relative flex items-center justify-center w-64 mx-4">
+                                <div class="absolute h-2 w-full bg-amber-700 rounded-full shadow-sm"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-rose-700 border-4 border-orange-500 mx-1 shadow-md"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-yellow-100 border-4 border-orange-500 mx-1 shadow-md"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-rose-700 border-4 border-orange-500 mx-1 shadow-md"></div>
+                                <div class="relative z-10 w-12 h-12 rounded-xl bg-yellow-100 border-4 border-orange-500 mx-1 shadow-md"></div>
+                            </div>
+                            <span class="text-xl font-black text-orange-600 uppercase tracking-widest ml-4">Brush With<br/>Glaze</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "FOIL ROAST", d: "Safety Zone: Chef roasts at 400°F for 45-75 minutes.", i: "flame", zone: "border-safety" },
+                        { l: "TRY", a: "TOWEL PEEL", d: "Earth Zone: Once cool, rub skin off with a paper towel.", i: "hand", zone: "border-regulation" },
+                        { l: "OWN", a: "ASSEMBLY", d: "Plating Station: Pattern of Beet-Apple-Beet. Brush glaze.", i: "star", zone: "border-plating" }
+                    ]
+                },
+                {
+                    title: "Potato Smash", emoji: "🥔", tip: "Use the heel of your hand to pop the skin!",
+                    ingredients: [{n: "Potatoes", e: "🥔"}, {n: "Water", e: "🚰"}, {n: "Butter", e: "🧈"}, {n: "Herbs", e: "🌿"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                            <div class="w-20 h-20 rounded-full bg-amber-200 border-4 border-amber-400 shadow-sm flex items-center justify-center"><span class="text-3xl opacity-50">🥔</span></div>
+                            <i data-lucide="arrow-right" class="w-10 h-10 text-slate-300 hidden md:block mx-4"></i>
+                            <div class="w-24 h-12 rounded-[2rem] bg-amber-200 border-4 border-amber-400 relative overflow-hidden shadow-sm mx-4">
+                                <div class="absolute top-2 left-2 w-3 h-3 bg-green-600 rounded-full opacity-80"></div>
+                                <div class="absolute bottom-2 right-4 w-2 h-2 bg-green-600 rounded-full opacity-80"></div>
+                                <div class="absolute top-4 right-2 w-2 h-2 bg-green-600 rounded-full opacity-80"></div>
+                            </div>
+                            <span class="text-xl font-black text-amber-700 uppercase tracking-widest ml-4">Smash to<br/>Half Height</span>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "PAR-BOIL", d: "Safety Zone: Boil in salt water until tender. Drain.", i: "timer", zone: "border-safety" },
+                        { l: "TRY", a: "THE SMASH", d: "River Runway: Steam dry. Smash to half-height with hand-heel.", i: "hand", zone: "border-river" },
+                        { l: "OWN", a: "TOSS & PLATE", d: "Plating Station: Toss with mustard seed butter and herbs.", i: "star", zone: "border-plating" }
+                    ]
+                }
+            ]
+        };
+
+        let currentCat = 'SKILLS';
+        let currentIdx = 0;
+        let currentStep = 0;
+
+        function setCategory(cat) {
+            currentCat = cat;
+            currentIdx = 0;
+            currentStep = 0;
+            
+            const cats = ['SKILLS', 'KNIVES', 'RECIPES'];
+            cats.forEach(c => {
+                const el = document.getElementById('cat-' + c);
+                if (el) {
+                    if (c === cat) {
+                        if (c === 'SKILLS') el.className = "px-6 py-2 rounded-2xl font-black uppercase text-sm bg-blue-600 text-white shadow-lg transition-all";
+                        if (c === 'KNIVES') el.className = "px-6 py-2 rounded-2xl font-black uppercase text-sm bg-orange-600 text-white shadow-lg transition-all";
+                        if (c === 'RECIPES') el.className = "px-6 py-2 rounded-2xl font-black uppercase text-sm bg-emerald-700 text-white shadow-lg transition-all";
+                    } else {
+                        el.className = "px-6 py-2 rounded-2xl font-black uppercase text-sm text-slate-400 hover:text-white transition-all";
+                    }
+                }
+            });
+            render();
+        }
+
+        function next() {
+            if (currentStep < modules[currentCat][currentIdx].steps.length - 1) {
+                currentStep++;
+                render();
+            }
+        }
+
+        function prev() {
+            if (currentStep > 0) {
+                currentStep--;
+                render();
+            }
+        }
+
+        function selectModule(idx) {
+            currentIdx = idx;
+            currentStep = 0;
+            render();
+        }
+
+        function render() {
+            const catData = modules[currentCat];
+            const data = catData[currentIdx];
+            const step = data.steps[currentStep];
+
+            // Selector Buttons
+            const selector = document.getElementById('module-selector');
+            selector.innerHTML = catData.map((m, i) => `
+                <button onclick="selectModule(${i})" class="px-6 py-3 rounded-2xl font-black whitespace-nowrap transition-all ${currentIdx === i ? 'bg-white text-slate-900 shadow-xl' : 'text-slate-500 hover:text-white'}">
+                    ${m.emoji} ${m.title}
+                </button>
+            `).join('');
+
+            // Display Logic
+            const display = document.getElementById('display-area');
+            display.innerHTML = `
+                <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-[12px] ${step.zone} flex flex-col lg:flex-row h-full">
+                    <div class="w-full lg:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i data-lucide="shopping-basket" class="text-slate-800"></i>
+                            <h3 class="text-2xl font-black uppercase tracking-tight text-slate-800 italic">The Kit</h3>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            ${data.ingredients.map(ing => `<div class="bg-white p-4 rounded-3xl border-2 border-slate-100 text-center shadow-sm"><span class="text-4xl">${ing.e}</span><p class="text-[10px] font-black uppercase mt-2 text-slate-500">${ing.n}</p></div>`).join('')}
+                        </div>
+                        <div class="mt-8 p-8 bg-slate-800 rounded-[2.5rem] text-white">
+                            <p class="text-xs font-black uppercase text-emerald-400 mb-2 tracking-widest">Chef Lingo</p>
+                            <p class="text-xl font-medium leading-tight italic">"${data.tip}"</p>
+                        </div>
+                    </div>
+                    <div class="flex-1 p-8 lg:p-12 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="px-6 py-2 rounded-full border-4 font-black uppercase italic tracking-widest flex items-center gap-2 ${step.l === 'WATCH' ? 'bg-slate-100 border-slate-400 text-slate-600' : step.l === 'TRY' ? 'bg-red-50 border-red-500 text-red-600' : step.l === 'SORT' ? 'bg-blue-50 border-blue-500 text-blue-600' : step.l === 'ADVOCATE' ? 'bg-purple-50 border-purple-500 text-purple-600' : 'bg-yellow-50 border-yellow-500 text-yellow-700'}">
+                                    <i data-lucide="${step.l === 'WATCH' ? 'eye' : step.l === 'TRY' ? 'flame' : step.l === 'SORT' ? 'archive' : step.l === 'ADVOCATE' ? 'shield' : 'star'}" class="w-5 h-5"></i> ${step.l}
+                                </div>
+                                <span class="text-slate-200 font-black text-6xl lg:text-7xl">0${currentStep + 1}</span>
+                            </div>
+                            
+                            <!-- Hero Visual Section -->
+                            ${data.heroVisual ? `
+                            <div class="bg-white rounded-[2rem] border-4 border-slate-100 p-6 lg:p-8 mb-6 flex justify-center items-center shadow-inner min-h-[160px]">
+                                ${data.heroVisual}
+                            </div>
+                            <h2 class="text-3xl lg:text-4xl font-black text-slate-900 uppercase italic tracking-tighter leading-none mb-6">${step.a}</h2>
+                            ` : `
+                            <h2 class="text-5xl lg:text-7xl font-black text-slate-900 uppercase italic tracking-tighter leading-none mb-8">${step.a}</h2>
+                            `}
+
+                            <div class="bg-slate-50 rounded-[2rem] p-6 lg:p-8 flex items-center gap-6 lg:gap-8 border-4 border-slate-100">
+                                <div class="bg-white p-4 lg:p-6 rounded-full shadow-md shrink-0"><i data-lucide="${step.i}" class="w-10 h-10 lg:w-12 lg:h-12 text-slate-800"></i></div>
+                                <p class="text-xl lg:text-2xl text-slate-600 font-medium leading-snug">${step.d}</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-8 lg:mt-12">
+                            <button onclick="prev()" class="px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black bg-slate-100 text-slate-400 uppercase tracking-widest hover:bg-slate-200 transition-all ${currentStep === 0 ? 'opacity-0 pointer-events-none' : ''}">Back</button>
+                            ${currentStep === data.steps.length - 1 ? 
+                                `<div class="bg-yellow-100 text-yellow-800 px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black text-xl lg:text-2xl uppercase italic animate-bounce border-4 border-yellow-500 shadow-xl">DELIGHT!</div>` :
+                                `<button onclick="next()" class="bg-blue-600 text-white px-10 py-4 lg:px-14 lg:py-5 rounded-3xl font-black text-xl lg:text-2xl uppercase italic shadow-2xl flex items-center gap-4 hover:bg-blue-700 transition-all">Next Step <i data-lucide="arrow-right"></i></button>`
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        render();
+    </script>
+</body>
+</html>
