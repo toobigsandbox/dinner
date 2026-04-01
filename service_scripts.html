@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Service Scripts - AKALAKA Values</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
+        
+        /* STRICT US LETTER PRINT OPTIMIZATION */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { background: white !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            
+            @page { size: letter portrait; margin: 0.25in; }
+            
+            .print-container {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.25in;
+                width: 8in !important;
+                height: 10.25in !important; /* Fits safely inside 11in height */
+                box-shadow: none !important;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
+            }
+
+            .script-card {
+                page-break-inside: avoid;
+                height: 4.875in !important; /* Exactly half the page minus the gap */
+                box-shadow: none !important;
+                border: 2px dashed #cbd5e1 !important; /* Cut lines */
+            }
+        }
+
+        /* Screen Preview Styles */
+        .preview-container { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem; 
+            padding: 2rem; 
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .script-card {
+            background: white;
+            border: 2px dashed #cbd5e1;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            min-height: 4.875in;
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen Controls -->
+    <div class="no-print bg-slate-900 text-white p-8 text-center sticky top-0 z-50 shadow-2xl mb-8">
+        <h1 class="text-4xl font-black uppercase italic tracking-tighter mb-2 text-blue-400 flex items-center justify-center gap-3">
+            <i data-lucide="message-circle-heart" class="w-8 h-8"></i> Happy Service Scripts
+        </h1>
+        <p class="text-slate-400 mb-6">US Letter Format. 4 pocket-sized script cards anchored in Dr. V's AKALAKA Values.</p>
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest px-8 py-4 rounded-2xl flex items-center gap-3 mx-auto transition-all shadow-lg shadow-blue-500/20">
+            <i data-lucide="printer"></i> Print Script Cards
+        </button>
+    </div>
+
+    <!-- Printable Cards Container -->
+    <div class="preview-container print-container" id="cards-container">
+        <!-- Cards Injected via JS -->
+    </div>
+
+    <script>
+        // Scripts based on AKALAKA Values
+        const scripts = [
+            {
+                value: "Delightfulness",
+                subtitle: "Smiling, listening, teamwork.",
+                icon: "smile",
+                color: "yellow",
+                theme: "The Greeting",
+                bodyText: "Bring joy to the table! You can make eye contact, or just smile at the plate as you set it down.",
+                options: [
+                    { level: "Short", text: "Welcome!" },
+                    { level: "Warm", text: "We are so happy you are here." },
+                    { level: "Joyful", text: "Enjoy your meal!" }
+                ]
+            },
+            {
+                value: "Confidence",
+                subtitle: "Practice → readiness → bravery.",
+                icon: "star",
+                color: "purple",
+                theme: "The Presentation",
+                bodyText: "You practiced hard for this. Stand tall and tell them exactly what you brought them.",
+                options: [
+                    { level: "Short", text: "Here is the [Dish Name]." },
+                    { level: "Proud", text: "I am proud to serve you this meal." },
+                    { level: "Expert", text: "This is the [Dish Name]. Please enjoy." }
+                ]
+            },
+            {
+                value: "Lived Experience",
+                subtitle: "Skills from home matter here.",
+                icon: "home",
+                color: "blue",
+                theme: "The Story",
+                bodyText: "You are the expert on the food you prepped! Guests love hearing about the kitchen teamwork.",
+                options: [
+                    { level: "Short", text: "We made this together." },
+                    { level: "Specific", text: "I helped prepare the [ingredient] for this!" },
+                    { level: "Story", text: "Our chef taught us how to make this glaze." }
+                ]
+            },
+            {
+                value: "Thoughtfulness",
+                subtitle: "We care for the earth and each other.",
+                icon: "heart-handshake",
+                color: "emerald",
+                theme: "The Care",
+                bodyText: "Notice what the guest needs. Taking away empty plates helps clear their space and their mind.",
+                options: [
+                    { level: "Short", text: "Are you finished?" },
+                    { level: "Helpful", text: "May I take this plate to make room for you?" },
+                    { level: "Caring", text: "Do you have everything you need right now?" }
+                ]
+            }
+        ];
+
+        // Color mapping for Tailwind classes
+        const colorMap = {
+            yellow: { bg: "bg-yellow-50", text: "text-yellow-600", border: "border-yellow-200", darkBg: "bg-yellow-100", dot: "bg-yellow-500" },
+            purple: { bg: "bg-purple-50", text: "text-purple-600", border: "border-purple-200", darkBg: "bg-purple-100", dot: "bg-purple-500" },
+            blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-200", darkBg: "bg-blue-100", dot: "bg-blue-500" },
+            emerald: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", darkBg: "bg-emerald-100", dot: "bg-emerald-500" }
+        };
+
+        const container = document.getElementById('cards-container');
+
+        scripts.forEach((card) => {
+            const colors = colorMap[card.color];
+            
+            const cardHTML = `
+                <div class="script-card">
+                    <!-- Header -->
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="border-2 ${colors.border} ${colors.darkBg} ${colors.text} p-3 rounded-2xl shrink-0 mt-1">
+                            <i data-lucide="${card.icon}" class="w-8 h-8"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">AKALAKA Value</p>
+                            <h2 class="text-2xl font-black ${colors.text} uppercase italic tracking-tighter leading-none mb-1">${card.value}</h2>
+                            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">${card.subtitle}</p>
+                        </div>
+                    </div>
+
+                    <!-- Theme & Body -->
+                    <div class="${colors.bg} rounded-xl p-3 border-l-4 ${colors.border} mb-4">
+                        <p class="text-xs font-black uppercase ${colors.text} tracking-widest mb-1">${card.theme}</p>
+                        <p class="text-xs font-medium text-slate-700 leading-snug italic">
+                            ${card.bodyText}
+                        </p>
+                    </div>
+
+                    <!-- Script Options -->
+                    <div class="flex-1 flex flex-col justify-end space-y-2">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center mb-1">Things you can say:</p>
+                        
+                        ${card.options.map(opt => `
+                            <div class="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3">
+                                <div class="w-3 h-3 rounded-full ${colors.dot} shrink-0"></div>
+                                <div class="flex-1">
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">${opt.level}</p>
+                                    <p class="text-sm font-bold text-slate-800 leading-tight">"${opt.text}"</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', cardHTML);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
