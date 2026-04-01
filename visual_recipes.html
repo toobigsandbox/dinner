@@ -244,7 +244,7 @@
                 },
                 {
                     title: "Heat Practice (Vinegar)", emoji: "🔥", tip: "You control how close you get to the pan!",
-                    ingredients: [{n: "Vinegar Mix", e: "🫙"}, {n: "Stove", e: "🔥"}, {n: "Fan", e: "💨"}, {n: "Tongs", e: "🥢"}],
+                    ingredients: [{n: "Vinegar Mix", e: "🫙"}, {n: "Stove", e: "🔥"}, {n: "Fan", e: "💨"}, {n: "Containers", e: "🥡"}],
                     heroVisual: `
                         <div class="flex flex-col md:flex-row items-center justify-center gap-8 w-full px-4">
                             <!-- The Stove & Pot -->
@@ -294,6 +294,46 @@
                         { l: "ADVOCATE", a: "SENSORY CYCLE", d: "Safety Zone: Everyone cycles through! Feel the heat, hear the loud fan, smell the strong vinegar, and practice your self-advocacy phrases.", i: "shield", zone: "border-advocacy" },
                         { l: "TRY", a: "THE POUR", d: "Safety Zone: Safely pour the hot vinegar liquid over your containers of sliced onions.", i: "droplets", zone: "border-safety" },
                         { l: "OWN", a: "SEAL & REST", d: "River Runway: Seal the containers tightly and set aside for at least 30 minutes.", i: "archive", zone: "border-transition" }
+                    ]
+                },
+                {
+                    title: "Grilling Practice", emoji: "🍳", tip: "Say 'Hot pan!' when carrying items near the stove.",
+                    ingredients: [{n: "Cucumbers", e: "🥒"}, {n: "Skewers", e: "🍢"}, {n: "Tongs", e: "🥢"}, {n: "Fan", e: "💨"}],
+                    heroVisual: `
+                        <div class="flex flex-col items-center justify-center w-full px-4 mt-8">
+                            <!-- Tongs reaching down -->
+                            <div class="flex justify-center mb-[-15px] z-20 transform -translate-x-12 rotate-[-20deg]">
+                                <span class="text-6xl">🥢</span>
+                            </div>
+                            
+                            <!-- Food above pan -->
+                            <div class="flex gap-4 items-end z-10 mb-[-10px] transform translate-y-2">
+                                <span class="text-5xl animate-bounce" style="animation-delay: 0.1s">🥒</span>
+                                <span class="text-6xl animate-bounce" style="animation-delay: 0.3s">🍢</span>
+                                <span class="text-5xl animate-bounce" style="animation-delay: 0.2s">🥒</span>
+                            </div>
+                            
+                            <!-- Hot Pan -->
+                            <div class="w-64 h-10 bg-slate-800 rounded-b-3xl border-b-4 border-slate-900 shadow-xl relative z-10 flex justify-center items-start">
+                                 <!-- Sizzle lines -->
+                                 <div class="flex gap-8 mt-[-20px] opacity-60">
+                                     <i data-lucide="wind" class="w-6 h-6 text-slate-300 -rotate-90 animate-pulse"></i>
+                                     <i data-lucide="wind" class="w-6 h-6 text-slate-300 -rotate-90 animate-pulse" style="animation-delay: 0.3s"></i>
+                                     <i data-lucide="wind" class="w-6 h-6 text-slate-300 -rotate-90 animate-pulse" style="animation-delay: 0.6s"></i>
+                                 </div>
+                                 <!-- Pan handle -->
+                                 <div class="absolute -right-16 top-0 w-20 h-4 bg-slate-700 rounded-r-full"></div>
+                            </div>
+                            
+                            <!-- Burner Glow -->
+                            <div class="w-56 h-6 bg-red-500 rounded-full blur-md opacity-80 mt-[-15px] animate-pulse z-0"></div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "APPROACH HEAT", d: "Safety Zone: Watch the chef safely approach the hot grill pan. Notice how loud the fan is.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "CUCUMBERS FIRST", d: "Safety Zone: Use the tongs to carefully place the cucumber rounds onto the hot grill.", i: "hand", zone: "border-safety" },
+                        { l: "TRY", a: "THEN SKEWERS", d: "Safety Zone: Next, use the tongs to grill the apple-beet skewers. Everyone gets a turn!", i: "flame", zone: "border-safety" },
+                        { l: "ADVOCATE", a: "SAFETY CALLS", d: "Advocacy Wall: The fan is loud and the pan is hot. Practice calling out 'Hot pan!' and 'Behind!' to keep the team safe.", i: "shield", zone: "border-advocacy" }
                     ]
                 }
             ],
