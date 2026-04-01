@@ -10,7 +10,7 @@
     <style>
         body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
         
-        /* Print Optimization */
+        /* STRICT US LETTER PRINT OPTIMIZATION */
         @media print {
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -19,22 +19,25 @@
             body { background: white !important; margin: 0; padding: 0; }
             .no-print { display: none !important; }
             
-            @page { size: letter portrait; margin: 0.5in; }
+            @page { size: letter portrait; margin: 0.25in; }
             
             .print-container {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr;
-                gap: 0.3in;
+                gap: 0.25in;
+                width: 8in !important;
+                height: 10.25in !important; /* Fits perfectly inside 11in page */
                 box-shadow: none !important;
                 background: white !important;
                 padding: 0 !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
             }
 
             .reflection-card {
                 page-break-inside: avoid;
-                height: 4.75in; /* Forces 4 cards per page perfectly */
+                height: 4.875in !important; /* Exactly half the page minus gap */
                 box-shadow: none !important;
+                border: 2px dashed #cbd5e1 !important; /* Keep dashed lines for cutting */
             }
         }
 
@@ -44,30 +47,30 @@
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem; 
             padding: 2rem; 
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
         .reflection-card {
             background: white;
-            border: 2px dashed #cbd5e1; /* Dashed slate-300 */
+            border: 2px dashed #cbd5e1;
             border-radius: 1.5rem;
-            padding: 2rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             position: relative;
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            min-height: 4.75in;
+            min-height: 4.875in;
         }
     </style>
 </head>
 <body>
     <!-- Screen Controls -->
-    <div class="no-print bg-slate-900 text-white p-8 text-center sticky top-0 z-50 shadow-2xl">
+    <div class="no-print bg-slate-900 text-white p-8 text-center sticky top-0 z-50 shadow-2xl mb-8">
         <h1 class="text-4xl font-black uppercase italic tracking-tighter mb-2 text-yellow-400 flex items-center justify-center gap-3">
-            <i data-lucide="book-open" class="w-8 h-8"></i> Reflection Prompts
+            <i data-lucide="book-open" class="w-8 h-8"></i> Reflection Sparks
         </h1>
-        <p class="text-slate-400 mb-6">Pixel-perfect redesign matching the Yellow Transition Station aesthetics.</p>
+        <p class="text-slate-400 mb-6">US Letter Format. Prints exactly 4 gentle, autonomy-focused prompts perfectly on one page.</p>
         <button onclick="window.print()" class="bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black uppercase tracking-widest px-8 py-4 rounded-2xl flex items-center gap-3 mx-auto transition-all shadow-lg shadow-yellow-500/20">
             <i data-lucide="printer"></i> Print Passport Cards
         </button>
@@ -79,42 +82,31 @@
     </div>
 
     <script>
+        // The 4 Delight Sparks 
         const prompts = [
             {
-                title: "First Knife Skills",
-                icon: "scissors",
-                focus: "Confidence",
-                prompt: "We practiced the Pinch and Claw grips today. What was the hardest part, and how did you adjust?"
-            },
-            {
-                title: "Kitchen Lingo",
-                icon: "message-square",
-                focus: "Delightfulness",
-                prompt: "We used words like 'Behind!' and 'Heard!' today. How did it feel to talk with the team this way?"
-            },
-            {
-                title: "The Kitchen Space",
-                icon: "map",
-                focus: "Orientation",
-                prompt: "We walked the whole kitchen today. Which color zone felt the most comfortable to you, and why?"
-            },
-            {
-                title: "My Voice",
+                title: "The Autonomy Spark",
                 icon: "shield",
-                focus: "Self-Advocacy",
-                prompt: "You chose a communication method today. How did it feel to use it when you needed something?"
+                focus: "Focus: Choice",
+                prompt: "Think about a moment today when you trusted yourself. Maybe you chose to step back from a loud fan, or chose the perfect way to hold your knife. How did it feel to be the boss of your station today?"
             },
             {
-                title: "Meet the Ingredients",
-                icon: "leaf",
-                focus: "Lived Experience",
-                prompt: "We sorted and washed produce today. Which ingredient had the most interesting smell or texture?"
+                title: "The Ownership Spark",
+                icon: "star",
+                focus: "Focus: Skill",
+                prompt: "Look at the tools, heat, and ingredients we handled today. Which part of the process felt like it truly belonged to you? What is a skill you officially own now?"
             },
             {
-                title: "Open Reflection",
+                title: "The Delight Spark",
                 icon: "sparkles",
-                focus: "Integration",
-                prompt: "Draw or write one thing you are proud of doing today, or one thing you are excited for next week!"
+                focus: "Focus: Sensory Joy",
+                prompt: "We created a lot of big smells, loud sounds, and bright colors today. What was one specific moment that brought you joy or made you proud? How did your hands help make that happen?"
+            },
+            {
+                title: "The Synergy Spark",
+                icon: "users",
+                focus: "Focus: Team Value",
+                prompt: "We passed the bowl down the line and built recipes together. What was your unique ingredient today—a careful measurement, a loud 'Heard!', or your focus—that made this team work?"
             }
         ];
 
@@ -125,33 +117,33 @@
                 <div class="reflection-card">
                     
                     <!-- Sticker Target (Corner Overlap) -->
-                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-white rounded-full border-[3px] border-dashed border-yellow-400 flex items-center justify-center transform rotate-12 z-10">
+                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-white rounded-full border-[3px] border-dashed border-yellow-400 flex items-center justify-center transform rotate-12 z-10 shadow-sm">
                         <p class="text-[10px] font-black text-yellow-500 uppercase text-center leading-tight">Place<br/>Sticker<br/>Here!</p>
                     </div>
 
                     <!-- Header -->
-                    <div class="flex items-center gap-4 mb-6 relative z-0">
+                    <div class="flex items-center gap-4 mb-4 relative z-0">
                         <div class="border-2 border-yellow-200 bg-yellow-50 text-yellow-600 p-3 rounded-2xl shrink-0">
                             <i data-lucide="${card.icon}" class="w-6 h-6"></i>
                         </div>
-                        <div class="flex flex-col">
-                            <p class="text-[9px] font-black uppercase text-yellow-600 tracking-widest mb-0.5">Day One • ${card.focus}</p>
-                            <h2 class="text-2xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">${card.title}</h2>
+                        <div class="flex flex-col pr-8">
+                            <p class="text-[9px] font-black uppercase text-yellow-600 tracking-widest mb-0.5">${card.focus}</p>
+                            <h2 class="text-xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">${card.title}</h2>
                         </div>
                     </div>
 
-                    <!-- Prompt -->
-                    <p class="text-[15px] font-bold text-slate-600 leading-snug mb-6 pr-4">
-                        ${card.prompt}
+                    <!-- Prompt (Gentle Invitation) -->
+                    <p class="text-[13px] font-bold text-slate-600 leading-snug mb-4 pr-2 italic">
+                        "${card.prompt}"
                     </p>
 
-                    <!-- Lined Writing Area -->
-                    <div class="flex-1 border-2 border-slate-100 rounded-3xl flex flex-col overflow-hidden">
-                        <div class="h-12 border-b-2 border-slate-100 flex items-center justify-center bg-white">
-                            <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest">Write or draw your answer here</span>
+                    <!-- Lined Writing/Drawing Area -->
+                    <div class="flex-1 border-2 border-slate-100 rounded-2xl flex flex-col overflow-hidden">
+                        <div class="h-10 border-b-2 border-slate-100 flex items-center justify-center bg-white shrink-0">
+                            <span class="text-[8px] font-black text-slate-300 uppercase tracking-widest">Write or draw your reflection here</span>
                         </div>
-                        <div class="h-12 border-b-2 border-slate-100 bg-white"></div>
-                        <div class="h-12 border-b-2 border-slate-100 bg-white"></div>
+                        <div class="h-10 border-b-2 border-slate-100 bg-white shrink-0"></div>
+                        <div class="h-10 border-b-2 border-slate-100 bg-white shrink-0"></div>
                         <div class="flex-1 bg-slate-50/50"></div>
                     </div>
 
