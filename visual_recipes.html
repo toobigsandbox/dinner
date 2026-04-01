@@ -248,40 +248,45 @@
                     title: "Pickling Onions", emoji: "🫙", tip: "Wait for big, rolling bubbles before pouring!",
                     ingredients: [{n: "Vinegar", e: "🍎"}, {n: "Water", e: "🚰"}, {n: "Sugar/Salt", e: "🧂"}, {n: "Onions", e: "🧅"}],
                     heroVisual: `
-                        <div class="flex flex-col md:flex-row items-center justify-center gap-2 w-full">
-                            <!-- Liquids (Quarts) -->
-                            <div class="flex gap-4">
-                                <div class="flex flex-col items-center">
-                                    <div class="w-16 h-24 bg-amber-50 border-4 border-amber-300 rounded-t-sm rounded-b-xl flex flex-col items-center justify-end pb-2 shadow-inner relative overflow-hidden">
-                                        <div class="absolute bottom-0 w-full h-[80%] bg-amber-200/50 border-t-4 border-amber-300"></div>
-                                        <span class="z-10 font-black text-amber-700 text-lg leading-none">1<br/><span class="text-xs">Qt</span></span>
-                                    </div>
-                                    <span class="text-[10px] font-black uppercase mt-2 text-amber-600 tracking-widest">ACV</span>
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-8 w-full px-4">
+                            <!-- The Stove & Pot -->
+                            <div class="relative flex flex-col items-center">
+                                <!-- Steam -->
+                                <div class="flex gap-4 mb-2 opacity-60">
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-400 -rotate-90 animate-pulse"></i>
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-400 -rotate-90 mt-4 animate-pulse" style="animation-delay: 0.5s;"></i>
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-400 -rotate-90 animate-pulse"></i>
                                 </div>
-                                <div class="flex flex-col items-center">
-                                    <div class="w-16 h-24 bg-blue-50 border-4 border-blue-300 rounded-t-sm rounded-b-xl flex flex-col items-center justify-end pb-2 shadow-inner relative overflow-hidden">
-                                        <div class="absolute bottom-0 w-full h-[80%] bg-blue-200/50 border-t-4 border-blue-300"></div>
-                                        <span class="z-10 font-black text-blue-700 text-lg leading-none">1<br/><span class="text-xs">Qt</span></span>
+                                <!-- Pot -->
+                                <div class="w-40 h-32 bg-slate-200 rounded-b-3xl border-4 border-slate-400 relative overflow-hidden flex items-end justify-center shadow-inner z-10">
+                                    <div class="w-full h-3/4 bg-amber-500/60 border-t-4 border-amber-400 animate-pulse flex justify-around items-end pb-2">
+                                        <!-- Bubbles -->
+                                        <div class="w-4 h-4 bg-white/80 rounded-full mb-2"></div>
+                                        <div class="w-5 h-5 bg-white/80 rounded-full mb-6"></div>
+                                        <div class="w-3 h-3 bg-white/80 rounded-full mb-4"></div>
                                     </div>
-                                    <span class="text-[10px] font-black uppercase mt-2 text-blue-600 tracking-widest">Water</span>
                                 </div>
+                                <!-- Pot Handle -->
+                                <div class="absolute right-[-40px] top-16 w-12 h-4 bg-slate-800 rounded-r-full z-0"></div>
+                                <!-- Burner Glow -->
+                                <div class="w-48 h-8 bg-red-500 rounded-full mt-[-15px] blur-md opacity-80 z-0 animate-pulse"></div>
+                                <!-- Stove Base -->
+                                <div class="w-44 h-6 bg-slate-800 rounded-b-xl z-20 shadow-xl mt-[-15px]"></div>
                             </div>
-                            
-                            <span class="text-4xl font-black text-slate-300 mx-4 pb-6 hidden md:block">+</span>
-                            
-                            <!-- Dry (1/4 Cups) -->
-                            <div class="flex gap-4 mt-4 md:mt-0">
-                                <div class="flex flex-col items-center justify-end h-full">
-                                    <div class="w-14 h-12 bg-slate-50 border-4 border-slate-300 rounded-b-xl flex items-center justify-center shadow-inner mt-auto">
-                                        <span class="font-black text-slate-600 text-sm">¼ c</span>
-                                    </div>
-                                    <span class="text-[10px] font-bold uppercase mt-2 text-slate-500 tracking-widest">Sugar</span>
+
+                            <!-- Sensory Checklist -->
+                            <div class="flex flex-col gap-3 mt-6 md:mt-0">
+                                <div class="bg-red-50 border-2 border-red-200 px-6 py-3 rounded-2xl flex items-center gap-4 shadow-sm">
+                                    <div class="bg-red-100 p-2 rounded-full"><i data-lucide="flame" class="text-red-500 w-6 h-6"></i></div>
+                                    <div><p class="text-[10px] font-black uppercase text-red-800 tracking-widest">Feel</p><p class="text-xl font-bold text-slate-800 leading-none">The Heat</p></div>
                                 </div>
-                                <div class="flex flex-col items-center justify-end h-full">
-                                    <div class="w-14 h-12 bg-slate-50 border-4 border-slate-300 rounded-b-xl flex items-center justify-center shadow-inner mt-auto">
-                                        <span class="font-black text-slate-600 text-sm">¼ c</span>
-                                    </div>
-                                    <span class="text-[10px] font-bold uppercase mt-2 text-slate-500 tracking-widest">Salt</span>
+                                <div class="bg-blue-50 border-2 border-blue-200 px-6 py-3 rounded-2xl flex items-center gap-4 shadow-sm">
+                                    <div class="bg-blue-100 p-2 rounded-full"><i data-lucide="fan" class="text-blue-500 w-6 h-6"></i></div>
+                                    <div><p class="text-[10px] font-black uppercase text-blue-800 tracking-widest">Hear</p><p class="text-xl font-bold text-slate-800 leading-none">The Fan</p></div>
+                                </div>
+                                <div class="bg-amber-50 border-2 border-amber-200 px-6 py-3 rounded-2xl flex items-center gap-4 shadow-sm">
+                                    <div class="bg-amber-100 p-2 rounded-full"><span class="text-2xl leading-none">👃</span></div>
+                                    <div><p class="text-[10px] font-black uppercase text-amber-800 tracking-widest">Smell</p><p class="text-xl font-bold text-slate-800 leading-none">The Vinegar</p></div>
                                 </div>
                             </div>
                         </div>
