@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dish Pit Loop — CCC Dinner Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+
+        /* Exact color match to the physical water line labels */
+        :root {
+            --wash-blue:      #1a5fa8;
+            --wash-light:     #dbeafe;
+            --rinse-green:    #16803c;
+            --rinse-light:    #dcfce7;
+            --sanitize-gray:  #475569; /* Slate 600 */
+            --sanitize-light: #f1f5f9; /* Slate 100 */
+            --cart-slate:     #334155;
+        }
+
+        .border-wash     { border-color: var(--wash-blue); }
+        .border-rinse    { border-color: var(--rinse-green); }
+        .border-sanitize { border-color: var(--sanitize-gray); }
+
+        /* Water line label style — exact replica of the physical stickers */
+        .water-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.2rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.6rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .water-label-wash {
+            background: var(--wash-blue);
+            color: white;
+        }
+        .water-label-rinse {
+            background: var(--rinse-green);
+            color: white;
+        }
+        .water-label-sanitize {
+            background: var(--sanitize-gray);
+            color: white;
+        }
+
+        /* Bubble animation */
+        @keyframes rise {
+            0%   { transform: translateY(0) scale(1);   opacity: 0.7; }
+            100% { transform: translateY(-36px) scale(1.4); opacity: 0; }
+        }
+        .bubble { animation: rise 2s infinite ease-in-out; }
+        .bubble:nth-child(2) { animation-delay: 0.7s; }
+        .bubble:nth-child(3) { animation-delay: 1.4s; }
+
+        /* Cart wheel spin */
+        @keyframes roll {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        .wheel { animation: roll 3s linear infinite; transform-origin: center; }
+
+        /* Print: US Letter, 2-per-page */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: white !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            @page { size: letter portrait; margin: 0.25in; }
+            .print-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.2in;
+                width: 8in !important;
+            }
+            .step-card { page-break-inside: avoid; box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen p-4 md:p-8">
+
+    <!-- Header -->
+    <div class="no-print max-w-6xl mx-auto mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <span class="inline-flex items-center gap-2 bg-blue-800/40 text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase border border-blue-700/40 mb-2">
+                <i data-lucide="droplets" class="w-3 h-3"></i> Dish Pit · CCC Dinner Training
+            </span>
+            <h1 class="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter leading-none">The Dish Pit Loop</h1>
+            <p class="text-slate-400 font-medium mt-1">Three sinks. One rhythm. You keep the kitchen flowing.</p>
+        </div>
+        <button onclick="window.print()" class="no-print bg-blue-700 hover:bg-blue-600 text-white font-black uppercase tracking-widest px-6 py-3 rounded-2xl flex items-center gap-3 transition-all shadow-lg">
+            <i data-lucide="printer" class="w-5 h-5"></i> Print Cards
+        </button>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 print-grid">
+
+        <!-- ── STEP 1: SCRAPE & SORT ── -->
+        <div class="step-card bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-[10px] border-slate-400">
+            <div class="bg-slate-700 px-6 py-3 flex items-center justify-between">
+                <span class="text-white font-black uppercase tracking-widest text-xs flex items-center gap-2">
+                    <i data-lucide="layers" class="w-4 h-4"></i> Step 1
+                </span>
+                <span class="bg-white/10 text-slate-200 text-[10px] font-bold uppercase px-2 py-0.5 rounded-full">BEFORE THE SINKS</span>
+            </div>
+
+            <div class="bg-slate-50 flex items-center justify-center gap-5 py-8 px-6 border-b-4 border-slate-100">
+                <!-- Dirty plate -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-20 h-20 rounded-full bg-white border-4 border-slate-300 shadow-inner flex items-center justify-center relative">
+                        <div class="w-8 h-3 bg-amber-200 rounded-full absolute top-5 left-4 rotate-12 opacity-80"></div>
+                        <div class="w-5 h-2 bg-emerald-200 rounded-full absolute bottom-5 right-4 -rotate-6 opacity-80"></div>
+                        <div class="w-4 h-4 bg-rose-200 rounded-sm absolute top-4 right-5 rotate-3 opacity-70"></div>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Dirty plate</span>
+                </div>
+
+                <i data-lucide="arrow-right" class="w-7 h-7 text-slate-300 shrink-0"></i>
+
+                <!-- Scraper + trash -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-16 h-16 bg-slate-200 rounded-2xl border-4 border-slate-300 flex items-center justify-center shadow-sm">
+                        <i data-lucide="trash-2" class="w-8 h-8 text-slate-600"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Scrape</span>
+                </div>
+
+                <i data-lucide="arrow-right" class="w-7 h-7 text-slate-300 shrink-0"></i>
+
+                <!-- Stacked -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="relative w-16 h-16 flex items-end justify-center">
+                        <div class="absolute bottom-0 w-16 h-2 bg-slate-300 rounded-full border-2 border-slate-400"></div>
+                        <div class="absolute bottom-2 w-14 h-2 bg-slate-200 rounded-full border-2 border-slate-300"></div>
+                        <div class="absolute bottom-4 w-12 h-2 bg-white rounded-full border-2 border-slate-200"></div>
+                        <div class="absolute bottom-6 w-10 h-2 bg-slate-50 rounded-full border-2 border-slate-200"></div>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Stacked</span>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-black uppercase italic text-slate-900 tracking-tighter mb-3">Scrape &amp; Sort</h2>
+                <ul class="space-y-2 text-sm font-bold text-slate-600">
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>Scrape food into the trash first</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>Stack like with like — pans together, utensils in a bin</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>Heavy pans go last — they don't block the line</li>
+                </ul>
+                <div class="mt-4 bg-slate-800 rounded-xl px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="volume-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                    <p class="text-xs font-bold text-slate-300 italic">"Left to right. Dirty to clean."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STEP 2: WASH (Blue label) ── -->
+        <div class="step-card bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-[10px] border-wash" style="border-color: var(--wash-blue);">
+            <div class="px-6 py-3 flex items-center justify-between" style="background: var(--wash-blue);">
+                <span class="text-white font-black uppercase tracking-widest text-xs flex items-center gap-2">
+                    <i data-lucide="droplets" class="w-4 h-4"></i> Step 2 · Sink 1
+                </span>
+                <!-- Replica of the physical blue label -->
+                <span class="water-label water-label-wash flex items-center gap-1">
+                    <svg width="18" height="10" viewBox="0 0 36 18" fill="none" class="inline-block">
+                        <path d="M0 14 Q9 4 18 14 Q27 4 36 14" stroke="white" stroke-width="2.5" fill="none" opacity="0.7"/>
+                        <path d="M0 18 Q9 8 18 18 Q27 8 36 18" stroke="white" stroke-width="2" fill="none" opacity="0.5"/>
+                    </svg>
+                    WATER LINE
+                </span>
+            </div>
+
+            <div class="flex items-center justify-center py-8 px-6 border-b-4 gap-6" style="background: var(--wash-light); border-color: #bfdbfe;">
+                <!-- Animated sink -->
+                <div class="flex flex-col items-center gap-3">
+                    <div class="relative">
+                        <!-- Bubbles -->
+                        <div class="absolute -top-8 left-6 flex gap-3 pointer-events-none">
+                            <div class="bubble w-4 h-4 rounded-full opacity-60" style="background: #93c5fd; border: 2px solid #60a5fa;"></div>
+                            <div class="bubble w-6 h-6 rounded-full opacity-40 mt-2" style="background: #bfdbfe; border: 2px solid #93c5fd;"></div>
+                            <div class="bubble w-3 h-3 rounded-full opacity-50 mt-1" style="background: #60a5fa; border: 2px solid #3b82f6;"></div>
+                        </div>
+                        <div class="w-36 h-20 rounded-b-2xl border-4 relative overflow-hidden shadow-inner" style="background: #93c5fd; border-color: var(--wash-blue);">
+                            <div class="absolute bottom-0 w-full h-3/4 border-t-4 opacity-50" style="background: #3b82f6; border-color: #60a5fa;"></div>
+                            <!-- Scrub brush -->
+                            <div class="absolute bottom-3 right-3">
+                                <div class="w-5 h-7 rounded-t-sm border-2" style="background: #fef3c7; border-color: #fbbf24;"></div>
+                                <div class="w-7 h-2.5 rounded-sm border-2" style="background: #92400e; border-color: #78350f;"></div>
+                            </div>
+                        </div>
+                        <div class="w-40 h-3 rounded-b-lg" style="background: var(--wash-blue);"></div>
+                    </div>
+                    <div class="water-label water-label-wash flex items-center gap-1.5">
+                        <svg width="18" height="10" viewBox="0 0 36 18" fill="none">
+                            <path d="M0 14 Q9 4 18 14 Q27 4 36 14" stroke="white" stroke-width="2.5" fill="none" opacity="0.7"/>
+                            <path d="M0 18 Q9 8 18 18 Q27 8 36 18" stroke="white" stroke-width="2" fill="none" opacity="0.5"/>
+                        </svg>
+                        WASH · WATER LINE
+                    </div>
+                </div>
+                <!-- Dawn -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-10 h-14 rounded-xl border-2 flex items-center justify-center" style="background: var(--wash-blue); border-color: #1e40af;">
+                        <span class="text-white font-black text-[9px] text-center leading-tight">DAWN</span>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest" style="color: var(--wash-blue);">Hot + Soap</span>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-black uppercase italic text-slate-900 tracking-tighter mb-3">Wash</h2>
+                <ul class="space-y-2 text-sm font-bold text-slate-600">
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--wash-blue);"></i>Hot soapy water — as hot as you can handle</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--wash-blue);"></i>Scrub until all food is gone</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--wash-blue);"></i>Gloves available — just ask</li>
+                </ul>
+                <div class="mt-4 bg-slate-800 rounded-xl px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="shield" class="w-4 h-4 text-purple-400 shrink-0"></i>
+                    <p class="text-xs font-bold text-slate-300 italic">Hot water = slow hands. No rushing.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STEP 3: RINSE (Green label) ── -->
+        <div class="step-card bg-white rounded-[2.5rem] overflow-hidden shadow-2xl" style="border: 10px solid var(--rinse-green);">
+            <div class="px-6 py-3 flex items-center justify-between" style="background: var(--rinse-green);">
+                <span class="text-white font-black uppercase tracking-widest text-xs flex items-center gap-2">
+                    <i data-lucide="waves" class="w-4 h-4"></i> Step 3 · Sink 2
+                </span>
+                <span class="water-label water-label-rinse flex items-center gap-1">
+                    <svg width="18" height="10" viewBox="0 0 36 18" fill="none">
+                        <path d="M0 14 Q9 4 18 14 Q27 4 36 14" stroke="white" stroke-width="2.5" fill="none" opacity="0.7"/>
+                        <path d="M0 18 Q9 8 18 18 Q27 8 36 18" stroke="white" stroke-width="2" fill="none" opacity="0.5"/>
+                    </svg>
+                    WATER LINE
+                </span>
+            </div>
+
+            <div class="flex items-center justify-center py-8 px-6 border-b-4 gap-6" style="background: var(--rinse-light); border-color: #86efac;">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="relative">
+                        <div class="w-36 h-20 rounded-b-2xl border-4 relative overflow-hidden shadow-inner" style="background: #6ee7b7; border-color: var(--rinse-green);">
+                            <div class="absolute bottom-0 w-full h-3/4 border-t-4 opacity-40" style="background: #34d399; border-color: #6ee7b7;">
+                                <svg viewBox="0 0 120 20" class="absolute bottom-6 w-full" fill="none">
+                                    <path d="M0 10 Q30 2 60 10 Q90 18 120 10" stroke="#a7f3d0" stroke-width="2" fill="none" opacity="0.8"/>
+                                    <path d="M0 14 Q30 6 60 14 Q90 22 120 14" stroke="#d1fae5" stroke-width="1.5" fill="none" opacity="0.6"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="w-40 h-3 rounded-b-lg" style="background: var(--rinse-green);"></div>
+                    </div>
+                    <div class="water-label water-label-rinse flex items-center gap-1.5">
+                        <svg width="18" height="10" viewBox="0 0 36 18" fill="none">
+                            <path d="M0 14 Q9 4 18 14 Q27 4 36 14" stroke="white" stroke-width="2.5" fill="none" opacity="0.7"/>
+                        </svg>
+                        RINSE · WATER LINE
+                    </div>
+                </div>
+                <!-- Quick dip icon -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-14 h-14 rounded-2xl border-2 flex items-center justify-center shadow-sm" style="background: #d1fae5; border-color: var(--rinse-green);">
+                        <i data-lucide="move-vertical" class="w-7 h-7" style="color: var(--rinse-green);"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest" style="color: var(--rinse-green);">Quick dip</span>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-black uppercase italic text-slate-900 tracking-tighter mb-3">Rinse</h2>
+                <ul class="space-y-2 text-sm font-bold text-slate-600">
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--rinse-green);"></i>Clear water only — no soap in this sink</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--rinse-green);"></i>Quick full dip to remove all soap residue</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--rinse-green);"></i>No scrubbing — move right on through</li>
+                </ul>
+                <div class="mt-4 bg-slate-800 rounded-xl px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="volume-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                    <p class="text-xs font-bold text-slate-300 italic">"In, dip, out. Keep moving."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STEP 4: SANITIZE (Gray label) ── -->
+        <div class="step-card bg-white rounded-[2.5rem] overflow-hidden shadow-2xl" style="border: 10px solid var(--sanitize-gray);">
+            <div class="px-6 py-3 flex items-center justify-between" style="background: var(--sanitize-gray);">
+                <span class="text-white font-black uppercase tracking-widest text-xs flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i> Step 4 · Sink 3
+                </span>
+                <span class="water-label water-label-sanitize flex items-center gap-1">
+                    <svg width="18" height="10" viewBox="0 0 36 18" fill="none">
+                        <path d="M0 14 Q9 4 18 14 Q27 4 36 14" stroke="white" stroke-width="2.5" fill="none" opacity="0.7"/>
+                    </svg>
+                    WATER LINE
+                </span>
+            </div>
+
+            <div class="flex items-center justify-center py-8 px-6 border-b-4 gap-6" style="background: var(--sanitize-light); border-color: #cbd5e1;">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="relative">
+                        <div class="w-36 h-20 rounded-b-2xl border-4 relative overflow-hidden shadow-inner" style="background: #94a3b8; border-color: var(--sanitize-gray);">
+                            <div class="absolute bottom-0 w-full h-full flex items-center justify-center" style="background: rgba(71,85,105,0.25);">
+                                <span class="font-black text-xs uppercase tracking-widest" style="color: var(--sanitize-gray); opacity: 0.7;">Full Dunk</span>
+                            </div>
+                        </div>
+                        <div class="w-40 h-3 rounded-b-lg" style="background: var(--sanitize-gray);"></div>
+                    </div>
+                    <div class="water-label water-label-sanitize flex items-center gap-1.5">
+                        SANITIZE · WATER LINE
+                    </div>
+                </div>
+                <!-- Timer -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-16 h-16 rounded-full border-4 flex flex-col items-center justify-center shadow-inner" style="background: var(--sanitize-light); border-color: var(--sanitize-gray);">
+                        <i data-lucide="timer" class="w-5 h-5" style="color: var(--sanitize-gray);"></i>
+                        <span class="font-black text-lg leading-none" style="color: var(--sanitize-gray);">60</span>
+                        <span class="text-[9px] font-bold uppercase" style="color: var(--sanitize-gray);">sec</span>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest" style="color: var(--sanitize-gray);">Hold &amp; Wait</span>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-black uppercase italic text-slate-900 tracking-tighter mb-3">Sanitize</h2>
+                <ul class="space-y-2 text-sm font-bold text-slate-600">
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--sanitize-gray);"></i>Full submerge — every surface under the water</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--sanitize-gray);"></i>Hold for 60 seconds — use the timer</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5" style="color: var(--sanitize-gray);"></i>Test strips are on the wall — ask the chef if unsure</li>
+                </ul>
+                <div class="mt-4 bg-slate-800 rounded-xl px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="star" class="w-4 h-4 text-yellow-400 shrink-0"></i>
+                    <p class="text-xs font-bold text-slate-300 italic">This step protects the guests. Worth every second.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STEP 5: RACK ON CART ── -->
+        <div class="step-card bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-[10px] border-blue-700">
+            <div class="bg-blue-700 px-6 py-3 flex items-center justify-between">
+                <span class="text-white font-black uppercase tracking-widest text-xs flex items-center gap-2">
+                    <i data-lucide="wind" class="w-4 h-4"></i> Step 5
+                </span>
+                <span class="bg-white/15 text-blue-100 text-[10px] font-bold uppercase px-2 py-0.5 rounded-full">CART · AIR DRY</span>
+            </div>
+
+            <!-- Cart visual -->
+            <div class="bg-blue-50 flex items-center justify-center py-8 px-6 border-b-4 border-blue-100 gap-8">
+                <!-- The cart with blue racks (matching your actual blue racks) -->
+                <div class="flex flex-col items-center gap-2">
+                    <div class="relative">
+                        <!-- Cart frame -->
+                        <div class="w-28 bg-slate-300 rounded-t-sm border-2 border-slate-400 flex flex-col gap-1 p-2" style="height: 72px;">
+                            <!-- Blue rack 1 -->
+                            <div class="w-full h-4 rounded-sm border-2 border-blue-700 flex items-center justify-around px-1" style="background: #1d4ed8;">
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                            </div>
+                            <!-- Blue rack 2 -->
+                            <div class="w-full h-4 rounded-sm border-2 border-blue-700 flex items-center justify-around px-1" style="background: #1d4ed8;">
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-60"></div>
+                            </div>
+                            <!-- Blue rack 3 -->
+                            <div class="w-full h-4 rounded-sm border-2 border-blue-700 flex items-center justify-around px-1" style="background: #2563eb;">
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-50"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-50"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-50"></div>
+                                <div class="w-2 h-2 rounded-sm bg-blue-300 opacity-50"></div>
+                            </div>
+                        </div>
+                        <!-- Cart legs -->
+                        <div class="flex justify-between px-3">
+                            <div class="w-2 h-6 bg-slate-400 rounded-b-sm"></div>
+                            <div class="w-2 h-6 bg-slate-400 rounded-b-sm"></div>
+                        </div>
+                        <!-- Wheels -->
+                        <div class="flex justify-between px-2">
+                            <svg width="14" height="14" viewBox="0 0 14 14">
+                                <circle cx="7" cy="7" r="6" fill="#475569" stroke="#334155" stroke-width="1"/>
+                                <circle cx="7" cy="7" r="2" fill="#94a3b8"/>
+                                <line x1="7" y1="1" x2="7" y2="13" stroke="#94a3b8" stroke-width="0.8" class="wheel"/>
+                                <line x1="1" y1="7" x2="13" y2="7" stroke="#94a3b8" stroke-width="0.8" class="wheel"/>
+                            </svg>
+                            <svg width="14" height="14" viewBox="0 0 14 14">
+                                <circle cx="7" cy="7" r="6" fill="#475569" stroke="#334155" stroke-width="1"/>
+                                <circle cx="7" cy="7" r="2" fill="#94a3b8"/>
+                                <line x1="7" y1="1" x2="7" y2="13" stroke="#94a3b8" stroke-width="0.8" class="wheel"/>
+                                <line x1="1" y1="7" x2="13" y2="7" stroke="#94a3b8" stroke-width="0.8" class="wheel"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-black text-blue-700 uppercase tracking-widest">Roll Away</span>
+                </div>
+
+                <!-- No-towel X -->
+                <div class="flex flex-col items-center gap-2">
+                    <div class="relative w-16 h-16 flex items-center justify-center">
+                        <div class="w-12 h-12 bg-red-50 rounded-xl border-2 border-red-200 flex items-center justify-center">
+                            <i data-lucide="shirt" class="w-7 h-7 text-red-300"></i>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-14 h-1 bg-red-500 rounded-full absolute rotate-45"></div>
+                            <div class="w-14 h-1 bg-red-500 rounded-full absolute -rotate-45"></div>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">No Towel</span>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-black uppercase italic text-slate-900 tracking-tighter mb-3">Rack on the Cart</h2>
+                <ul class="space-y-2 text-sm font-bold text-slate-600">
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>Slide dishes into the blue racks on the cart</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>Roll cart a safe distance away from the pit</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>Air dry only — towels reintroduce bacteria</li>
+                </ul>
+                <div class="mt-4 bg-slate-800 rounded-xl px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="star" class="w-4 h-4 text-yellow-400 shrink-0"></i>
+                    <p class="text-xs font-bold text-slate-300 italic">"Rack it, roll it, let it breathe."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STEP 6: RESET ── -->
+        <div class="step-card bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-[10px] border-yellow-400">
+            <div class="bg-yellow-400 px-6 py-3 flex items-center justify-between">
+                <span class="text-slate-900 font-black uppercase tracking-widest text-xs flex items-center gap-2">
+                    <i data-lucide="rotate-cw" class="w-4 h-4"></i> Step 6
+                </span>
+                <span class="bg-black/10 text-slate-800 text-[10px] font-bold uppercase px-2 py-0.5 rounded-full">LOOP RESET</span>
+            </div>
+
+            <div class="bg-yellow-50 flex items-center justify-center py-8 px-4 border-b-4 border-yellow-100 gap-3">
+                <div class="flex flex-col items-center gap-2 text-center">
+                    <div class="w-14 h-14 rounded-2xl border-2 flex items-center justify-center shadow-sm" style="background: var(--wash-light); border-color: var(--wash-blue);">
+                        <span class="text-2xl">🧴</span>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Refill<br/>Soap</span>
+                </div>
+
+                <div class="w-px h-10 bg-yellow-200"></div>
+
+                <div class="flex flex-col items-center gap-2 text-center">
+                    <div class="w-14 h-14 rounded-2xl border-2 flex items-center justify-center shadow-sm" style="background: var(--rinse-light); border-color: var(--rinse-green);">
+                        <i data-lucide="trash-2" class="w-7 h-7" style="color: var(--rinse-green);"></i>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Dump<br/>Cloudy<br/>Water</span>
+                </div>
+
+                <div class="w-px h-10 bg-yellow-200"></div>
+
+                <div class="flex flex-col items-center gap-2 text-center">
+                    <div class="w-14 h-14 rounded-2xl border-2 flex items-center justify-center shadow-sm" style="background: var(--sanitize-light); border-color: var(--sanitize-gray);">
+                        <i data-lucide="test-tube" class="w-7 h-7" style="color: var(--sanitize-gray);"></i>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Check<br/>Sanitizer<br/>Level</span>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-black uppercase italic text-slate-900 tracking-tighter mb-3">Reset the Station</h2>
+                <ul class="space-y-2 text-sm font-bold text-slate-600">
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Refill soap when it gets low</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Dump rinse water when it turns cloudy</li>
+                    <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-500 shrink-0 mt-0.5"></i>Check sanitizer with test strips — ask the chef if unsure</li>
+                </ul>
+                <div class="mt-4 bg-slate-800 rounded-xl px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="rotate-cw" class="w-4 h-4 text-yellow-400 shrink-0"></i>
+                    <p class="text-xs font-bold text-slate-300 italic">"Now the loop starts again. You are the engine."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Flow strip -->
+    <div class="no-print max-w-6xl mx-auto mt-8 bg-white rounded-[2.5rem] p-8 shadow-xl">
+        <h3 class="text-lg font-black uppercase text-slate-700 mb-5 flex items-center gap-2">
+            <i data-lucide="arrow-right" class="w-5 h-5 text-blue-600"></i> The Full Loop — At a Glance
+        </h3>
+        <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
+            <div class="flex flex-col items-center shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-slate-100 border-4 border-slate-400 flex items-center justify-center"><i data-lucide="trash-2" class="w-6 h-6 text-slate-500"></i></div>
+                <p class="text-[10px] font-black uppercase text-slate-500 mt-1.5 text-center">Scrape<br/>&amp; Sort</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 shrink-0"></i>
+            <div class="flex flex-col items-center shrink-0">
+                <div class="w-14 h-14 rounded-2xl border-4 flex items-center justify-center" style="background: var(--wash-light); border-color: var(--wash-blue);"><i data-lucide="droplets" class="w-6 h-6" style="color: var(--wash-blue);"></i></div>
+                <p class="text-[10px] font-black uppercase mt-1.5 text-center" style="color: var(--wash-blue);">Sink 1<br/>Wash</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 shrink-0"></i>
+            <div class="flex flex-col items-center shrink-0">
+                <div class="w-14 h-14 rounded-2xl border-4 flex items-center justify-center" style="background: var(--rinse-light); border-color: var(--rinse-green);"><i data-lucide="waves" class="w-6 h-6" style="color: var(--rinse-green);"></i></div>
+                <p class="text-[10px] font-black uppercase mt-1.5 text-center" style="color: var(--rinse-green);">Sink 2<br/>Rinse</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 shrink-0"></i>
+            <div class="flex flex-col items-center shrink-0">
+                <div class="w-14 h-14 rounded-2xl border-4 flex items-center justify-center" style="background: var(--sanitize-light); border-color: var(--sanitize-gray);"><i data-lucide="shield-check" class="w-6 h-6" style="color: var(--sanitize-gray);"></i></div>
+                <p class="text-[10px] font-black uppercase mt-1.5 text-center" style="color: var(--sanitize-gray);">Sink 3<br/>Sanitize</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 shrink-0"></i>
+            <div class="flex flex-col items-center shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-blue-100 border-4 border-blue-700 flex items-center justify-center"><i data-lucide="wind" class="w-6 h-6 text-blue-700"></i></div>
+                <p class="text-[10px] font-black uppercase text-blue-700 mt-1.5 text-center">Cart<br/>Air Dry</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 shrink-0"></i>
+            <div class="flex flex-col items-center shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-yellow-100 border-4 border-yellow-400 flex items-center justify-center"><i data-lucide="rotate-cw" class="w-6 h-6 text-yellow-600"></i></div>
+                <p class="text-[10px] font-black uppercase text-yellow-600 mt-1.5 text-center">Reset<br/>&amp; Repeat</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advocacy banner -->
+    <div class="no-print max-w-6xl mx-auto mt-6 mb-12 bg-slate-800 rounded-[2.5rem] p-8 border-l-8 border-purple-500">
+        <h3 class="text-lg font-black uppercase text-purple-400 mb-4 flex items-center gap-2">
+            <i data-lucide="shield" class="w-5 h-5"></i> Sensory &amp; Advocacy Supports
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-slate-700 p-4 rounded-2xl">
+                <p class="text-xs font-black uppercase text-red-400 mb-1">If the heat is too much</p>
+                <p class="text-white font-bold text-sm">Step back. Shake out your hands. Rejoin the loop when ready.</p>
+            </div>
+            <div class="bg-slate-700 p-4 rounded-2xl">
+                <p class="text-xs font-black uppercase text-blue-400 mb-1">If it's too loud or overwhelming</p>
+                <p class="text-white font-bold text-sm">Earplugs are available. Say "In the weeds" and someone will help.</p>
+            </div>
+            <div class="bg-slate-700 p-4 rounded-2xl">
+                <p class="text-xs font-black uppercase text-yellow-400 mb-1">Wet floor safety</p>
+                <p class="text-white font-bold text-sm">Shuffle your feet. No fast moves. Heavy pans = two hands, always.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
