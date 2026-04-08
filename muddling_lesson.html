@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slow-Pace Muddling - Visual Study Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
+        
+        /* Zone border colors */
+        .border-anchor   { border-color: #94a3b8; }
+        .border-river    { border-color: #3b82f6; }
+        .border-safety   { border-color: #ef4444; }
+        .border-earth    { border-color: #10b981; }
+        .border-plating  { border-color: #064e3b; }
+        .border-advocacy { border-color: #a855f7; }
+        .border-transition { border-color: #eab308; }
+
+        /* Muddling Animations */
+        @keyframes press-down {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(8px); }
+        }
+        .muddle-press { animation: press-down 2s ease-in-out infinite; }
+        
+        @keyframes twist {
+            0%, 100% { transform: rotate(-15deg); }
+            50%      { transform: rotate(15deg); }
+        }
+        .muddle-twist { animation: twist 2s ease-in-out infinite; }
+
+        @keyframes gentle-tap {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50%      { transform: translateY(4px) scale(0.95); }
+        }
+        .muddle-tap { animation: gentle-tap 1.5s ease-in-out infinite; }
+
+        /* Club Soda Bubbles */
+        @keyframes rise {
+            0%   { transform: translateY(0) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-30px) scale(1.5); opacity: 0; }
+        }
+        .bubble { animation: rise 2s infinite ease-in-out; }
+        .bubble:nth-child(2) { animation-delay: 0.6s; }
+        .bubble:nth-child(3) { animation-delay: 1.2s; }
+        .bubble:nth-child(4) { animation-delay: 1.8s; }
+
+        /* Step-through fade */
+        #display-area { transition: opacity 0.2s ease; }
+
+        /* STRICT US LETTER PRINT OPTIMIZATION */
+        .print-only { display: none; }
+        
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: white !important; margin: 0 !important; padding: 0 !important; }
+            .no-print, header, footer, #display-area { display: none !important; }
+            .print-only { display: block !important; }
+            
+            @page { size: letter portrait; margin: 0.25in; }
+            
+            #print-area {
+                width: 8in !important;
+                margin: 0 auto !important;
+                padding: 0.25in !important;
+                box-sizing: border-box;
+            }
+
+            .print-card { page-break-inside: avoid; }
+            
+            /* Clean up animations for print */
+            .muddle-press, .muddle-twist, .muddle-tap, .bubble { animation: none !important; transform: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen p-4 md:p-8 font-sans">
+<div class="max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <header class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
+        <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-1 rounded-full text-sm font-bold uppercase border border-emerald-600/30">
+                <i data-lucide="cup-soda" class="w-4 h-4"></i> Beverage Station
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter">Slow Muddling</h1>
+            <p class="text-slate-400 font-medium">Minimum Edition · 20–30 mins · 3 Zones · Strawberry-Lime-Mint</p>
+        </div>
+
+        <div class="flex flex-col gap-4 w-full lg:max-w-2xl items-end">
+            <button onclick="window.print()" class="no-print bg-slate-100 hover:bg-white text-slate-900 font-black uppercase tracking-widest px-6 py-3 rounded-2xl flex items-center gap-2 transition-all shadow-lg w-full md:w-auto justify-center">
+                <i data-lucide="printer" class="w-5 h-5"></i> Print Module Guide
+            </button>
+            <div class="flex flex-wrap gap-2 w-full">
+                <button onclick="selectModule(0)" id="tab-0" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all bg-white text-slate-900 shadow-xl flex-1 md:flex-none">🌀 The Motions</button>
+                <button onclick="selectModule(1)" id="tab-1" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none">🔵 Blue Zone</button>
+                <button onclick="selectModule(2)" id="tab-2" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none">🔴 Red Zone</button>
+                <button onclick="selectModule(3)" id="tab-3" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none">🟢 Green Zone</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Display (Screen) -->
+    <main id="display-area" class="min-h-[650px] lg:min-h-[750px] flex flex-col">
+        <!-- Injected by JS -->
+    </main>
+
+    <!-- Print Display (Hidden on Screen, Visible on Print) -->
+    <div id="print-area" class="print-only">
+        <!-- Injected by JS to format the current module into a printable summary -->
+    </div>
+
+    <!-- Footer Legend (Screen) -->
+    <footer class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 no-print">
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-slate-400 text-center">
+            <p class="text-[10px] font-black text-slate-400 uppercase">Anchor</p>
+            <p class="text-[9px] text-white/60">WATCH Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-blue-500 text-center">
+            <p class="text-[10px] font-black text-blue-400 uppercase">River</p>
+            <p class="text-[9px] text-white/60">TRY Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-red-500 text-center">
+            <p class="text-[10px] font-black text-red-500 uppercase">Safety</p>
+            <p class="text-[9px] text-white/60">Heat & Sharp</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-500 text-center">
+            <p class="text-[10px] font-black text-emerald-400 uppercase">Earth</p>
+            <p class="text-[9px] text-white/60">Regulation</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-900 text-center">
+            <p class="text-[10px] font-black text-emerald-900 uppercase">Plating</p>
+            <p class="text-[9px] text-white/60">OWN Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-purple-500 text-center">
+            <p class="text-[10px] font-black text-purple-400 uppercase">Voice</p>
+            <p class="text-[9px] text-white/60">Advocacy</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-yellow-500 text-center">
+            <p class="text-[10px] font-black text-yellow-500 uppercase">Transition</p>
+            <p class="text-[9px] text-white/60">Reflection</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+// ─── MODULE DATA ─────────────────────────────────────────────────────────────
+const modules = [
+    // ── MODULE 0: THE MOTIONS ─────────────────────────────────────────────────
+    {
+        title: "The Three Motions", emoji: "🌀",
+        tip: "We go slow because muddling takes time and hospitality takes presence.",
+        ingredients: [
+            { n: "Muddler", e: "🦯" },
+            { n: "Fruit", e: "🍓" },
+            { n: "Citrus", e: "🍋" },
+            { n: "Herbs", e: "🌿" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col items-center justify-center w-full gap-8">
+                <div class="flex items-center justify-center gap-4 md:gap-8 flex-wrap">
+                    
+                    <!-- PRESS -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-24 h-24 rounded-2xl bg-red-50 border-4 border-red-200 flex flex-col items-center justify-center shadow-sm relative overflow-hidden">
+                            <span class="text-4xl absolute bottom-3 opacity-80">🍓</span>
+                            <div class="w-4 h-12 bg-slate-700 rounded-b-sm border-2 border-slate-800 muddle-press absolute top-[-10px]"></div>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-sm font-black uppercase text-red-600 tracking-widest block">1. PRESS</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Slow pressure</span>
+                        </div>
+                    </div>
+
+                    <i data-lucide="chevron-right" class="w-6 h-6 text-slate-300"></i>
+
+                    <!-- TWIST -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-24 h-24 rounded-2xl bg-yellow-50 border-4 border-yellow-200 flex flex-col items-center justify-center shadow-sm relative overflow-hidden">
+                            <span class="text-4xl absolute bottom-3 opacity-80">🍋</span>
+                            <div class="w-4 h-12 bg-slate-700 rounded-b-sm border-2 border-slate-800 muddle-twist absolute top-[-10px]"></div>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-sm font-black uppercase text-yellow-600 tracking-widest block">2. TWIST</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Quarter turn</span>
+                        </div>
+                    </div>
+
+                    <i data-lucide="chevron-right" class="w-6 h-6 text-slate-300"></i>
+
+                    <!-- TAP -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-24 h-24 rounded-2xl bg-emerald-50 border-4 border-emerald-200 flex flex-col items-center justify-center shadow-sm relative overflow-hidden">
+                            <span class="text-4xl absolute bottom-3 opacity-80">🌿</span>
+                            <div class="w-4 h-12 bg-slate-700 rounded-b-sm border-2 border-slate-800 muddle-tap absolute top-[-10px]"></div>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-sm font-black uppercase text-emerald-600 tracking-widest block">3. TAP</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">No grinding</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-slate-100 border-2 border-slate-200 px-6 py-3 rounded-2xl shadow-sm text-center">
+                    <p class="text-sm font-black text-slate-700 uppercase tracking-widest">Press <span class="text-slate-400 font-normal mx-2">→</span> Twist <span class="text-slate-400 font-normal mx-2">→</span> Tap</p>
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "WATCH", a: "THE DEMO", d: "Anchor Zone: Chef demonstrates the three speeds. Pressing fruit is slow. Twisting citrus releases oils. Tapping herbs is gentle.", i: "eye", zone: "border-anchor" },
+            { l: "TRY", a: "AIR MUDDLE", d: "Anchor Zone: Grab an invisible muddler in your hand. Say the micro-script out loud: 'Press → Twist → Tap.'", i: "volume-2", zone: "border-anchor" },
+            { l: "WATCH", a: "HONEY BUFFER", d: "Anchor Zone: Chef shows how the honey sits at the bottom. The honey softens the fruit and protects the delicate mint leaves from breaking.", i: "shield", zone: "border-anchor" }
+        ]
+    },
+
+    // ── MODULE 1: BLUE ZONE (BUILD) ──────────────────────────────────────────────
+    {
+        title: "Blue Zone (Build)", emoji: "🔵",
+        tip: "Everything is pre-cut and scoopable. Move only when you are ready.",
+        ingredients: [
+            { n: "Strawberries", e: "🍓" },
+            { n: "Limes", e: "🍋" },
+            { n: "Mint", e: "🌿" },
+            { n: "Honey", e: "🍯" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col items-center justify-center w-full gap-6">
+                <!-- Ingredients falling into cup -->
+                <div class="flex gap-8 items-end relative h-48">
+                    <!-- Left: Scoops -->
+                    <div class="flex flex-col gap-2 relative h-full justify-center">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-black uppercase text-slate-400 tracking-widest">1.</span>
+                            <div class="w-10 h-10 rounded-full bg-red-100 border-2 border-red-300 flex items-center justify-center text-lg">🍓</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-black uppercase text-slate-400 tracking-widest">2.</span>
+                            <div class="w-10 h-10 rounded-full bg-yellow-100 border-2 border-yellow-300 flex items-center justify-center text-lg">🍋</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-black uppercase text-slate-400 tracking-widest">3.</span>
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-lg">🌿</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-black uppercase text-slate-400 tracking-widest">4.</span>
+                            <div class="w-10 h-10 rounded-full bg-amber-100 border-2 border-amber-300 flex items-center justify-center text-lg">🍯</div>
+                        </div>
+                    </div>
+
+                    <!-- Right: The Cup -->
+                    <div class="relative w-32 h-40 flex flex-col justify-end items-center pb-2">
+                        <!-- Cup Outline -->
+                        <div class="absolute inset-0 border-x-4 border-b-4 border-slate-300 rounded-b-3xl bg-slate-50/50 shadow-inner"></div>
+                        <!-- Built layers -->
+                        <div class="w-[85%] h-6 bg-amber-200/80 border-t-2 border-amber-300 rounded-b-2xl z-10 flex items-center justify-center"><span class="text-[10px] opacity-70">🍯</span></div>
+                        <div class="w-[85%] h-8 bg-emerald-100/80 border-t-2 border-emerald-200 z-10 flex items-center justify-center"><span class="text-xs opacity-70">🌿</span></div>
+                        <div class="w-[90%] h-8 bg-yellow-100/80 border-t-2 border-yellow-200 z-10 flex items-center justify-center"><span class="text-xs opacity-70">🍋</span></div>
+                        <div class="w-[95%] h-10 bg-red-100/80 border-t-2 border-red-200 z-10 flex items-center justify-center"><span class="text-sm opacity-70">🍓</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-2 border-blue-200 px-6 py-3 rounded-2xl shadow-sm text-center">
+                    <p class="text-sm font-black text-blue-700 uppercase tracking-widest">Take your time. No rushing.</p>
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "TRY", a: "SCOOP THE FRUIT", d: "Blue Zone: The prep is already done! Scoop the strawberries and the limes into the bottom of your cup.", i: "hand", zone: "border-river" },
+            { l: "TRY", a: "HERBS & HONEY", d: "Blue Zone: Scoop the mint leaves next. Finally, add the honey. The honey will coat the herbs so they don't break.", i: "layers", zone: "border-river" },
+            { l: "ADVOCATE", a: "PAUSE & BREATHE", d: "Advocacy Wall: Stop. Look at your cup. Is everything in there? Take a deep breath. You control the pace.", i: "shield", zone: "border-advocacy" },
+            { l: "OWN", a: "MOVE WHEN READY", d: "Blue Zone: Only move to the Red Zone when you feel calm and ready. The customer can wait.", i: "star", zone: "border-river" }
+        ]
+    },
+
+    // ── MODULE 2: RED ZONE (MUDDLE) ──────────────────────────────────────────────
+    {
+        title: "Red Zone (Muddle)", emoji: "🔴",
+        tip: "One person at a time. Watch the bubbles settle before moving.",
+        ingredients: [
+            { n: "Muddler", e: "🦯" },
+            { n: "Ice", e: "🧊" },
+            { n: "Club Soda", e: "🫧" },
+            { n: "Focus", e: "🧠" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col items-center justify-center w-full gap-6">
+                <div class="flex items-end gap-6 md:gap-10">
+                    
+                    <!-- Muddling Cup -->
+                    <div class="relative w-28 h-36 flex flex-col justify-end items-center pb-2">
+                        <div class="absolute inset-0 border-x-4 border-b-4 border-slate-300 rounded-b-2xl bg-white shadow-inner"></div>
+                        <div class="w-[90%] h-12 bg-red-100 border-t-2 border-red-200 rounded-b-xl z-10 flex items-center justify-center relative overflow-hidden">
+                            <span class="text-xl opacity-50 absolute bottom-1 left-2">🍓</span>
+                            <span class="text-lg opacity-50 absolute bottom-2 right-2">🍋</span>
+                            <!-- Muddler pressing -->
+                            <div class="w-4 h-24 bg-slate-700 rounded-b-sm border-2 border-slate-800 muddle-press absolute top-[-40px]"></div>
+                        </div>
+                        <div class="absolute -bottom-8 text-[10px] font-black uppercase text-red-500 tracking-widest text-center w-full">Muddle</div>
+                    </div>
+
+                    <i data-lucide="arrow-right" class="w-6 h-6 text-slate-300 mb-8"></i>
+
+                    <!-- Finished Soda Cup -->
+                    <div class="relative w-28 h-36 flex flex-col justify-end items-center pb-2">
+                        <div class="absolute inset-0 border-x-4 border-b-4 border-slate-300 rounded-b-2xl bg-sky-50 shadow-inner"></div>
+                        
+                        <!-- Ice cubes -->
+                        <div class="absolute inset-0 z-0 flex flex-wrap items-center justify-center p-2 opacity-60">
+                            <div class="w-6 h-6 border-2 border-sky-200 rounded-sm bg-white/50 rotate-12"></div>
+                            <div class="w-6 h-6 border-2 border-sky-200 rounded-sm bg-white/50 -rotate-12 mt-4"></div>
+                            <div class="w-6 h-6 border-2 border-sky-200 rounded-sm bg-white/50 rotate-45 ml-2"></div>
+                        </div>
+
+                        <!-- Bubbles -->
+                        <div class="absolute bottom-4 left-6 flex gap-2 pointer-events-none z-10">
+                            <div class="bubble w-3 h-3 rounded-full bg-white border border-sky-200 shadow-sm"></div>
+                            <div class="bubble w-4 h-4 rounded-full bg-white border border-sky-200 shadow-sm mt-2"></div>
+                            <div class="bubble w-2 h-2 rounded-full bg-white border border-sky-200 shadow-sm"></div>
+                        </div>
+
+                        <div class="w-[90%] h-12 bg-red-100 border-t-2 border-red-200 rounded-b-xl z-0 flex items-center justify-center opacity-80"></div>
+                        <div class="absolute -bottom-8 text-[10px] font-black uppercase text-sky-500 tracking-widest text-center w-full">Ice & Soda</div>
+                    </div>
+
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "TRY", a: "SLOW MUDDLE", d: "Red Zone: Press the strawberries (3-4 times). Twist the lime. Tap the mint. Let the honey protect the leaves.", i: "hand", zone: "border-safety" },
+            { l: "TRY", a: "ICE & SODA", d: "Red Zone: Scoop ice to the top of the cup. Pour the club soda over the ice slowly.", i: "cup-soda", zone: "border-safety" },
+            { l: "WATCH", a: "WATCH IT SETTLE", d: "Anchor Zone: Stop. Watch the bubbles rise. Let the drink settle before you try to move it.", i: "eye", zone: "border-anchor" },
+            { l: "OWN", a: "READY FOR SERVICE", d: "Red Zone: When the bubbles are calm and you feel ready, carry the cup to the Green Zone.", i: "star", zone: "border-safety" }
+        ]
+    },
+
+    // ── MODULE 3: GREEN ZONE (PRESENT) ──────────────────────────────────────────────
+    {
+        title: "Green Zone (Present)", emoji: "🟢",
+        tip: "Hospitality takes presence. Connect, serve, and step back.",
+        ingredients: [
+            { n: "Straw", e: "🥤" },
+            { n: "Towel", e: "🧼" },
+            { n: "Two Hands", e: "🤲" },
+            { n: "Smile", e: "🙂" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col items-center justify-center w-full gap-6">
+                <!-- Two hands holding the final cup -->
+                <div class="relative w-48 h-48 flex items-center justify-center">
+                    <!-- Left Hand -->
+                    <div class="absolute left-0 top-16 text-6xl rotate-90 scale-y-[-1] opacity-90">✋</div>
+                    
+                    <!-- The Cup -->
+                    <div class="relative w-24 h-32 flex flex-col justify-end items-center pb-2 z-10">
+                        <div class="absolute inset-0 border-x-4 border-b-4 border-slate-300 rounded-b-2xl bg-sky-50 shadow-md"></div>
+                        <div class="absolute -top-12 left-1/2 -ml-1 w-2 h-16 bg-emerald-500 rounded-full z-20"></div> <!-- Straw -->
+                        <div class="w-[90%] h-8 bg-red-100 border-t-2 border-red-200 rounded-b-xl z-0 opacity-80"></div>
+                    </div>
+
+                    <!-- Right Hand -->
+                    <div class="absolute right-0 top-16 text-6xl -rotate-90 opacity-90">✋</div>
+                </div>
+
+                <div class="bg-emerald-50 border-2 border-emerald-200 px-6 py-3 rounded-2xl shadow-sm text-center">
+                    <p class="text-sm font-black text-emerald-700 uppercase tracking-widest italic">"Here is your Strawberry Lime Mint."</p>
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "TRY", a: "FINISH THE CUP", d: "Green Zone: Add the straw. Use a clean towel to wipe the rim so it looks professional.", i: "sparkles", zone: "border-earth" },
+            { l: "TRY", a: "TWO HAND HOLD", d: "Green Zone: Hold the cup with two hands. This grounds your body and keeps the drink stable.", i: "hand", zone: "border-earth" },
+            { l: "TRY", a: "THE SCRIPT", d: "Green Zone: Make eye contact or look at the cup. Say calmly: 'Here is your Strawberry Lime Mint.'", i: "volume-2", zone: "border-earth" },
+            { l: "OWN", a: "STEP BACK & BREATHE", d: "Transition Zone: Once they take it, step back. Take a deep breath. You just completed a full service cycle!", i: "star", zone: "border-transition" }
+        ]
+    }
+];
+
+// ─── STATE & RENDER ───────────────────────────────────────────────────────────
+let currentModule = 0;
+let currentStep   = 0;
+
+function selectModule(idx) {
+    currentModule = idx;
+    currentStep   = 0;
+    // Update tab styles
+    modules.forEach((_, i) => {
+        const tab = document.getElementById('tab-' + i);
+        if (!tab) return;
+        if (i === idx) {
+            tab.className = "px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all bg-white text-slate-900 shadow-xl flex-1 md:flex-none";
+        } else {
+            tab.className = "px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none";
+        }
+    });
+    render();
+}
+
+function next() {
+    const steps = modules[currentModule].steps;
+    if (currentStep < steps.length - 1) { currentStep++; render(); }
+}
+
+function prev() {
+    if (currentStep > 0) { currentStep--; render(); }
+}
+
+function render() {
+    const mod  = modules[currentModule];
+    const step = mod.steps[currentStep];
+
+    const labelStyle = {
+        WATCH:    "bg-slate-100 border-slate-400 text-slate-600",
+        TRY:      "bg-blue-50 border-blue-500 text-blue-600",
+        ADVOCATE: "bg-purple-50 border-purple-500 text-purple-600",
+        OWN:      "bg-yellow-50 border-yellow-500 text-yellow-700"
+    };
+    const labelIcon = { WATCH: "eye", TRY: "hand", ADVOCATE: "shield", OWN: "star" };
+
+    // 1. RENDER INTERACTIVE SCREEN DISPLAY
+    document.getElementById('display-area').innerHTML = `
+        <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-[12px] ${step.zone} flex flex-col lg:flex-row flex-1">
+            <!-- LEFT: Kit + Tip -->
+            <div class="w-full lg:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto flex-shrink-0">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="shopping-basket" class="text-slate-800 w-5 h-5"></i>
+                    <h3 class="text-2xl font-black uppercase tracking-tight text-slate-800 italic">The Kit</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    ${mod.ingredients.map(ing => `
+                        <div class="bg-white p-4 rounded-3xl border-2 border-slate-100 text-center shadow-sm">
+                            <span class="text-4xl">${ing.e}</span>
+                            <p class="text-[10px] font-black uppercase mt-2 text-slate-500">${ing.n}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="bg-slate-800 rounded-[2.5rem] p-8 text-white">
+                    <p class="text-xs font-black uppercase text-emerald-400 mb-2 tracking-widest">Chef Lingo</p>
+                    <p class="text-xl font-medium leading-tight italic">"${mod.tip}"</p>
+                </div>
+            </div>
+
+            <!-- RIGHT: Step content -->
+            <div class="flex-1 p-8 lg:p-12 flex flex-col justify-between">
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="px-6 py-2 rounded-full border-4 font-black uppercase italic tracking-widest flex items-center gap-2 ${labelStyle[step.l] || labelStyle.WATCH}">
+                            <i data-lucide="${labelIcon[step.l] || 'eye'}" class="w-5 h-5"></i> ${step.l}
+                        </div>
+                        <span class="text-slate-200 font-black text-6xl lg:text-7xl leading-none">0${currentStep + 1}</span>
+                    </div>
+
+                    <div class="bg-white rounded-[2rem] border-4 border-slate-100 p-6 lg:p-8 mb-6 flex justify-center items-center shadow-inner min-h-[180px]">
+                        ${mod.heroVisual}
+                    </div>
+
+                    <h2 class="text-3xl lg:text-4xl font-black text-slate-900 uppercase italic tracking-tighter leading-none mb-6">${step.a}</h2>
+
+                    <div class="bg-slate-50 rounded-[2rem] p-6 lg:p-8 flex items-center gap-6 lg:gap-8 border-4 border-slate-100">
+                        <div class="bg-white p-4 lg:p-5 rounded-full shadow-md shrink-0">
+                            <i data-lucide="${step.i}" class="w-10 h-10 lg:w-12 lg:h-12 text-slate-800"></i>
+                        </div>
+                        <p class="text-xl lg:text-2xl text-slate-600 font-medium leading-snug">${step.d}</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-2 mt-6">
+                    ${mod.steps.map((_, i) => `
+                        <div class="w-2.5 h-2.5 rounded-full transition-all ${i === currentStep ? 'bg-emerald-500 w-6' : 'bg-slate-200'}"></div>
+                    `).join('')}
+                </div>
+
+                <div class="flex justify-between items-center mt-6 shrink-0">
+                    <button onclick="prev()"
+                        class="px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black bg-slate-100 text-slate-400 uppercase tracking-widest hover:bg-slate-200 transition-all ${currentStep === 0 ? 'opacity-0 pointer-events-none' : ''}">
+                        Back
+                    </button>
+                    ${currentStep === mod.steps.length - 1
+                        ? `<div class="bg-yellow-100 text-yellow-800 px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black text-xl lg:text-2xl uppercase italic animate-bounce border-4 border-yellow-500 shadow-xl">READY!</div>`
+                        : `<button onclick="next()" class="bg-emerald-600 text-white px-10 py-4 lg:px-14 lg:py-5 rounded-3xl font-black text-xl lg:text-2xl uppercase italic shadow-2xl flex items-center gap-4 hover:bg-emerald-700 transition-all">
+                                Next Step <i data-lucide="arrow-right"></i>
+                           </button>`
+                    }
+                </div>
+            </div>
+        </div>
+    `;
+
+    // 2. RENDER PRINTABLE LAYOUT SUMMARY
+    document.getElementById('print-area').innerHTML = `
+        <div class="border-b-4 border-slate-200 pb-4 mb-6 flex justify-between items-end print-card">
+            <div>
+                <p class="text-emerald-500 font-black uppercase tracking-widest flex items-center gap-2 mb-1">
+                    <i data-lucide="cup-soda" class="w-5 h-5"></i> Beverage Station
+                </p>
+                <h1 class="text-4xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">${mod.emoji} ${mod.title}</h1>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 border-4 border-slate-200 rounded-[2rem] p-6 mb-8 flex items-center justify-center print-card shadow-sm h-64 overflow-hidden">
+            ${mod.heroVisual}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            ${mod.steps.map((s, idx) => `
+                <div class="border-l-[12px] ${s.zone} bg-white border-y-2 border-r-2 border-slate-100 p-5 rounded-2xl print-card flex flex-col h-full shadow-sm">
+                    <div class="flex items-center gap-3 mb-3 border-b-2 border-slate-100 pb-3">
+                        <div class="bg-slate-100 p-2 rounded-full"><i data-lucide="${s.i}" class="w-5 h-5 text-slate-600"></i></div>
+                        <div>
+                            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400 block leading-tight">Step 0${idx+1} • ${s.l}</span>
+                            <h3 class="font-black text-slate-800 uppercase leading-none mt-0.5">${s.a}</h3>
+                        </div>
+                    </div>
+                    <p class="text-sm font-medium text-slate-700 leading-snug flex-1">${s.d}</p>
+                </div>
+            `).join('')}
+        </div>
+        
+        <div class="mt-6 bg-slate-800 text-white rounded-2xl p-6 print-card flex items-center gap-4">
+            <i data-lucide="volume-2" class="w-8 h-8 text-emerald-400"></i>
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Chef Lingo & Safety Tip</p>
+                <p class="font-bold italic">"${mod.tip}"</p>
+            </div>
+        </div>
+    `;
+
+    lucide.createIcons();
+}
+
+// Boot
+selectModule(0); // Starts the render process
+</script>
+</body>
+</html>
