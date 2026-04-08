@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grill Safety: Minimum Edition — CCC Dinner Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+
+        /* Zone border colors — exact match to visual_recipes.html */
+        .border-anchor   { border-color: #94a3b8; }
+        .border-river    { border-color: #3b82f6; }
+        .border-safety   { border-color: #ef4444; }
+        .border-earth    { border-color: #10b981; }
+        .border-plating  { border-color: #064e3b; }
+        .border-advocacy { border-color: #a855f7; }
+        .border-transition { border-color: #eab308; }
+
+        /* Heat shimmer */
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; transform: scaleX(1) scaleY(1); }
+            50%      { opacity: 0.7; transform: scaleX(1.05) scaleY(1.3); }
+        }
+        .shimmer { animation: shimmer 2s ease-in-out infinite; }
+        .shimmer:nth-child(2) { animation-delay: 0.4s; }
+        .shimmer:nth-child(3) { animation-delay: 0.8s; }
+        .shimmer:nth-child(4) { animation-delay: 1.2s; }
+
+        /* Grill bar heat glow */
+        @keyframes glow-bar {
+            0%, 100% { opacity: 0.5; }
+            50%      { opacity: 1; }
+        }
+        .glow-bar { animation: glow-bar 1.5s ease-in-out infinite; }
+
+        /* Hand count */
+        @keyframes count-pulse {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.08); }
+        }
+        .count-pulse { animation: count-pulse 1s ease-in-out infinite; }
+
+        /* Step-through fade */
+        #display-area { transition: opacity 0.2s ease; }
+
+        /* STRICT US LETTER PRINT OPTIMIZATION */
+        .print-only { display: none; }
+        
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: white !important; margin: 0 !important; padding: 0 !important; }
+            .no-print, header, footer, #display-area { display: none !important; }
+            .print-only { display: block !important; }
+            
+            @page { size: letter portrait; margin: 0.25in; }
+            
+            #print-area {
+                width: 8in !important;
+                margin: 0 auto !important;
+                padding: 0.25in !important;
+                box-sizing: border-box;
+            }
+
+            .print-card { page-break-inside: avoid; }
+            
+            /* Clean up animations for print */
+            .shimmer, .glow-bar, .count-pulse { animation: none !important; opacity: 1 !important; transform: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen p-4 md:p-8">
+<div class="max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <header class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
+        <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 bg-red-600/20 text-red-400 px-4 py-1 rounded-full text-sm font-bold uppercase border border-red-600/30">
+                <i data-lucide="flame" class="w-4 h-4"></i> Safety Zone · Grill Station
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter">Grill Safety</h1>
+            <p class="text-slate-400 font-medium">Minimum Edition · 5–7 minutes · Open → On → Ignite → Wait</p>
+        </div>
+
+        <div class="flex flex-col gap-4 w-full lg:max-w-2xl items-end">
+            <button onclick="window.print()" class="no-print bg-slate-100 hover:bg-white text-slate-900 font-black uppercase tracking-widest px-6 py-3 rounded-2xl flex items-center gap-2 transition-all shadow-lg w-full md:w-auto justify-center">
+                <i data-lucide="printer" class="w-5 h-5"></i> Print Module Guide
+            </button>
+            <div class="flex flex-wrap gap-2 w-full">
+                <button onclick="selectModule(0)" id="tab-0" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all bg-white text-slate-900 shadow-xl flex-1 md:flex-none">🔥 Turn On</button>
+                <button onclick="selectModule(1)" id="tab-1" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none">🌡️ Read the Heat</button>
+                <button onclick="selectModule(2)" id="tab-2" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none">🧍 Body Position</button>
+                <button onclick="selectModule(3)" id="tab-3" class="px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none">🍓 Practice Run</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Display (Screen) -->
+    <main id="display-area" class="min-h-[650px] lg:min-h-[750px] flex flex-col">
+        <!-- Injected by JS -->
+    </main>
+
+    <!-- Print Display (Hidden on Screen, Visible on Print) -->
+    <div id="print-area" class="print-only">
+        <!-- Injected by JS to format the current module into a printable summary -->
+    </div>
+
+    <!-- Footer Legend (Screen) -->
+    <footer class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 no-print">
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-slate-400 text-center">
+            <p class="text-[10px] font-black text-slate-400 uppercase">Anchor</p>
+            <p class="text-[9px] text-white/60">WATCH Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-blue-500 text-center">
+            <p class="text-[10px] font-black text-blue-400 uppercase">River</p>
+            <p class="text-[9px] text-white/60">TRY Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-red-500 text-center">
+            <p class="text-[10px] font-black text-red-500 uppercase">Safety</p>
+            <p class="text-[9px] text-white/60">Heat &amp; Sharp</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-500 text-center">
+            <p class="text-[10px] font-black text-emerald-400 uppercase">Earth</p>
+            <p class="text-[9px] text-white/60">Regulation</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-900 text-center">
+            <p class="text-[10px] font-black text-emerald-900 uppercase">Plating</p>
+            <p class="text-[9px] text-white/60">OWN Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-purple-500 text-center">
+            <p class="text-[10px] font-black text-purple-400 uppercase">Voice</p>
+            <p class="text-[9px] text-white/60">Advocacy</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-yellow-500 text-center">
+            <p class="text-[10px] font-black text-yellow-500 uppercase">Transition</p>
+            <p class="text-[9px] text-white/60">Reflection</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+// ─── MODULE DATA ─────────────────────────────────────────────────────────────
+const modules = [
+    // ── MODULE 0: TURN IT ON ─────────────────────────────────────────────────
+    {
+        title: "Turn the Grill On", emoji: "🔥",
+        tip: "Open → On → Ignite → Wait. Say it out loud before you touch anything.",
+        ingredients: [
+            { n: "Long Tongs", e: "🥢" },
+            { n: "Sheet Tray", e: "🍱" },
+            { n: "Oven Mitt", e: "🧤" },
+            { n: "Clear Area", e: "✅" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col items-center justify-center w-full gap-4">
+                <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-center">
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-14 h-14 rounded-2xl bg-slate-100 border-4 border-slate-300 flex items-center justify-center shadow-sm">
+                            <i data-lucide="layout-panel-top" class="w-7 h-7 text-slate-600"></i>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Open</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-14 h-14 rounded-2xl bg-orange-100 border-4 border-orange-300 flex items-center justify-center shadow-sm">
+                            <i data-lucide="rotate-cw" class="w-7 h-7 text-orange-600"></i>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-orange-500 tracking-widest">Knob On</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-14 h-14 rounded-2xl bg-red-100 border-4 border-red-400 flex items-center justify-center shadow-sm relative overflow-hidden">
+                            <i data-lucide="zap" class="w-7 h-7 text-red-600"></i>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-red-500 tracking-widest">Ignite</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 border-4 border-amber-400 flex items-center justify-center shadow-sm">
+                            <i data-lucide="timer" class="w-7 h-7 text-amber-600"></i>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-amber-600 tracking-widest">Wait 30s</span>
+                    </div>
+                </div>
+
+                <div class="relative flex flex-col items-center mt-2">
+                    <div class="flex gap-4 mb-1 h-8 items-end">
+                        <div class="shimmer w-1.5 h-6 bg-red-300/50 rounded-full blur-sm"></div>
+                        <div class="shimmer w-1.5 h-8 bg-orange-300/40 rounded-full blur-sm"></div>
+                        <div class="shimmer w-1.5 h-5 bg-red-200/50 rounded-full blur-sm"></div>
+                        <div class="shimmer w-1.5 h-7 bg-orange-200/40 rounded-full blur-sm"></div>
+                        <div class="shimmer w-1.5 h-6 bg-red-300/50 rounded-full blur-sm"></div>
+                    </div>
+                    <div class="w-40 h-8 bg-slate-700 rounded-sm border-2 border-slate-600 flex gap-1 px-1 items-center overflow-hidden shadow-inner">
+                        <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full"></div>
+                        <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.3s"></div>
+                        <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full" style="animation-delay:0.6s"></div>
+                        <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.9s"></div>
+                        <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full" style="animation-delay:1.2s"></div>
+                    </div>
+                    <div class="w-44 h-5 bg-slate-800 rounded-b-xl border-2 border-slate-700 shadow-xl"></div>
+                    <div class="w-32 h-2 bg-red-500/60 rounded-full blur-md mt-[-6px]"></div>
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "WATCH", a: "CHECK THE AREA", d: "Safety Zone: Before anything else — nothing flammable nearby, tools ready (tongs, sheet tray), everyone standing back.", i: "eye", zone: "border-anchor" },
+            { l: "WATCH", a: "THE RITUAL", d: "Anchor Zone: Watch the chef do it once. Open the lid → turn knob to ignite → press ignition → wait for flame → leave lid open 30 seconds.", i: "flame", zone: "border-safety" },
+            { l: "TRY", a: "SAY IT OUT LOUD", d: "River Runway: Before touching anything, say the four beats out loud with the chef: Open → On → Ignite → Wait.", i: "volume-2", zone: "border-river" },
+            { l: "ADVOCATE", a: "NAME YOUR COMFORT LEVEL", d: "Advocacy Wall: On a scale of 1–5, where are you right now? Use the Mood Meter. You control how close you get.", i: "shield", zone: "border-advocacy" },
+            { l: "OWN", a: "YOU TURN IT ON", d: "Safety Zone: You do the ritual. Chef stands right behind you. Open → On → Ignite → Wait. Slow hands, steady breath.", i: "star", zone: "border-safety" }
+        ]
+    },
+
+    // ── MODULE 1: READ THE HEAT ──────────────────────────────────────────────
+    {
+        title: "Read the Heat", emoji: "🌡️",
+        tip: "Heat you can feel before you can see. Your hand is the best thermometer.",
+        ingredients: [
+            { n: "Your Hand", e: "✋" },
+            { n: "8–10 Inches", e: "📏" },
+            { n: "Count Aloud", e: "🔢" },
+            { n: "Step Back", e: "↩️" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col items-center justify-center w-full gap-6">
+                <div class="flex items-end gap-6 md:gap-10">
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="text-5xl select-none">✋</div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-0.5 h-12 bg-slate-300 border-dashed border border-slate-400"></div>
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">8–10 inches</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-20 h-8 bg-amber-100 border-2 border-amber-300 rounded-xl flex items-center justify-center shadow-sm">
+                                <span class="text-xs font-black text-amber-700">3–5 sec</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                                <span class="text-sm font-black text-amber-500 uppercase tracking-widest">Medium</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-20 h-8 bg-orange-100 border-2 border-orange-400 rounded-xl flex items-center justify-center shadow-sm">
+                                <span class="text-xs font-black text-orange-700">1–2 sec</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                <span class="text-sm font-black text-orange-500 uppercase tracking-widest">Hot</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-20 h-8 bg-red-100 border-2 border-red-500 rounded-xl flex items-center justify-center shadow-sm count-pulse">
+                                <span class="text-xs font-black text-red-700">0 sec</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-600"></div>
+                                <span class="text-sm font-black text-red-500 uppercase tracking-widest">Step Back</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-40 h-8 bg-slate-700 rounded-sm border-2 border-slate-600 flex gap-1 px-1 items-center shadow-inner">
+                    <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full"></div>
+                    <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.3s"></div>
+                    <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full" style="animation-delay:0.6s"></div>
+                    <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.9s"></div>
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "WATCH", a: "CHEF DEMONSTRATES", d: "Anchor Zone: Chef holds their hand 8–10 inches above the grate, counts aloud, and names what they feel. You watch.", i: "eye", zone: "border-anchor" },
+            { l: "TRY", a: "THE HAND TEST", d: "Safety Zone: Hold your hand at 8–10 inches. Count out loud. Stop when it gets uncomfortable. That is useful information — not failure.", i: "hand", zone: "border-safety" },
+            { l: "TRY", a: "VISUAL CUES", d: "Safety Zone: Look for darkening grill bars, heat shimmer above the surface. The grill tells you things before you touch it.", i: "scan-eye", zone: "border-safety" },
+            { l: "ADVOCATE", a: "NAME YOUR NUMBER", d: "Advocacy Wall: Tell the chef your heat comfort level right now — 1 is far away, 5 is right at the grill. Both are valid. No wrong answer.", i: "shield", zone: "border-advocacy" },
+            { l: "OWN", a: "YOU CALL THE TEMP", d: "Safety Zone: Do the hand test independently. Tell the chef: medium, hot, or too hot. You are the one reading it now.", i: "star", zone: "border-safety" }
+        ]
+    },
+
+    // ── MODULE 2: BODY POSITION ──────────────────────────────────────────────
+    {
+        title: "Body Position", emoji: "🧍",
+        tip: "Angle, distance, slow hands. Those three words are your whole body-safety plan.",
+        ingredients: [
+            { n: "45° Angle", e: "📐" },
+            { n: "Long Tongs", e: "🥢" },
+            { n: "One Foot Back", e: "👟" },
+            { n: "Slow Hands", e: "✋" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 w-full">
+                <div class="flex flex-col items-center gap-2">
+                    <div class="relative w-32 h-40 flex items-center justify-center">
+                        <div class="absolute top-0 left-8 w-10 h-10 rounded-full bg-slate-300 border-2 border-slate-400"></div>
+                        <div class="absolute top-9 left-10 w-6 h-16 bg-slate-400 rounded-sm border border-slate-500"></div>
+                        <div class="absolute bottom-0 left-6 w-10 h-3 bg-slate-500 rounded-sm"></div>
+                        <div class="absolute bottom-0 right-2 w-10 h-3 bg-slate-400 rounded-sm opacity-70"></div>
+                        <div class="absolute top-12 right-0 w-14 h-2 bg-slate-400 rounded-full rotate-[-20deg]"></div>
+                        <div class="absolute top-9 right-0"><span class="text-xl select-none">🥢</span></div>
+                        <svg class="absolute bottom-3 left-4" width="50" height="30" viewBox="0 0 50 30">
+                            <path d="M0 30 Q25 0 50 0" stroke="#94a3b8" stroke-width="1.5" fill="none" stroke-dasharray="3,2" opacity="0.6"/>
+                            <text x="18" y="22" font-size="9" fill="#94a3b8" font-weight="bold">45°</text>
+                        </svg>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Your Position</span>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-center gap-3 bg-slate-100 border-2 border-slate-200 px-4 py-3 rounded-2xl shadow-sm">
+                        <span class="text-2xl select-none">📐</span>
+                        <div>
+                            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Rule 1</p>
+                            <p class="font-black text-slate-800">Stand at a 45° angle</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-orange-50 border-2 border-orange-200 px-4 py-3 rounded-2xl shadow-sm">
+                        <span class="text-2xl select-none">👟</span>
+                        <div>
+                            <p class="text-[10px] font-black uppercase text-orange-400 tracking-widest">Rule 2</p>
+                            <p class="font-black text-slate-800">One foot slightly back</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-red-50 border-2 border-red-200 px-4 py-3 rounded-2xl shadow-sm">
+                        <span class="text-2xl select-none">🥢</span>
+                        <div>
+                            <p class="text-[10px] font-black uppercase text-red-400 tracking-widest">Rule 3</p>
+                            <p class="font-black text-slate-800">Long tongs — slow hands</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "WATCH", a: "CHEF MODELS POSTURE", d: "Anchor Zone: Chef stands at the grill — 45° angle, back foot planted, arm extended with tongs. Watch the distance between their body and the grate.", i: "eye", zone: "border-anchor" },
+            { l: "TRY", a: "FIND YOUR ANGLE", d: "River Runway: Grill is off. Stand next to it. Find the 45° position. Feel the difference between facing it directly vs. turning your body slightly.", i: "compass", zone: "border-river" },
+            { l: "TRY", a: "PLACE AND RETREAT", d: "Safety Zone: Grill is on. Step in → pretend to place something with tongs → step back → reset. Do this three times. No food yet.", i: "move", zone: "border-safety" },
+            { l: "TRY", a: "TURN AND RETREAT", d: "Safety Zone: Step in → pretend to flip → step back → reset. Say 'In → Do → Out' out loud each time. This is a real kitchen skill.", i: "repeat", zone: "border-safety" },
+            { l: "ADVOCATE", a: "CHECK IN", d: "Advocacy Wall: Any part of standing near the grill that doesn't feel right yet? Tell the chef now — before the food goes on.", i: "shield", zone: "border-advocacy" },
+            { l: "OWN", a: "YOU SET YOUR POSITION", d: "Safety Zone: Find your own stance. Chef doesn't adjust it. You own where your feet land, how far you extend, how slow your hands move.", i: "star", zone: "border-safety" }
+        ]
+    },
+
+    // ── MODULE 3: PRACTICE RUN (STRAWBERRIES) ──────────────────────────────────
+    {
+        title: "Practice Run (Strawberries)", emoji: "🍓",
+        tip: "Strawberries caramelize quickly! Listen for the sugar sizzle and use a very gentle grip with your tongs.",
+        ingredients: [
+            { n: "Strawberries", e: "🍓" },
+            { n: "Long Tongs", e: "🥢" },
+            { n: "Sheet Tray", e: "🍱" },
+            { n: "Oven Mitt", e: "🧤" }
+        ],
+        heroVisual: `
+            <div class="flex flex-col items-center justify-center w-full gap-4">
+                <div class="flex items-center gap-4 md:gap-6 flex-wrap justify-center">
+                    
+                    <!-- Raw Strawberry Half -->
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-16 h-16 rounded-full bg-red-50 border-4 border-red-200 flex items-center justify-center shadow-sm">
+                            <span class="text-3xl select-none">🍓</span>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-red-500 tracking-widest">Half Berry</span>
+                    </div>
+
+                    <i data-lucide="arrow-right" class="w-7 h-7 text-slate-300 shrink-0"></i>
+
+                    <!-- On the grill -->
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="relative">
+                            <div class="flex gap-3 mb-1 justify-center h-6">
+                                <div class="shimmer w-1 h-4 bg-red-300/60 rounded-full blur-sm"></div>
+                                <div class="shimmer w-1 h-5 bg-orange-300/50 rounded-full blur-sm"></div>
+                                <div class="shimmer w-1 h-4 bg-red-300/60 rounded-full blur-sm"></div>
+                            </div>
+                            <div class="w-24 h-8 bg-slate-700 border-2 border-slate-600 rounded-sm flex items-center justify-center gap-0.5 px-0.5 relative">
+                                <div class="flex-1 h-full bg-slate-600 rounded-sm"></div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="w-10 h-8 rounded-full bg-red-200 border-2 border-red-400 flex items-center justify-center opacity-90 shadow-lg">
+                                        <span class="text-xl">🍓</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1 h-full bg-slate-600 rounded-sm"></div>
+                                <div class="flex-1 h-full bg-slate-600 rounded-sm"></div>
+                                <div class="flex-1 h-full bg-slate-600 rounded-sm"></div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-red-500 tracking-widest">30 sec flat side</span>
+                    </div>
+
+                    <i data-lucide="arrow-right" class="w-7 h-7 text-slate-300 shrink-0"></i>
+
+                    <!-- Grill marked Strawberry -->
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-16 h-16 rounded-full bg-red-100 border-4 border-red-400 flex items-center justify-center shadow-sm relative overflow-hidden">
+                            <div class="w-12 h-12 rounded-full bg-red-200 flex items-center justify-center relative">
+                                <span class="text-2xl absolute z-0 opacity-80">🍓</span>
+                                <div class="absolute w-10 h-1 bg-slate-800/80 rounded-full rotate-[30deg] top-4 z-10"></div>
+                                <div class="absolute w-10 h-1 bg-slate-800/80 rounded-full rotate-[30deg] top-6 z-10"></div>
+                                <div class="absolute w-10 h-1 bg-slate-800/80 rounded-full rotate-[30deg] top-8 z-10"></div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-black uppercase text-slate-600 tracking-widest">Caramelized!</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 bg-slate-100 border-2 border-slate-200 px-6 py-3 rounded-2xl shadow-sm mt-2">
+                    <span class="text-sm font-black text-slate-700 uppercase tracking-widest">In</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                    <span class="text-sm font-black text-red-600 uppercase tracking-widest">Do</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                    <span class="text-sm font-black text-slate-700 uppercase tracking-widest">Out</span>
+                </div>
+            </div>
+        `,
+        steps: [
+            { l: "WATCH", a: "CHEF GRILLS ONE", d: "Anchor Zone: Chef places one strawberry half flat-side down. Watch the sugars bubble and caramelize quickly. Chef flips it gently.", i: "eye", zone: "border-anchor" },
+            { l: "TRY", a: "PLACE ONE BERRY", d: "Safety Zone: Tongs in hand. 45° angle. Flat side down. Hear the sugar sizzle. Step back immediately. Timer: 30 seconds. Don't move it.", i: "flame", zone: "border-safety" },
+            { l: "TRY", a: "GENTLE FLIP", d: "Safety Zone: Timer goes off — step in, flip with gentle pressure so you don't squish it, step back. Look at those dark caramelized marks!", i: "repeat", zone: "border-safety" },
+            { l: "ADVOCATE", a: "SENSORY WARNING", d: "Safety Zone: The sizzle is loud and the caramelizing sugar might smoke slightly. Use earplugs or step back further if you need to.", i: "shield", zone: "border-advocacy" },
+            { l: "OWN", a: "GRILL YOUR OWN", d: "Safety Zone: You do a full round independently. Place → wait 30 seconds → flip → remove. You are the Grill Master.", i: "star", zone: "border-safety" }
+        ]
+    }
+];
+
+// ─── STATE & RENDER ───────────────────────────────────────────────────────────
+let currentModule = 0;
+let currentStep   = 0;
+
+function selectModule(idx) {
+    currentModule = idx;
+    currentStep   = 0;
+    // Update tab styles
+    modules.forEach((_, i) => {
+        const tab = document.getElementById('tab-' + i);
+        if (!tab) return;
+        if (i === idx) {
+            tab.className = "px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all bg-white text-slate-900 shadow-xl flex-1 md:flex-none";
+        } else {
+            tab.className = "px-5 py-2 rounded-2xl font-black uppercase text-sm transition-all text-slate-400 hover:text-white flex-1 md:flex-none";
+        }
+    });
+    render();
+}
+
+function next() {
+    const steps = modules[currentModule].steps;
+    if (currentStep < steps.length - 1) { currentStep++; render(); }
+}
+
+function prev() {
+    if (currentStep > 0) { currentStep--; render(); }
+}
+
+function render() {
+    const mod  = modules[currentModule];
+    const step = mod.steps[currentStep];
+
+    const labelStyle = {
+        WATCH:    "bg-slate-100 border-slate-400 text-slate-600",
+        TRY:      "bg-red-50 border-red-500 text-red-600",
+        SORT:     "bg-blue-50 border-blue-500 text-blue-600",
+        ADVOCATE: "bg-purple-50 border-purple-500 text-purple-600",
+        OWN:      "bg-yellow-50 border-yellow-500 text-yellow-700"
+    };
+    const labelIcon = { WATCH: "eye", TRY: "flame", SORT: "archive", ADVOCATE: "shield", OWN: "star" };
+
+    // 1. RENDER INTERACTIVE SCREEN DISPLAY
+    document.getElementById('display-area').innerHTML = `
+        <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-[12px] ${step.zone} flex flex-col lg:flex-row flex-1">
+            <!-- LEFT: Kit + Tip -->
+            <div class="w-full lg:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto flex-shrink-0">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="shopping-basket" class="text-slate-800 w-5 h-5"></i>
+                    <h3 class="text-2xl font-black uppercase tracking-tight text-slate-800 italic">The Kit</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    ${mod.ingredients.map(ing => `
+                        <div class="bg-white p-4 rounded-3xl border-2 border-slate-100 text-center shadow-sm">
+                            <span class="text-4xl">${ing.e}</span>
+                            <p class="text-[10px] font-black uppercase mt-2 text-slate-500">${ing.n}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="bg-slate-800 rounded-[2.5rem] p-8 text-white">
+                    <p class="text-xs font-black uppercase text-red-400 mb-2 tracking-widest">Chef Lingo</p>
+                    <p class="text-xl font-medium leading-tight italic">"${mod.tip}"</p>
+                </div>
+            </div>
+
+            <!-- RIGHT: Step content -->
+            <div class="flex-1 p-8 lg:p-12 flex flex-col justify-between">
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="px-6 py-2 rounded-full border-4 font-black uppercase italic tracking-widest flex items-center gap-2 ${labelStyle[step.l] || labelStyle.WATCH}">
+                            <i data-lucide="${labelIcon[step.l] || 'eye'}" class="w-5 h-5"></i> ${step.l}
+                        </div>
+                        <span class="text-slate-200 font-black text-6xl lg:text-7xl leading-none">0${currentStep + 1}</span>
+                    </div>
+
+                    <div class="bg-white rounded-[2rem] border-4 border-slate-100 p-6 lg:p-8 mb-6 flex justify-center items-center shadow-inner min-h-[180px]">
+                        ${mod.heroVisual}
+                    </div>
+
+                    <h2 class="text-3xl lg:text-4xl font-black text-slate-900 uppercase italic tracking-tighter leading-none mb-6">${step.a}</h2>
+
+                    <div class="bg-slate-50 rounded-[2rem] p-6 lg:p-8 flex items-center gap-6 lg:gap-8 border-4 border-slate-100">
+                        <div class="bg-white p-4 lg:p-5 rounded-full shadow-md shrink-0">
+                            <i data-lucide="${step.i}" class="w-10 h-10 lg:w-12 lg:h-12 text-slate-800"></i>
+                        </div>
+                        <p class="text-xl lg:text-2xl text-slate-600 font-medium leading-snug">${step.d}</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-2 mt-6">
+                    ${mod.steps.map((_, i) => `
+                        <div class="w-2.5 h-2.5 rounded-full transition-all ${i === currentStep ? 'bg-red-500 w-6' : 'bg-slate-200'}"></div>
+                    `).join('')}
+                </div>
+
+                <div class="flex justify-between items-center mt-6 shrink-0">
+                    <button onclick="prev()"
+                        class="px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black bg-slate-100 text-slate-400 uppercase tracking-widest hover:bg-slate-200 transition-all ${currentStep === 0 ? 'opacity-0 pointer-events-none' : ''}">
+                        Back
+                    </button>
+                    ${currentStep === mod.steps.length - 1
+                        ? `<div class="bg-yellow-100 text-yellow-800 px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black text-xl lg:text-2xl uppercase italic animate-bounce border-4 border-yellow-500 shadow-xl">READY!</div>`
+                        : `<button onclick="next()" class="bg-red-600 text-white px-10 py-4 lg:px-14 lg:py-5 rounded-3xl font-black text-xl lg:text-2xl uppercase italic shadow-2xl flex items-center gap-4 hover:bg-red-700 transition-all">
+                                Next Step <i data-lucide="arrow-right"></i>
+                           </button>`
+                    }
+                </div>
+            </div>
+        </div>
+    `;
+
+    // 2. RENDER PRINTABLE LAYOUT SUMMARY
+    document.getElementById('print-area').innerHTML = `
+        <div class="border-b-4 border-slate-200 pb-4 mb-6 flex justify-between items-end print-card">
+            <div>
+                <p class="text-red-500 font-black uppercase tracking-widest flex items-center gap-2 mb-1">
+                    <i data-lucide="flame" class="w-5 h-5"></i> Grill Station Guide
+                </p>
+                <h1 class="text-4xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">${mod.emoji} ${mod.title}</h1>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 border-4 border-slate-200 rounded-[2rem] p-6 mb-8 flex items-center justify-center print-card shadow-sm">
+            ${mod.heroVisual}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            ${mod.steps.map((s, idx) => `
+                <div class="border-l-[12px] ${s.zone} bg-white border-y-2 border-r-2 border-slate-100 p-5 rounded-2xl print-card flex flex-col h-full shadow-sm">
+                    <div class="flex items-center gap-3 mb-3 border-b-2 border-slate-100 pb-3">
+                        <div class="bg-slate-100 p-2 rounded-full"><i data-lucide="${s.i}" class="w-5 h-5 text-slate-600"></i></div>
+                        <div>
+                            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400 block leading-tight">Step 0${idx+1} • ${s.l}</span>
+                            <h3 class="font-black text-slate-800 uppercase leading-none mt-0.5">${s.a}</h3>
+                        </div>
+                    </div>
+                    <p class="text-sm font-medium text-slate-700 leading-snug flex-1">${s.d}</p>
+                </div>
+            `).join('')}
+        </div>
+        
+        <div class="mt-6 bg-slate-800 text-white rounded-2xl p-6 print-card flex items-center gap-4">
+            <i data-lucide="volume-2" class="w-8 h-8 text-red-400"></i>
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Chef Lingo & Safety Tip</p>
+                <p class="font-bold italic">"${mod.tip}"</p>
+            </div>
+        </div>
+    `;
+
+    lucide.createIcons();
+}
+
+// Boot
+selectModule(0); // Starts the render process
+</script>
+</body>
+</html>
