@@ -1,357 +1,377 @@
-import React, { useState } from 'react';
-import { 
-  ChefHat, 
-  Eye, 
-  Hand, 
-  Star, 
-  ArrowRight, 
-  CheckCircle2, 
-  ShoppingBasket,
-  Flame,
-  Timer,
-  UtensilsCrossed,
-  Droplets,
-  Wind,
-  Layers,
-  Zap,
-  RotateCw,
-  Shield
-} from 'lucide-react';
-
-const RecipeCard = ({ recipe }) => {
-  const [activeStep, setActiveStep] = useState(0);
-
-  const getPedagogyIcon = (level) => {
-    if (level === "WATCH") return <Eye size={20} />;
-    if (level === "TRY") return <Hand size={20} />;
-    if (level === "ADVOCATE") return <Shield size={20} />;
-    return <Star size={20} />;
-  };
-
-  // Map the Atrium Zone to its specific Tailwind color class
-  const getZoneColor = (zone) => {
-    switch(zone) {
-      case "ANCHOR": return "bg-slate-100 border-slate-400 text-slate-700";
-      case "RIVER": return "bg-blue-50 border-blue-400 text-blue-700";
-      case "SAFETY": return "bg-red-50 border-red-400 text-red-700";
-      case "EARTH": return "bg-emerald-50 border-emerald-400 text-emerald-700";
-      case "PLATING": return "bg-teal-50 border-teal-600 text-teal-800";
-      case "ADVOCATE": return "bg-purple-50 border-purple-400 text-purple-700";
-      case "TRANSITION": return "bg-yellow-50 border-yellow-400 text-yellow-700";
-      default: return "bg-slate-50 border-slate-200 text-slate-600";
-    }
-  };
-
-  // Map the Atrium Zone to the thick outer border color
-  const getZoneBorder = (zone) => {
-    switch(zone) {
-      case "ANCHOR": return "border-slate-400";
-      case "RIVER": return "border-blue-500";
-      case "SAFETY": return "border-red-500";
-      case "EARTH": return "border-emerald-500";
-      case "PLATING": return "border-teal-800";
-      case "ADVOCATE": return "border-purple-500";
-      case "TRANSITION": return "border-yellow-500";
-      default: return "border-slate-100";
-    }
-  };
-
-  const activeZone = recipe.steps[activeStep].zone || "ANCHOR";
-
-  const containerClass = [
-    "bg-white", "rounded-[2.5rem]", "shadow-2xl", "overflow-hidden", 
-    "border-[12px]", getZoneBorder(activeZone), "flex", "flex-col", "md:flex-row", "h-full",
-    "transition-colors", "duration-500"
-  ].join(" ");
-
-  return (
-    <div className={containerClass}>
-      {/* Sidebar: Ingredients "The Kit" */}
-      <div className="w-full md:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="bg-blue-600 p-2 rounded-xl text-white">
-            <ShoppingBasket size={24} />
-          </div>
-          <h3 className="text-2xl font-black text-slate-800 uppercase tracking-tight">The Kit</h3>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flagship Dinner - Visual Recipes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
         
-        <div className="grid grid-cols-2 gap-4">
-          {recipe.ingredients.map((ing, idx) => (
-            <div key={idx} className="bg-white p-4 rounded-2xl shadow-sm border-2 border-slate-100 flex flex-col items-center text-center">
-              <span className="text-4xl mb-2">{ing.emoji}</span>
-              <span className="text-sm font-bold text-slate-600 uppercase leading-none">{ing.name}</span>
+        /* Custom Scrollbar for Module Selector */
+        #module-selector::-webkit-scrollbar { height: 8px; }
+        #module-selector::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
+        #module-selector::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+        #module-selector::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-900 p-4 md:p-8 font-sans">
+
+    <!-- Header & Navigation -->
+    <header class="max-w-7xl mx-auto mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
+        <div class="space-y-2 text-center md:text-left w-full md:w-auto shrink-0">
+            <div class="inline-flex items-center gap-2 bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest border border-blue-600/30">
+                <i data-lucide="chef-hat" class="w-4 h-4"></i> Training Lab
             </div>
-          ))}
+            <h1 class="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase italic">Visual Recipes</h1>
         </div>
 
-        <div className="mt-8 p-6 bg-blue-600 rounded-3xl text-white">
-          <p className="text-xs uppercase font-bold tracking-widest opacity-80 mb-1">Chef Tip</p>
-          <p className="text-lg font-medium leading-tight">{recipe.chefTip}</p>
+        <div id="module-selector" class="flex bg-slate-800 p-2 rounded-3xl border border-slate-700 overflow-x-auto w-full md:w-auto">
+            <!-- Buttons injected via JS -->
         </div>
-      </div>
+    </header>
 
-      {/* Main Content: The Steps */}
-      <div className="flex-1 p-8 flex flex-col">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-4xl font-black text-slate-900 uppercase italic tracking-tighter">
-            {recipe.title}
-          </h2>
-          <div className="flex gap-2">
-            {recipe.steps.map((_, idx) => (
-              <div 
-                key={idx} 
-                className={"h-3 w-8 rounded-full transition-all " + (activeStep === idx ? "bg-blue-600 w-12" : "bg-slate-200")}
-              />
-            ))}
-          </div>
-        </div>
+    <!-- Main Display Area -->
+    <main id="display-area" class="max-w-7xl mx-auto min-h-[600px] md:min-h-[700px] flex flex-col">
+        <!-- Content injected here -->
+    </main>
 
-        <div className="flex-1 flex flex-col justify-center">
-          <div className="relative">
-            <div className="flex items-start gap-6 mb-4">
-              <div className={"px-4 py-1 rounded-full border-2 font-bold flex items-center gap-2 " + getZoneColor(activeZone)}>
-                {getPedagogyIcon(recipe.steps[activeStep].level)}
-                {recipe.steps[activeStep].level}
-              </div>
-              <span className="text-slate-300 font-black text-6xl opacity-50">0{activeStep + 1}</span>
-            </div>
+    <!-- The 7-Zone Atrium Legend Footer -->
+    <footer class="max-w-7xl mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 no-print">
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-slate-400 text-center">
+            <p class="text-[10px] font-black text-slate-400 uppercase">Anchor</p>
+            <p class="text-[9px] text-white/60">WATCH Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-blue-500 text-center">
+            <p class="text-[10px] font-black text-blue-400 uppercase">River</p>
+            <p class="text-[9px] text-white/60">TRY Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-red-500 text-center">
+            <p class="text-[10px] font-black text-red-500 uppercase">Safety</p>
+            <p class="text-[9px] text-white/60">Heat & Sharp</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-500 text-center">
+            <p class="text-[10px] font-black text-emerald-400 uppercase">Earth</p>
+            <p class="text-[9px] text-white/60">Regulation</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-teal-700 text-center">
+            <p class="text-[10px] font-black text-teal-600 uppercase">Plating</p>
+            <p class="text-[9px] text-white/60">OWN Stage</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-purple-500 text-center">
+            <p class="text-[10px] font-black text-purple-400 uppercase">Voice</p>
+            <p class="text-[9px] text-white/60">Advocacy</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-2xl border-t-4 border-yellow-500 text-center">
+            <p class="text-[10px] font-black text-yellow-500 uppercase">Transition</p>
+            <p class="text-[9px] text-white/60">Reflection</p>
+        </div>
+    </footer>
 
-            <h4 className="text-5xl font-black text-slate-800 mb-6 leading-tight">
-              {recipe.steps[activeStep].action}
-            </h4>
+    <script>
+        // ─── DATA & CONFIG ──────────────────────────────────────────
+        const recipes = [
+            {
+                title: "Spice Grinding",
+                emoji: "🥣",
+                chefTip: "Let the heavy stone do the work. Push down and twist!",
+                ingredients: [
+                    { name: "Mortar", emoji: "🥣" },
+                    { name: "Pestle", emoji: "🦯" },
+                    { name: "Seeds", emoji: "🌱" },
+                    { name: "Smell", emoji: "👃" },
+                    { name: "Bowl", emoji: "🥣" }
+                ],
+                steps: [
+                    { level: "WATCH", zone: "ANCHOR", action: "THE GRIND", description: "Anchor Zone: Chef shows the push-and-twist motion. Listen to the crunching sound of the seeds breaking.", icon: "eye" },
+                    { level: "TRY", zone: "EARTH", action: "SENSORY CRUSH", description: "Earth Zone: Your turn! Grind the seeds. Notice how the smell gets much stronger as they break down.", icon: "hand" },
+                    { level: "ADVOCATE", zone: "ADVOCATE", action: "SMELL CHECK", description: "Advocacy Wall: Fresh spices are strong! If the smell is too intense, step back and let a teammate take over.", icon: "shield" },
+                    { level: "OWN", zone: "RIVER", action: "POUR & STORE", description: "River Runway: Carefully pour your fresh spice powder into the prep bowl and walk it down the line to the chef.", icon: "star" }
+                ]
+            },
+            {
+                title: "Cucumber Rounds",
+                emoji: "🥒",
+                chefTip: "Keep your fingers tucked like a cat claw!",
+                ingredients: [
+                    { name: "Cucumber", emoji: "🥒" },
+                    { name: "Yogurt", emoji: "🥣" },
+                    { name: "Dill", emoji: "🌿" },
+                    { name: "Lemon", emoji: "🍋" },
+                    { name: "Onion", emoji: "🧅" }
+                ],
+                steps: [
+                    { level: "TRY", zone: "RIVER", action: "WASH & DRY", description: "River Runway: Rinse the cucumber in cold water. Pat it dry with a clean towel.", icon: "droplets" },
+                    { level: "WATCH", zone: "ANCHOR", action: "SLICE ROUNDS", description: "Anchor Zone: Chef shows how to slice even circles. Practice the 'Cat Claw' grip.", icon: "utensils-crossed" },
+                    { level: "TRY", zone: "RIVER", action: "MIX SAUCE", description: "River Runway: Stir yogurt, lemon, and chopped dill in a small blue bowl.", icon: "rotate-cw" },
+                    { level: "OWN", zone: "PLATING", action: "SPOON & TOP", description: "Plating Station: Place 1 small dot of sauce on every round. Top with one crispy onion.", icon: "star" }
+                ]
+            },
+            {
+                title: "Beet Skewers",
+                emoji: "🍢",
+                chefTip: "Alternative: Beet-Apple-Beet-Apple. Like a pattern!",
+                ingredients: [
+                    { name: "Beet", emoji: "🏮" },
+                    { name: "Apple", emoji: "🍎" },
+                    { name: "Honey", emoji: "🍯" },
+                    { name: "Cumin", emoji: "🧂" },
+                    { name: "Skewers", emoji: "🥢" }
+                ],
+                steps: [
+                    { level: "WATCH", zone: "ANCHOR", action: "THE SLICE", description: "Anchor Zone: Chef cuts the beets and apples into cubes. Watch the knife work.", icon: "utensils-crossed" },
+                    { level: "TRY", zone: "SAFETY", action: "PATTERN POKE", description: "Safety Zone: Slide a beet cube, then an apple cube onto the skewer. Careful, they are sharp!", icon: "arrow-right" },
+                    { level: "TRY", zone: "RIVER", action: "GLAZE BRUSH", description: "River Runway: Use the brush to paint the cumin-honey over the skewers.", icon: "wind" },
+                    { level: "OWN", zone: "PLATING", action: "PLATE IT", description: "Plating Station: Lay the skewers across the green platter. Make them look neat.", icon: "star" }
+                ]
+            },
+            {
+                title: "Cabbage Salad",
+                emoji: "🥗",
+                chefTip: "Whisk the dressing until it looks like one color.",
+                ingredients: [
+                    { name: "Cabbage", emoji: "🥬" },
+                    { name: "Carrot", emoji: "🥕" },
+                    { name: "Ginger", emoji: "🫚" },
+                    { name: "Onion", emoji: "🧅" },
+                    { name: "Pecans", emoji: "🥜" }
+                ],
+                steps: [
+                    { level: "WATCH", zone: "ANCHOR", action: "THE WEDGE", description: "Anchor Zone: Chef cuts the cabbage into big triangles. These are the wedges.", icon: "utensils-crossed" },
+                    { level: "TRY", zone: "SAFETY", action: "CARROT SHRED", description: "Safety Zone: Use the grater to make tiny carrot pieces. Mind your knuckles!", icon: "layers" },
+                    { level: "TRY", zone: "EARTH", action: "THE WHISK", description: "Earth Zone: Mix turmeric, ginger, and oil in a jar. Shake it or whisk it!", icon: "rotate-cw" },
+                    { level: "OWN", zone: "PLATING", action: "THE GARNISH", description: "Plating Station: Sprinkle pecans and pickled onions over the wedges.", icon: "star" }
+                ]
+            },
+            {
+                title: "Grilled Wings",
+                emoji: "🍗",
+                chefTip: "Listen for the 'Sizzle' when they hit the pan!",
+                ingredients: [
+                    { name: "Wings", emoji: "🍗" },
+                    { name: "Spices", emoji: "🧂" },
+                    { name: "Yogurt", emoji: "🥣" },
+                    { name: "Herbs", emoji: "🌿" },
+                    { name: "Tongs", emoji: "🥢" }
+                ],
+                steps: [
+                    { level: "TRY", zone: "RIVER", action: "PAT DRY", description: "River Runway: Use a paper towel to make the chicken wings very dry.", icon: "wind" },
+                    { level: "TRY", zone: "EARTH", action: "SEASONING", description: "Earth Zone: Dust the wings with the spice mix. Make sure every wing is covered.", icon: "zap" },
+                    { level: "WATCH", zone: "SAFETY", action: "THE GRILL", description: "Safety Zone: Watch the chef use the tongs. The grill is very hot!", icon: "flame" },
+                    { level: "OWN", zone: "PLATING", action: "SAUCE DOT", description: "Plating Station: Place a small dollop of lemon yogurt on each wing before serving.", icon: "star" }
+                ]
+            },
+            {
+                title: "Potatoes",
+                emoji: "🥔",
+                chefTip: "Don't press too hard—we just want to pop the skin!",
+                ingredients: [
+                    { name: "Potatoes", emoji: "🥔" },
+                    { name: "Butter", emoji: "🧈" },
+                    { name: "Mustard", emoji: "🫙" },
+                    { name: "Salt", emoji: "🧂" },
+                    { name: "Bowl", emoji: "🥣" }
+                ],
+                steps: [
+                    { level: "TRY", zone: "EARTH", action: "SCRUB", description: "Earth Zone: Clean the dirt off the potatoes in the sink.", icon: "droplets" },
+                    { level: "WATCH", zone: "ANCHOR", action: "THE BOIL", description: "Anchor Zone: Chef puts potatoes in hot water. We wait for the timer.", icon: "timer" },
+                    { level: "TRY", zone: "RIVER", action: "THE SMASH", description: "River Runway: Use a heavy cup to gently press down on the cooked potato.", icon: "hand" },
+                    { level: "OWN", zone: "PLATING", action: "BUTTER TOSS", description: "Plating Station: Toss the crispy potatoes with herb butter and mustard seeds.", icon: "star" }
+                ]
+            },
+            {
+                title: "Rice Pudding",
+                emoji: "🍚",
+                chefTip: "Stir slowly to feel the rice get soft.",
+                ingredients: [
+                    { name: "Rice", emoji: "🍚" },
+                    { name: "Milk", emoji: "🥛" },
+                    { name: "Sugar", emoji: "🍬" },
+                    { name: "Cardamom", emoji: "🌱" },
+                    { name: "Strawberries", emoji: "🍓" }
+                ],
+                steps: [
+                    { level: "TRY", zone: "EARTH", action: "RINSE RICE", description: "Earth Zone: Put rice in a mesh strainer. Run water until it stays clear.", icon: "droplets" },
+                    { level: "WATCH", zone: "ANCHOR", action: "STOVE ON", description: "Anchor Zone: Chef turns on the heat. Watch for the 'Tiny Bubbles'.", icon: "flame" },
+                    { level: "TRY", zone: "RIVER", action: "THE STIR", description: "River Runway: Use a wooden spoon. Draw a giant 'O' in the pot.", icon: "timer" },
+                    { level: "OWN", zone: "PLATING", action: "BERRY TOP", description: "Plating Station: Place the grilled strawberries on top of the creamy pudding.", icon: "star" }
+                ]
+            }
+        ];
 
-            <div className="bg-slate-50 rounded-[2rem] p-8 border-2 border-slate-100 flex items-center gap-6">
-              <div className="bg-white p-4 rounded-full shadow-md shrink-0">
-                {React.createElement(recipe.steps[activeStep].icon, { size: 48, className: "text-blue-600" })}
-              </div>
-              <p className="text-2xl text-slate-600 font-medium leading-snug">
-                {recipe.steps[activeStep].description}
-              </p>
-            </div>
-          </div>
-        </div>
+        let currentRecipe = 0;
+        let currentStep = 0;
 
-        <div className="mt-12 flex justify-between items-center">
-          <button 
-            onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
-            disabled={activeStep === 0}
-            className="px-8 py-4 rounded-2xl font-bold bg-slate-100 text-slate-400 hover:bg-slate-200 disabled:opacity-50 transition-all"
-          >
-            Back
-          </button>
-          
-          {activeStep === recipe.steps.length - 1 ? (
-            <div className="flex items-center gap-3 text-emerald-600 font-black text-2xl animate-bounce">
-              <CheckCircle2 size={32} />
-              FINISHED!
-            </div>
-          ) : (
-            <button 
-              onClick={() => setActiveStep(Math.min(recipe.steps.length - 1, activeStep + 1))}
-              className="px-12 py-4 rounded-2xl font-bold bg-blue-600 text-white shadow-lg shadow-blue-200 hover:bg-blue-700 flex items-center gap-2 transition-all"
-            >
-              Next Step <ArrowRight size={20} />
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+        // ─── HELPER FUNCTIONS ────────────────────────────────────────
+        function getPedagogyIcon(level) {
+            if (level === "WATCH") return "eye";
+            if (level === "TRY") return "hand";
+            if (level === "ADVOCATE") return "shield";
+            return "star";
+        }
 
-const App = () => {
-  const [selectedRecipe, setSelectedRecipe] = useState(0);
+        function getZoneColor(zone) {
+            switch(zone) {
+                case "ANCHOR": return "bg-slate-100 border-slate-400 text-slate-700";
+                case "RIVER": return "bg-blue-50 border-blue-400 text-blue-700";
+                case "SAFETY": return "bg-red-50 border-red-400 text-red-700";
+                case "EARTH": return "bg-emerald-50 border-emerald-400 text-emerald-700";
+                case "PLATING": return "bg-teal-50 border-teal-600 text-teal-800";
+                case "ADVOCATE": return "bg-purple-50 border-purple-400 text-purple-700";
+                case "TRANSITION": return "bg-yellow-50 border-yellow-400 text-yellow-700";
+                default: return "bg-slate-50 border-slate-200 text-slate-600";
+            }
+        }
 
-  const recipes = [
-    {
-      title: "Spice Grinding",
-      emoji: "🥣",
-      chefTip: "Let the heavy stone do the work. Push down and twist!",
-      ingredients: [
-        { name: "Mortar", emoji: "🥣" },
-        { name: "Pestle", emoji: "🦯" },
-        { name: "Seeds", emoji: "🌱" },
-        { name: "Smell", emoji: "👃" },
-        { name: "Bowl", emoji: "🥣" }
-      ],
-      steps: [
-        { level: "WATCH", zone: "ANCHOR", action: "THE GRIND", description: "Anchor Zone: Chef shows the push-and-twist motion. Listen to the crunching sound of the seeds breaking.", icon: Eye },
-        { level: "TRY", zone: "EARTH", action: "SENSORY CRUSH", description: "Earth Zone: Your turn! Grind the seeds. Notice how the smell gets much stronger as they break down.", icon: Hand },
-        { level: "ADVOCATE", zone: "ADVOCATE", action: "SMELL CHECK", description: "Advocacy Wall: Fresh spices are strong! If the smell is too intense, step back and let a teammate take over.", icon: Shield },
-        { level: "OWN", zone: "RIVER", action: "POUR & STORE", description: "River Runway: Carefully pour your fresh spice powder into the prep bowl and walk it down the line to the chef.", icon: Star }
-      ]
-    },
-    {
-      title: "Cucumber Rounds",
-      emoji: "🥒",
-      chefTip: "Keep your fingers tucked like a cat claw!",
-      ingredients: [
-        { name: "Cucumber", emoji: "🥒" },
-        { name: "Yogurt", emoji: "🥣" },
-        { name: "Dill", emoji: "🌿" },
-        { name: "Lemon", emoji: "🍋" },
-        { name: "Onion", emoji: "🧅" }
-      ],
-      steps: [
-        { level: "TRY", zone: "RIVER", action: "WASH & DRY", description: "River Runway: Rinse the cucumber in cold water. Pat it dry with a clean towel.", icon: Droplets },
-        { level: "WATCH", zone: "ANCHOR", action: "SLICE ROUNDS", description: "Anchor Zone: Chef shows how to slice even circles. Practice the 'Cat Claw' grip.", icon: UtensilsCrossed },
-        { level: "TRY", zone: "RIVER", action: "MIX SAUCE", description: "River Runway: Stir yogurt, lemon, and chopped dill in a small blue bowl.", icon: RotateCw },
-        { level: "OWN", zone: "PLATING", action: "SPOON & TOP", description: "Plating Station: Place 1 small dot of sauce on every round. Top with one crispy onion.", icon: Star }
-      ]
-    },
-    {
-      title: "Beet Skewers",
-      emoji: "🍢",
-      chefTip: "Alternative: Beet-Apple-Beet-Apple. Like a pattern!",
-      ingredients: [
-        { name: "Beet", emoji: "🏮" },
-        { name: "Apple", emoji: "🍎" },
-        { name: "Honey", emoji: "🍯" },
-        { name: "Cumin", emoji: "🧂" },
-        { name: "Skewers", emoji: "🥢" }
-      ],
-      steps: [
-        { level: "WATCH", zone: "ANCHOR", action: "THE SLICE", description: "Anchor Zone: Chef cuts the beets and apples into cubes. Watch the knife work.", icon: UtensilsCrossed },
-        { level: "TRY", zone: "SAFETY", action: "PATTERN POKE", description: "Safety Zone: Slide a beet cube, then an apple cube onto the skewer. Careful, they are sharp!", icon: ArrowRight },
-        { level: "TRY", zone: "RIVER", action: "GLAZE BRUSH", description: "River Runway: Use the brush to paint the cumin-honey over the skewers.", icon: Wind },
-        { level: "OWN", zone: "PLATING", action: "PLATE IT", description: "Plating Station: Lay the skewers across the green platter. Make them look neat.", icon: Star }
-      ]
-    },
-    {
-      title: "Cabbage Salad",
-      emoji: "🥗",
-      chefTip: "Whisk the dressing until it looks like one color.",
-      ingredients: [
-        { name: "Cabbage", emoji: "🥬" },
-        { name: "Carrot", emoji: "🥕" },
-        { name: "Ginger", emoji: "🫚" },
-        { name: "Onion", emoji: "🧅" },
-        { name: "Pecans", emoji: "🥜" }
-      ],
-      steps: [
-        { level: "WATCH", zone: "ANCHOR", action: "THE WEDGE", description: "Anchor Zone: Chef cuts the cabbage into big triangles. These are the wedges.", icon: UtensilsCrossed },
-        { level: "TRY", zone: "SAFETY", action: "CARROT SHRED", description: "Safety Zone: Use the grater to make tiny carrot pieces. Mind your knuckles!", icon: Layers },
-        { level: "TRY", zone: "EARTH", action: "THE WHISK", description: "Earth Zone: Mix turmeric, ginger, and oil in a jar. Shake it or whisk it!", icon: RotateCw },
-        { level: "OWN", zone: "PLATING", action: "THE GARNISH", description: "Plating Station: Sprinkle pecans and pickled onions over the wedges.", icon: Star }
-      ]
-    },
-    {
-      title: "Grilled Wings",
-      emoji: "🍗",
-      chefTip: "Listen for the 'Sizzle' when they hit the pan!",
-      ingredients: [
-        { name: "Wings", emoji: "🍗" },
-        { name: "Spices", emoji: "🧂" },
-        { name: "Yogurt", emoji: "🥣" },
-        { name: "Herbs", emoji: "🌿" },
-        { name: "Tongs", emoji: "🥢" }
-      ],
-      steps: [
-        { level: "TRY", zone: "RIVER", action: "PAT DRY", description: "River Runway: Use a paper towel to make the chicken wings very dry.", icon: Wind },
-        { level: "TRY", zone: "EARTH", action: "SEASONING", description: "Earth Zone: Dust the wings with the spice mix. Make sure every wing is covered.", icon: Zap },
-        { level: "WATCH", zone: "SAFETY", action: "THE GRILL", description: "Safety Zone: Watch the chef use the tongs. The grill is very hot!", icon: Flame },
-        { level: "OWN", zone: "PLATING", action: "SAUCE DOT", description: "Plating Station: Place a small dollop of lemon yogurt on each wing before serving.", icon: Star }
-      ]
-    },
-    {
-      title: "Potatoes",
-      emoji: "🥔",
-      chefTip: "Don't press too hard—we just want to pop the skin!",
-      ingredients: [
-        { name: "Potatoes", emoji: "🥔" },
-        { name: "Butter", emoji: "🧈" },
-        { name: "Mustard", emoji: "🫙" },
-        { name: "Salt", emoji: "🧂" },
-        { name: "Bowl", emoji: "🥣" }
-      ],
-      steps: [
-        { level: "TRY", zone: "EARTH", action: "SCRUB", description: "Earth Zone: Clean the dirt off the potatoes in the sink.", icon: Droplets },
-        { level: "WATCH", zone: "ANCHOR", action: "THE BOIL", description: "Anchor Zone: Chef puts potatoes in hot water. We wait for the timer.", icon: Timer },
-        { level: "TRY", zone: "RIVER", action: "THE SMASH", description: "River Runway: Use a heavy cup to gently press down on the cooked potato.", icon: Hand },
-        { level: "OWN", zone: "PLATING", action: "BUTTER TOSS", description: "Plating Station: Toss the crispy potatoes with herb butter and mustard seeds.", icon: Star }
-      ]
-    },
-    {
-      title: "Rice Pudding",
-      emoji: "🍚",
-      chefTip: "Stir slowly to feel the rice get soft.",
-      ingredients: [
-        { name: "Rice", emoji: "🍚" },
-        { name: "Milk", emoji: "🥛" },
-        { name: "Sugar", emoji: "🍬" },
-        { name: "Cardamom", emoji: "🌱" },
-        { name: "Strawberries", emoji: "🍓" }
-      ],
-      steps: [
-        { level: "TRY", zone: "EARTH", action: "RINSE RICE", description: "Earth Zone: Put rice in a mesh strainer. Run water until it stays clear.", icon: Droplets },
-        { level: "WATCH", zone: "ANCHOR", action: "STOVE ON", description: "Anchor Zone: Chef turns on the heat. Watch for the 'Tiny Bubbles'.", icon: Flame },
-        { level: "TRY", zone: "RIVER", action: "THE STIR", description: "River Runway: Use a wooden spoon. Draw a giant 'O' in the pot.", icon: Timer },
-        { level: "OWN", zone: "PLATING", action: "BERRY TOP", description: "Plating Station: Place the grilled strawberries on top of the creamy pudding.", icon: Star }
-      ]
-    }
-  ];
+        function getZoneBorder(zone) {
+            switch(zone) {
+                case "ANCHOR": return "border-slate-400";
+                case "RIVER": return "border-blue-500";
+                case "SAFETY": return "border-red-500";
+                case "EARTH": return "border-emerald-500";
+                case "PLATING": return "border-teal-800";
+                case "ADVOCATE": return "border-purple-500";
+                case "TRANSITION": return "border-yellow-500";
+                default: return "border-slate-100";
+            }
+        }
 
-  return (
-    <div className="min-h-screen bg-slate-900 p-4 md:p-8 font-sans">
-      <header className="max-w-7xl mx-auto mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
-        <div className="space-y-2 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest border border-blue-600/30">
-            <ChefHat size={16} /> Training Lab
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase italic">Visual Recipes</h1>
-        </div>
+        function selectRecipe(idx) {
+            currentRecipe = idx;
+            currentStep = 0; // BUG FIX: resets step to 0 every time you swap!
+            render();
+        }
 
-        <div className="flex bg-slate-800 p-2 rounded-3xl border border-slate-700 overflow-x-auto w-full md:w-auto">
-          {recipes.map((r, idx) => (
-            <button
-              key={idx}
-              onClick={() => setSelectedRecipe(idx)}
-              className={"px-6 py-3 md:px-8 md:py-4 rounded-2xl font-black text-lg md:text-xl transition-all whitespace-nowrap " + (selectedRecipe === idx ? "bg-white text-slate-900 shadow-xl scale-105" : "text-slate-500 hover:text-white")}
-            >
-              {r.emoji} {r.title}
-            </button>
-          ))}
-        </div>
-      </header>
+        function nextStep() {
+            if (currentStep < recipes[currentRecipe].steps.length - 1) {
+                currentStep++;
+                render();
+            }
+        }
 
-      <main className="max-w-7xl mx-auto h-[600px] md:h-[700px]">
-        {/* We use key={selectedRecipe} to force the component to remount, resetting activeStep to 0 when swapping recipes! */}
-        <RecipeCard key={selectedRecipe} recipe={recipes[selectedRecipe]} />
-      </main>
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                render();
+            }
+        }
 
-      {/* The 7-Zone Atrium Legend Footer */}
-      <footer className="max-w-7xl mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-        <div className="bg-slate-800 p-4 rounded-2xl border-t-4 border-slate-400 text-center">
-            <p className="text-[10px] font-black text-slate-400 uppercase">Anchor</p>
-            <p className="text-[9px] text-white/60">WATCH Stage</p>
-        </div>
-        <div className="bg-slate-800 p-4 rounded-2xl border-t-4 border-blue-500 text-center">
-            <p className="text-[10px] font-black text-blue-400 uppercase">River</p>
-            <p className="text-[9px] text-white/60">TRY Stage</p>
-        </div>
-        <div className="bg-slate-800 p-4 rounded-2xl border-t-4 border-red-500 text-center">
-            <p className="text-[10px] font-black text-red-500 uppercase">Safety</p>
-            <p className="text-[9px] text-white/60">Heat & Sharp</p>
-        </div>
-        <div className="bg-slate-800 p-4 rounded-2xl border-t-4 border-emerald-500 text-center">
-            <p className="text-[10px] font-black text-emerald-400 uppercase">Earth</p>
-            <p className="text-[9px] text-white/60">Regulation</p>
-        </div>
-        <div className="bg-slate-800 p-4 rounded-2xl border-t-4 border-teal-700 text-center">
-            <p className="text-[10px] font-black text-teal-600 uppercase">Plating</p>
-            <p className="text-[9px] text-white/60">OWN Stage</p>
-        </div>
-        <div className="bg-slate-800 p-4 rounded-2xl border-t-4 border-purple-500 text-center">
-            <p className="text-[10px] font-black text-purple-400 uppercase">Voice</p>
-            <p className="text-[9px] text-white/60">Advocacy</p>
-        </div>
-        <div className="bg-slate-800 p-4 rounded-2xl border-t-4 border-yellow-500 text-center">
-            <p className="text-[10px] font-black text-yellow-500 uppercase">Transition</p>
-            <p className="text-[9px] text-white/60">Reflection</p>
-        </div>
-      </footer>
-    </div>
-  );
-};
+        // ─── RENDERING ──────────────────────────────────────────────
+        function render() {
+            const recipe = recipes[currentRecipe];
+            const step = recipe.steps[currentStep];
+            const activeZone = step.zone || "ANCHOR";
 
-export default App;
+            // Render navigation buttons
+            const selector = document.getElementById('module-selector');
+            selector.innerHTML = recipes.map((r, i) => `
+                <button
+                    onclick="selectRecipe(${i})"
+                    class="px-6 py-3 md:px-8 md:py-4 rounded-2xl font-black text-lg md:text-xl transition-all whitespace-nowrap ${currentRecipe === i ? 'bg-white text-slate-900 shadow-xl scale-105' : 'text-slate-500 hover:text-white'}"
+                >
+                    ${r.emoji} ${r.title}
+                </button>
+            `).join('');
+
+            // Render main display
+            const display = document.getElementById('display-area');
+            display.innerHTML = `
+                <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border-[12px] ${getZoneBorder(activeZone)} flex flex-col md:flex-row h-full transition-colors duration-500 flex-1">
+                    
+                    <!-- Sidebar: The Kit -->
+                    <div class="w-full md:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="bg-blue-600 p-2 rounded-xl text-white">
+                                <i data-lucide="shopping-basket" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-black text-slate-800 uppercase tracking-tight">The Kit</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            ${recipe.ingredients.map(ing => `
+                                <div class="bg-white p-4 rounded-2xl shadow-sm border-2 border-slate-100 flex flex-col items-center text-center">
+                                    <span class="text-4xl mb-2">${ing.emoji}</span>
+                                    <span class="text-sm font-bold text-slate-600 uppercase leading-none">${ing.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="mt-8 p-6 bg-blue-600 rounded-3xl text-white">
+                            <p class="text-xs uppercase font-bold tracking-widest opacity-80 mb-1">Chef Tip</p>
+                            <p class="text-lg font-medium leading-tight italic">"${recipe.chefTip}"</p>
+                        </div>
+                    </div>
+
+                    <!-- Main Content: The Steps -->
+                    <div class="flex-1 p-8 flex flex-col">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tighter">
+                                ${recipe.title}
+                            </h2>
+                            <div class="flex gap-2">
+                                ${recipe.steps.map((_, idx) => `
+                                    <div class="h-3 rounded-full transition-all ${currentStep === idx ? 'bg-blue-600 w-12' : 'bg-slate-200 w-8'}"></div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="flex-1 flex flex-col justify-center">
+                            <div class="relative">
+                                <div class="flex items-start gap-6 mb-4">
+                                    <div class="px-4 py-1 rounded-full border-2 font-bold flex items-center gap-2 ${getZoneColor(activeZone)}">
+                                        <i data-lucide="${getPedagogyIcon(step.level)}" class="w-5 h-5"></i>
+                                        ${step.level}
+                                    </div>
+                                    <span class="text-slate-300 font-black text-6xl opacity-50 leading-none">0${currentStep + 1}</span>
+                                </div>
+
+                                <h4 class="text-5xl font-black text-slate-800 mb-6 leading-tight">
+                                    ${step.action}
+                                </h4>
+
+                                <div class="bg-slate-50 rounded-[2rem] p-8 border-2 border-slate-100 flex items-center gap-6">
+                                    <div class="bg-white p-4 rounded-full shadow-md shrink-0">
+                                        <i data-lucide="${step.icon}" class="w-12 h-12 text-blue-600"></i>
+                                    </div>
+                                    <p class="text-2xl text-slate-600 font-medium leading-snug">
+                                        ${step.description}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 flex justify-between items-center shrink-0">
+                            <button 
+                                onclick="prevStep()"
+                                class="px-8 py-4 rounded-2xl font-bold bg-slate-100 text-slate-400 hover:bg-slate-200 transition-all ${currentStep === 0 ? 'opacity-50 pointer-events-none' : ''}"
+                            >
+                                Back
+                            </button>
+                            
+                            ${currentStep === recipe.steps.length - 1 ? `
+                                <div class="flex items-center gap-3 text-emerald-600 font-black text-2xl animate-bounce">
+                                    <i data-lucide="check-circle-2" class="w-8 h-8"></i> FINISHED!
+                                </div>
+                            ` : `
+                                <button 
+                                    onclick="nextStep()"
+                                    class="px-12 py-4 rounded-2xl font-bold bg-blue-600 text-white shadow-lg shadow-blue-200 hover:bg-blue-700 flex items-center gap-2 transition-all"
+                                >
+                                    Next Step <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        // Initialize application
+        render();
+    </script>
+</body>
+</html>
