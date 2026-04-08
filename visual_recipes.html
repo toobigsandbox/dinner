@@ -46,7 +46,7 @@
             </div>
         </header>
 
-        <main id="display-area" class="min-h-[650px] lg:h-[750px]">
+        <main id="display-area" class="min-h-[650px] lg:min-h-[750px] flex flex-col">
             <!-- Content injected here -->
         </main>
 
@@ -122,6 +122,65 @@
                         { l: "TRY", a: "GENTLE WASH", d: "Earth Zone: Use cold water and a gentle rub. Pat them dry.", i: "droplets", zone: "border-regulation" },
                         { l: "ADVOCATE", a: "SENSORY CHECK", d: "Advocacy Wall: Is the texture okay? Is the water temp okay?", i: "shield", zone: "border-advocacy" },
                         { l: "OWN", a: "RESET SPACE", d: "River Runway: Put every item away in its correct home.", i: "archive", zone: "border-river" }
+                    ]
+                },
+                {
+                    title: "The Dish Pit Loop", emoji: "🍽️", tip: "Dish pit is power. You control the pace of the kitchen. Hot water means slow hands!",
+                    ingredients: [{n: "Scraper", e: "🗑️"}, {n: "Sponge", e: "🧽"}, {n: "Soap", e: "🫧"}, {n: "Sanitizer", e: "🧪"}],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 w-full px-2">
+                            <!-- Scrape -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-16 bg-slate-100 border-4 border-slate-300 rounded-lg flex items-center justify-center text-2xl shadow-inner">🗑️</div>
+                                <span class="text-[9px] font-black uppercase mt-1 text-slate-500 tracking-widest">Scrape</span>
+                            </div>
+                            <i data-lucide="arrow-right" class="text-slate-300 w-5 h-5 hidden md:block"></i>
+                            
+                            <!-- Sink 1: Wash -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-20 bg-blue-100 border-4 border-blue-400 rounded-b-2xl rounded-t-sm flex items-end justify-center pb-2 shadow-inner relative overflow-hidden">
+                                    <div class="absolute bottom-0 w-full h-[60%] bg-blue-300/50 border-t-2 border-blue-400"></div>
+                                    <span class="z-10 text-xl animate-pulse">🫧</span>
+                                </div>
+                                <span class="text-[9px] font-black uppercase mt-1 text-blue-600 tracking-widest">1. Wash</span>
+                            </div>
+                            
+                            <!-- Sink 2: Rinse -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-20 bg-cyan-50 border-4 border-cyan-300 rounded-b-2xl rounded-t-sm flex items-end justify-center pb-2 shadow-inner relative overflow-hidden">
+                                    <div class="absolute bottom-0 w-full h-[60%] bg-cyan-200/50 border-t-2 border-cyan-300"></div>
+                                    <span class="z-10 text-xl text-cyan-600 font-bold opacity-70">〰️</span>
+                                </div>
+                                <span class="text-[9px] font-black uppercase mt-1 text-cyan-600 tracking-widest">2. Rinse</span>
+                            </div>
+                            
+                            <!-- Sink 3: Sanitize -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-20 bg-purple-100 border-4 border-purple-400 rounded-b-2xl rounded-t-sm flex items-end justify-center pb-2 shadow-inner relative overflow-hidden">
+                                    <div class="absolute bottom-0 w-full h-[60%] bg-purple-300/50 border-t-2 border-purple-400"></div>
+                                    <i data-lucide="timer" class="w-6 h-6 text-purple-700 z-10 mb-1"></i>
+                                </div>
+                                <span class="text-[9px] font-black uppercase mt-1 text-purple-600 tracking-widest">3. Sanitize</span>
+                            </div>
+                            
+                            <i data-lucide="arrow-right" class="text-slate-300 w-5 h-5 hidden md:block"></i>
+                            
+                            <!-- Air Dry -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-slate-50 border-4 border-dashed border-slate-300 rounded-xl flex items-center justify-center text-2xl shadow-sm relative overflow-hidden">
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-300 absolute -left-2"></i>
+                                    <i data-lucide="wind" class="w-8 h-8 text-slate-300 absolute -right-2"></i>
+                                </div>
+                                <span class="text-[9px] font-black uppercase mt-1 text-slate-500 tracking-widest">Air Dry</span>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "THE THREE SINKS", d: "Anchor Zone: Watch the setup. Sink 1 is hot soapy water. Sink 2 is clear water. Sink 3 is sanitizer.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "SCRAPE & SORT", d: "River Runway: The loop begins! Scrape food into the trash. Stack plates together so they are ready for the wash.", i: "layers", zone: "border-river" },
+                        { l: "TRY", a: "THE 3-DUNK RHYTHM", d: "Safety Zone: Scrub in Sink 1 until food is gone. Quick dip in Sink 2. Full dunk in Sink 3 for 60 seconds.", i: "droplets", zone: "border-safety" },
+                        { l: "ADVOCATE", a: "SENSORY CHECK", d: "Advocacy Wall: The pit is wet and loud! Wear earplugs if needed. Shuffle your feet. Step back and shake your hands if overwhelmed.", i: "shield", zone: "border-advocacy" },
+                        { l: "OWN", a: "RACK & AIR DRY", d: "Transition Zone: Place on the rack. NEVER towel dry! You are the heartbeat keeping the kitchen flowing.", i: "wind", zone: "border-transition" }
                     ]
                 }
             ],
@@ -564,8 +623,8 @@
             // Display Logic
             const display = document.getElementById('display-area');
             display.innerHTML = `
-                <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-[12px] ${step.zone} flex flex-col lg:flex-row h-full">
-                    <div class="w-full lg:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto">
+                <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-[12px] ${step.zone} flex flex-col lg:flex-row flex-1">
+                    <div class="w-full lg:w-1/3 bg-slate-50 p-8 border-r-4 border-slate-100 overflow-y-auto flex-shrink-0">
                         <div class="flex items-center gap-3 mb-6">
                             <i data-lucide="shopping-basket" class="text-slate-800"></i>
                             <h3 class="text-2xl font-black uppercase tracking-tight text-slate-800 italic">The Kit</h3>
@@ -579,12 +638,12 @@
                         </div>
                     </div>
                     <div class="flex-1 p-8 lg:p-12 flex flex-col justify-between">
-                        <div>
+                        <div class="flex-1">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="px-6 py-2 rounded-full border-4 font-black uppercase italic tracking-widest flex items-center gap-2 ${step.l === 'WATCH' ? 'bg-slate-100 border-slate-400 text-slate-600' : step.l === 'TRY' ? 'bg-red-50 border-red-500 text-red-600' : step.l === 'SORT' ? 'bg-blue-50 border-blue-500 text-blue-600' : step.l === 'ADVOCATE' ? 'bg-purple-50 border-purple-500 text-purple-600' : 'bg-yellow-50 border-yellow-500 text-yellow-700'}">
                                     <i data-lucide="${step.l === 'WATCH' ? 'eye' : step.l === 'TRY' ? 'flame' : step.l === 'SORT' ? 'archive' : step.l === 'ADVOCATE' ? 'shield' : 'star'}" class="w-5 h-5"></i> ${step.l}
                                 </div>
-                                <span class="text-slate-200 font-black text-6xl lg:text-7xl">0${currentStep + 1}</span>
+                                <span class="text-slate-200 font-black text-6xl lg:text-7xl leading-none">0${currentStep + 1}</span>
                             </div>
                             
                             <!-- Hero Visual Section -->
@@ -602,7 +661,7 @@
                                 <p class="text-xl lg:text-2xl text-slate-600 font-medium leading-snug">${step.d}</p>
                             </div>
                         </div>
-                        <div class="flex justify-between items-center mt-8 lg:mt-12">
+                        <div class="flex justify-between items-center mt-8 lg:mt-12 shrink-0">
                             <button onclick="prev()" class="px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black bg-slate-100 text-slate-400 uppercase tracking-widest hover:bg-slate-200 transition-all ${currentStep === 0 ? 'opacity-0 pointer-events-none' : ''}">Back</button>
                             ${currentStep === data.steps.length - 1 ? 
                                 `<div class="bg-yellow-100 text-yellow-800 px-8 py-4 lg:px-10 lg:py-5 rounded-3xl font-black text-xl lg:text-2xl uppercase italic animate-bounce border-4 border-yellow-500 shadow-xl">DELIGHT!</div>` :
