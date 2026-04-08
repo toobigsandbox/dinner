@@ -24,6 +24,28 @@
         .border-plating { border-color: #0f766e; } /* teal-700 */
         .border-advocacy { border-color: #a855f7; } /* purple-500 */
         .border-transition { border-color: #eab308; } /* yellow-500 */
+
+        /* Grill Animations */
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; transform: scaleX(1) scaleY(1); }
+            50%      { opacity: 0.7; transform: scaleX(1.05) scaleY(1.3); }
+        }
+        .shimmer { animation: shimmer 2s ease-in-out infinite; }
+        .shimmer:nth-child(2) { animation-delay: 0.4s; }
+        .shimmer:nth-child(3) { animation-delay: 0.8s; }
+        .shimmer:nth-child(4) { animation-delay: 1.2s; }
+
+        @keyframes glow-bar {
+            0%, 100% { opacity: 0.5; }
+            50%      { opacity: 1; }
+        }
+        .glow-bar { animation: glow-bar 1.5s ease-in-out infinite; }
+
+        @keyframes count-pulse {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.08); }
+        }
+        .count-pulse { animation: count-pulse 1s ease-in-out infinite; }
     </style>
 </head>
 <body class="min-h-screen bg-slate-900 p-4 md:p-8 font-sans">
@@ -209,6 +231,49 @@
                         { l: "ADVOCATE", a: "SMELL CHECK", d: "Advocacy Wall: Fresh spices are strong! If the smell is too intense, step back and let a teammate take over.", i: "shield", zone: "border-advocacy" },
                         { l: "OWN", a: "POUR & STORE", d: "River Runway: Carefully pour your fresh spice powder into the prep bowl and walk it down the line.", i: "star", zone: "border-river" }
                     ]
+                },
+                {
+                    title: "Slow Muddling",
+                    emoji: "🥤",
+                    tip: "We go slow because muddling takes time and hospitality takes presence.",
+                    ingredients: [
+                        { n: "Muddler", e: "🦯" },
+                        { n: "Fruit", e: "🍓" },
+                        { n: "Club Soda", e: "🫧" },
+                        { n: "Honey", e: "🍯" }
+                    ],
+                    heroVisual: `
+                        <div class="flex flex-col items-center justify-center w-full gap-4">
+                            <div class="flex items-end gap-6 md:gap-8 mt-2">
+                                <div class="flex flex-col items-center gap-2">
+                                    <div class="w-16 h-16 bg-blue-50 border-4 border-blue-300 rounded-2xl flex items-center justify-center text-3xl shadow-sm">🔵</div>
+                                    <span class="text-[10px] font-black uppercase text-blue-600 tracking-widest text-center">1. Build</span>
+                                </div>
+                                <i data-lucide="arrow-right" class="text-slate-300 w-6 h-6 mb-6"></i>
+                                <div class="flex flex-col items-center gap-2">
+                                    <div class="w-16 h-16 bg-red-50 border-4 border-red-300 rounded-2xl flex items-center justify-center text-3xl shadow-sm relative overflow-hidden">
+                                        <span class="z-0">🔴</span>
+                                        <div class="w-2 h-10 bg-slate-700 absolute -top-2 animate-bounce rounded-b-sm border border-slate-800"></div>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase text-red-600 tracking-widest text-center">2. Muddle</span>
+                                </div>
+                                <i data-lucide="arrow-right" class="text-slate-300 w-6 h-6 mb-6"></i>
+                                <div class="flex flex-col items-center gap-2">
+                                    <div class="w-16 h-16 bg-emerald-50 border-4 border-emerald-300 rounded-2xl flex items-center justify-center text-3xl shadow-sm">🟢</div>
+                                    <span class="text-[10px] font-black uppercase text-emerald-600 tracking-widest text-center">3. Serve</span>
+                                </div>
+                            </div>
+                            <div class="bg-slate-100 border-2 border-slate-200 px-6 py-2 rounded-2xl shadow-sm text-center mt-2">
+                                <p class="text-xs font-black text-slate-700 uppercase tracking-widest">Press <span class="text-slate-400 font-normal mx-1">→</span> Twist <span class="text-slate-400 font-normal mx-1">→</span> Tap</p>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "THE MOTIONS", d: "Anchor Zone: Chef demonstrates. Pressing fruit is slow. Twisting citrus releases oils. Tapping herbs is gentle.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "BLUE ZONE (BUILD)", d: "River Runway: Scoop strawberries, lime, and mint into your cup. Add honey to protect the herbs.", i: "layers", zone: "border-river" },
+                        { l: "TRY", a: "RED ZONE (MUDDLE)", d: "Safety Zone: Press, Twist, Tap. Add ice and slowly pour club soda. Wait for the bubbles to settle.", i: "cup-soda", zone: "border-safety" },
+                        { l: "OWN", a: "GREEN ZONE (SERVE)", d: "Plating Station: Add the straw, wipe the rim, hold with two hands, and say: 'Here is your Strawberry Lime Mint.'", i: "star", zone: "border-plating" }
+                    ]
                 }
             ],
             KNIVES: [
@@ -371,6 +436,201 @@
                         { l: "ADVOCATE", a: "SENSORY CYCLE", d: "Advocacy Wall: Everyone cycles through! Feel the heat, hear the loud fan, smell the strong vinegar.", i: "shield", zone: "border-advocacy" },
                         { l: "TRY", a: "THE POUR", d: "Safety Zone: Safely pour the hot vinegar liquid over your containers of sliced onions.", i: "droplets", zone: "border-safety" },
                         { l: "OWN", a: "SEAL & REST", d: "River Runway: Seal the containers tightly and set aside for at least 30 minutes.", i: "archive", zone: "border-river" }
+                    ]
+                },
+                {
+                    title: "Grill: Turn It On", emoji: "🔥",
+                    tip: "Open → On → Ignite → Wait. Say it out loud before you touch anything.",
+                    ingredients: [
+                        { n: "Long Tongs", e: "🥢" },
+                        { n: "Sheet Tray", e: "🍱" },
+                        { n: "Oven Mitt", e: "🧤" },
+                        { n: "Clear Area", e: "✅" }
+                    ],
+                    heroVisual: `
+                        <div class="flex flex-col items-center justify-center w-full gap-4">
+                            <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-center">
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-14 h-14 rounded-2xl bg-slate-100 border-4 border-slate-300 flex items-center justify-center shadow-sm">
+                                        <i data-lucide="layout-panel-top" class="w-7 h-7 text-slate-600"></i>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Open</span>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-14 h-14 rounded-2xl bg-orange-100 border-4 border-orange-300 flex items-center justify-center shadow-sm">
+                                        <i data-lucide="rotate-cw" class="w-7 h-7 text-orange-600"></i>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase text-orange-500 tracking-widest">Knob On</span>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-14 h-14 rounded-2xl bg-red-100 border-4 border-red-400 flex items-center justify-center shadow-sm relative overflow-hidden">
+                                        <i data-lucide="zap" class="w-7 h-7 text-red-600"></i>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase text-red-500 tracking-widest">Ignite</span>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-14 h-14 rounded-2xl bg-amber-100 border-4 border-amber-400 flex items-center justify-center shadow-sm">
+                                        <i data-lucide="timer" class="w-7 h-7 text-amber-600"></i>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase text-amber-600 tracking-widest">Wait 30s</span>
+                                </div>
+                            </div>
+
+                            <div class="relative flex flex-col items-center mt-2">
+                                <div class="flex gap-4 mb-1 h-8 items-end">
+                                    <div class="shimmer w-1.5 h-6 bg-red-300/50 rounded-full blur-sm"></div>
+                                    <div class="shimmer w-1.5 h-8 bg-orange-300/40 rounded-full blur-sm"></div>
+                                    <div class="shimmer w-1.5 h-5 bg-red-200/50 rounded-full blur-sm"></div>
+                                    <div class="shimmer w-1.5 h-7 bg-orange-200/40 rounded-full blur-sm"></div>
+                                    <div class="shimmer w-1.5 h-6 bg-red-300/50 rounded-full blur-sm"></div>
+                                </div>
+                                <div class="w-40 h-8 bg-slate-700 rounded-sm border-2 border-slate-600 flex gap-1 px-1 items-center overflow-hidden shadow-inner">
+                                    <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full"></div>
+                                    <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.3s"></div>
+                                    <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full" style="animation-delay:0.6s"></div>
+                                    <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.9s"></div>
+                                    <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full" style="animation-delay:1.2s"></div>
+                                </div>
+                                <div class="w-44 h-5 bg-slate-800 rounded-b-xl border-2 border-slate-700 shadow-xl"></div>
+                                <div class="w-32 h-2 bg-red-500/60 rounded-full blur-md mt-[-6px]"></div>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "CHECK THE AREA", d: "Safety Zone: Before anything else — nothing flammable nearby, tools ready (tongs, sheet tray), everyone standing back.", i: "eye", zone: "border-anchor" },
+                        { l: "WATCH", a: "THE RITUAL", d: "Anchor Zone: Watch the chef do it once. Open the lid → turn knob to ignite → press ignition → wait for flame → leave lid open 30 seconds.", i: "flame", zone: "border-safety" },
+                        { l: "TRY", a: "SAY IT OUT LOUD", d: "River Runway: Before touching anything, say the four beats out loud with the chef: Open → On → Ignite → Wait.", i: "volume-2", zone: "border-river" },
+                        { l: "ADVOCATE", a: "NAME YOUR COMFORT LEVEL", d: "Advocacy Wall: On a scale of 1–5, where are you right now? Use the Mood Meter. You control how close you get.", i: "shield", zone: "border-advocacy" },
+                        { l: "OWN", a: "YOU TURN IT ON", d: "Safety Zone: You do the ritual. Chef stands right behind you. Open → On → Ignite → Wait. Slow hands, steady breath.", i: "star", zone: "border-safety" }
+                    ]
+                },
+                {
+                    title: "Grill: Read the Heat", emoji: "🌡️",
+                    tip: "Heat you can feel before you can see. Your hand is the best thermometer.",
+                    ingredients: [
+                        { n: "Your Hand", e: "✋" },
+                        { n: "8-10 Inches", e: "📏" },
+                        { n: "Count Aloud", e: "🔢" },
+                        { n: "Step Back", e: "↩️" }
+                    ],
+                    heroVisual: `
+                        <div class="flex flex-col items-center justify-center w-full gap-6">
+                            <div class="flex items-end gap-6 md:gap-10">
+                                <div class="flex flex-col items-center gap-2">
+                                    <div class="text-5xl select-none">✋</div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-0.5 h-12 bg-slate-300 border-dashed border border-slate-400"></div>
+                                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">8–10 inches</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-20 h-8 bg-amber-100 border-2 border-amber-300 rounded-xl flex items-center justify-center shadow-sm">
+                                            <span class="text-xs font-black text-amber-700">3–5 sec</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                                            <span class="text-sm font-black text-amber-500 uppercase tracking-widest">Medium</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-20 h-8 bg-orange-100 border-2 border-orange-400 rounded-xl flex items-center justify-center shadow-sm">
+                                            <span class="text-xs font-black text-orange-700">1–2 sec</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                            <span class="text-sm font-black text-orange-500 uppercase tracking-widest">Hot</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-20 h-8 bg-red-100 border-2 border-red-500 rounded-xl flex items-center justify-center shadow-sm count-pulse">
+                                            <span class="text-xs font-black text-red-700">0 sec</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 rounded-full bg-red-600"></div>
+                                            <span class="text-sm font-black text-red-500 uppercase tracking-widest">Step Back</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-40 h-8 bg-slate-700 rounded-sm border-2 border-slate-600 flex gap-1 px-1 items-center shadow-inner">
+                                <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full"></div>
+                                <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.3s"></div>
+                                <div class="glow-bar flex-1 h-1.5 bg-red-500/80 rounded-full" style="animation-delay:0.6s"></div>
+                                <div class="glow-bar flex-1 h-1.5 bg-orange-500/80 rounded-full" style="animation-delay:0.9s"></div>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "CHEF DEMONSTRATES", d: "Anchor Zone: Chef holds their hand 8–10 inches above the grate, counts aloud, and names what they feel. You watch.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "THE HAND TEST", d: "Safety Zone: Hold your hand at 8–10 inches. Count out loud. Stop when it gets uncomfortable. That is useful information — not failure.", i: "hand", zone: "border-safety" },
+                        { l: "TRY", a: "VISUAL CUES", d: "Safety Zone: Look for darkening grill bars, heat shimmer above the surface. The grill tells you things before you touch it.", i: "scan-eye", zone: "border-safety" },
+                        { l: "ADVOCATE", a: "NAME YOUR NUMBER", d: "Advocacy Wall: Tell the chef your heat comfort level right now — 1 is far away, 5 is right at the grill. Both are valid. No wrong answer.", i: "shield", zone: "border-advocacy" },
+                        { l: "OWN", a: "YOU CALL THE TEMP", d: "Safety Zone: Do the hand test independently. Tell the chef: medium, hot, or too hot. You are the one reading it now.", i: "star", zone: "border-safety" }
+                    ]
+                },
+                {
+                    title: "Grill: Body Position", emoji: "🧍",
+                    tip: "Angle, distance, slow hands. Those three words are your whole body-safety plan.",
+                    ingredients: [
+                        { n: "45° Angle", e: "📐" },
+                        { n: "Long Tongs", e: "🥢" },
+                        { n: "One Foot Back", e: "👟" },
+                        { n: "Slow Hands", e: "✋" }
+                    ],
+                    heroVisual: `
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-8 w-full">
+                            <div class="flex flex-col items-center gap-2">
+                                <div class="relative w-32 h-40 flex items-center justify-center">
+                                    <div class="absolute top-0 left-8 w-10 h-10 rounded-full bg-slate-300 border-2 border-slate-400"></div>
+                                    <div class="absolute top-9 left-10 w-6 h-16 bg-slate-400 rounded-sm border border-slate-500"></div>
+                                    <div class="absolute bottom-0 left-6 w-10 h-3 bg-slate-500 rounded-sm"></div>
+                                    <div class="absolute bottom-0 right-2 w-10 h-3 bg-slate-400 rounded-sm opacity-70"></div>
+                                    <div class="absolute top-12 right-0 w-14 h-2 bg-slate-400 rounded-full rotate-[-20deg]"></div>
+                                    <div class="absolute top-9 right-0"><span class="text-xl select-none">🥢</span></div>
+                                    <svg class="absolute bottom-3 left-4" width="50" height="30" viewBox="0 0 50 30">
+                                        <path d="M0 30 Q25 0 50 0" stroke="#94a3b8" stroke-width="1.5" fill="none" stroke-dasharray="3,2" opacity="0.6"/>
+                                        <text x="18" y="22" font-size="9" fill="#94a3b8" font-weight="bold">45°</text>
+                                    </svg>
+                                </div>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Your Position</span>
+                            </div>
+
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center gap-3 bg-slate-100 border-2 border-slate-200 px-4 py-3 rounded-2xl shadow-sm">
+                                    <span class="text-2xl select-none">📐</span>
+                                    <div>
+                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Rule 1</p>
+                                        <p class="font-black text-slate-800">Stand at a 45° angle</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 bg-orange-50 border-2 border-orange-200 px-4 py-3 rounded-2xl shadow-sm">
+                                    <span class="text-2xl select-none">👟</span>
+                                    <div>
+                                        <p class="text-[10px] font-black uppercase text-orange-400 tracking-widest">Rule 2</p>
+                                        <p class="font-black text-slate-800">One foot slightly back</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 bg-red-50 border-2 border-red-200 px-4 py-3 rounded-2xl shadow-sm">
+                                    <span class="text-2xl select-none">🥢</span>
+                                    <div>
+                                        <p class="text-[10px] font-black uppercase text-red-400 tracking-widest">Rule 3</p>
+                                        <p class="font-black text-slate-800">Long tongs — slow hands</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    steps: [
+                        { l: "WATCH", a: "CHEF MODELS POSTURE", d: "Anchor Zone: Chef stands at the grill — 45° angle, back foot planted, arm extended with tongs. Watch the distance between their body and the grate.", i: "eye", zone: "border-anchor" },
+                        { l: "TRY", a: "FIND YOUR ANGLE", d: "River Runway: Grill is off. Stand next to it. Find the 45° position. Feel the difference between facing it directly vs. turning your body slightly.", i: "compass", zone: "border-river" },
+                        { l: "TRY", a: "PLACE AND RETREAT", d: "Safety Zone: Grill is on. Step in → pretend to place something with tongs → step back → reset. Do this three times. No food yet.", i: "move", zone: "border-safety" },
+                        { l: "TRY", a: "TURN AND RETREAT", d: "Safety Zone: Step in → pretend to flip → step back → reset. Say 'In → Do → Out' out loud each time. This is a real kitchen skill.", i: "repeat", zone: "border-safety" },
+                        { l: "ADVOCATE", a: "CHECK IN", d: "Advocacy Wall: Any part of standing near the grill that doesn't feel right yet? Tell the chef now — before the food goes on.", i: "shield", zone: "border-advocacy" },
+                        { l: "OWN", a: "YOU SET YOUR POSITION", d: "Safety Zone: Find your own stance. Chef doesn't adjust it. You own where your feet land, how far you extend, how slow your hands move.", i: "star", zone: "border-safety" }
                     ]
                 },
                 {
