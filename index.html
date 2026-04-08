@@ -3,195 +3,894 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCC Flagship Training Hub</title>
+    <title>Community Care Conversation Dinner - Training Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Noto Sans', sans-serif; }
+        .atrium-gradient { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); }
+        .nav-item.active { background-color: #10b981; color: white; font-weight: 700; }
+        .nav-item.active i { color: white; }
+        .section-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .section-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .sync-indicator { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
-<body class="text-slate-800">
+<body class="bg-slate-50 h-screen flex overflow-hidden text-slate-800">
 
-    <!-- Familiar Top Navigation -->
-    <nav class="bg-slate-900 text-white p-6 shadow-lg">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-                <i data-lucide="chef-hat" class="w-8 h-8 text-blue-400"></i>
-                <h1 class="text-3xl font-black uppercase tracking-tighter italic">Flagship Training Hub</h1>
+    <!-- Mobile Header -->
+    <div class="lg:hidden absolute top-0 left-0 right-0 h-16 atrium-gradient text-white flex items-center justify-between px-4 z-50 shadow-md">
+        <div class="font-black italic uppercase tracking-tighter text-xl flex items-center gap-2">
+            <i data-lucide="leaf" class="w-5 h-5 text-emerald-400"></i> Training Hub
+        </div>
+        <button onclick="toggleMobileNav()" class="p-2 bg-white/10 rounded-lg">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="bg-slate-900 w-72 h-full flex-shrink-0 flex flex-col text-slate-300 absolute lg:relative z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:shadow-none">
+        <div class="p-6 atrium-gradient h-36 flex flex-col justify-end relative">
+            <div id="sync-status" class="absolute top-4 right-4 text-emerald-400 text-[10px] font-bold uppercase tracking-widest hidden flex items-center gap-2">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full sync-indicator"></span> Synced
             </div>
-            <div class="bg-slate-800 px-6 py-2 rounded-full border border-slate-700 flex items-center gap-3">
-                <i data-lucide="clock" class="w-4 h-4 text-emerald-400"></i>
-                <span class="text-sm font-bold tracking-widest text-slate-300 uppercase">Live: 5:00 PM – 8:00 PM</span>
+            <div class="font-black italic uppercase tracking-tighter text-2xl text-white flex items-center gap-2 leading-none mb-1">
+                <i data-lucide="utensils" class="w-6 h-6 text-emerald-400"></i> CCC Dinner
+            </div>
+            <p class="text-emerald-100/70 text-[10px] font-bold uppercase tracking-widest mt-1">Community Care Conversation</p>
+            <p class="text-emerald-100/50 text-[10px] uppercase mt-1">April 16, 2026</p>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <p class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 mt-4">The Program</p>
+            <button onclick="showSection('s-schedule')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="calendar-clock" class="w-4 h-4 text-slate-400"></i> Weekly Schedule
+            </button>
+            <button onclick="showSection('s-session2')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="flame" class="w-4 h-4 text-slate-400"></i> Session 2 Flow
+            </button>
+            <button onclick="showSection('s-values')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="heart-handshake" class="w-4 h-4 text-slate-400"></i> Shared Values
+            </button>
+
+            <p class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 mt-6">Pedagogy & Space</p>
+            <button onclick="showSection('s-advocacy')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="shield" class="w-4 h-4 text-slate-400"></i> Advocacy & Access
+            </button>
+            <button onclick="showSection('s-environment')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="map" class="w-4 h-4 text-slate-400"></i> Prepared Environment
+            </button>
+            <button onclick="showSection('s-pedagogy')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-400"></i> WATCH, TRY, OWN
+            </button>
+            <button onclick="showSection('s-passport')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Skills Passport
+            </button>
+
+            <p class="px-4 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 mt-6">Execution</p>
+            <button onclick="showSection('s-service')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="wind" class="w-4 h-4 text-slate-400"></i> Flow of Service <i data-lucide="lock" class="w-3 h-3 ml-auto text-slate-600 auth-icon"></i>
+            </button>
+            <button onclick="showSection('s-runofshow')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400"></i> Staff Run-of-Show <i data-lucide="lock" class="w-3 h-3 ml-auto text-slate-600 auth-icon"></i>
+            </button>
+            <button onclick="showSection('s-printables')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="printer" class="w-4 h-4 text-slate-400"></i> Session Printables <i data-lucide="lock" class="w-3 h-3 ml-auto text-slate-600 auth-icon"></i>
+            </button>
+        </div>
+        
+        <!-- Live Tool Links -->
+        <div class="p-4 bg-slate-950 border-t border-slate-800">
+            <p class="px-2 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Live TV Tools</p>
+            <div class="flex gap-2">
+                <a href="visual_agenda.html" target="_blank" class="flex-1 bg-slate-800 hover:bg-emerald-600 hover:text-white p-2 rounded-lg text-center transition-colors text-xs font-bold" title="Open Agenda">
+                    <i data-lucide="calendar" class="w-4 h-4 mx-auto mb-1"></i> Agenda
+                </a>
+                <a href="lingo_cards.html" target="_blank" class="flex-1 bg-slate-800 hover:bg-emerald-600 hover:text-white p-2 rounded-lg text-center transition-colors text-xs font-bold" title="Open Labels">
+                    <i data-lucide="tag" class="w-4 h-4 mx-auto mb-1"></i> Labels
+                </a>
+                <a href="visual_recipes.html" target="_blank" class="flex-1 bg-slate-800 hover:bg-emerald-600 hover:text-white p-2 rounded-lg text-center transition-colors text-xs font-bold" title="Open Recipes">
+                    <i data-lucide="chef-hat" class="w-4 h-4 mx-auto mb-1"></i> Recipes
+                </a>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto p-6 md:p-12 space-y-12">
+    <!-- Password Modal -->
+    <div id="password-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2.5rem] p-8 max-w-md w-full shadow-2xl border-4 border-slate-100">
+            <div class="bg-slate-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                <i data-lucide="lock" class="w-8 h-8 text-slate-700"></i>
+            </div>
+            <h3 class="text-3xl font-black uppercase text-slate-800 mb-2 italic tracking-tighter">Staff Access</h3>
+            <p class="text-slate-500 mb-6 font-medium">Please enter the internal team password to view execution and logistical documents.</p>
+            
+            <input type="password" id="staff-password" placeholder="Enter Password" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 mb-2 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20 transition-all font-bold text-lg" onkeypress="if(event.key === 'Enter') submitPassword()" />
+            <p id="password-error" class="text-red-500 text-sm font-bold hidden mb-4 uppercase tracking-widest flex items-center gap-1"><i data-lucide="alert-circle" class="w-4 h-4"></i> Incorrect password</p>
+            
+            <div class="flex justify-end gap-3 mt-8">
+                <button onclick="closePasswordModal()" class="px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-100 transition-colors uppercase tracking-widest text-xs">Cancel</button>
+                <button onclick="submitPassword()" class="px-8 py-4 rounded-2xl font-black bg-slate-900 text-white hover:bg-slate-800 transition-colors uppercase tracking-widest text-sm flex items-center gap-2">Unlock <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+    </div>
 
-        <!-- THE FAMILIAR TOOL GRID -->
-        <section>
-            <div class="mb-8">
-                <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-2">Training Tools & Printables</h2>
-                <p class="text-slate-500 font-medium text-lg">Click any card to open the tool. Press <kbd class="bg-slate-200 px-2 py-1 rounded text-sm mx-1">Ctrl+P</kbd> to print.</p>
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto bg-slate-50 pt-20 lg:pt-0 relative">
+        <div class="max-w-5xl mx-auto p-6 md:p-12 pb-32">
+
+            <!-- Title & Benefactors Header -->
+            <div class="mb-12 border-b-4 border-slate-200 pb-8 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+                 <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest">Duke Campus Farms</span>
+                        <span class="text-slate-300 font-black">×</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest">Root Causes</span>
+                        <span class="text-slate-300 font-black">×</span>
+                        <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest">AKALAKA</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-900 uppercase italic tracking-tighter">Community Care Conversation</h2>
+                    <p class="text-xl text-slate-500 font-medium mt-1">Intern Training Guide · April 16, 2026</p>
+                 </div>
+                 <div class="flex flex-col gap-3 lg:items-end">
+                    <div class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 w-fit">
+                        <i data-lucide="chef-hat" class="w-4 h-4 text-slate-500"></i> Menu by Chef Harini, DCF
+                    </div>
+                    <div class="bg-purple-100 text-purple-900 px-4 py-3 rounded-xl text-xs font-medium flex items-center gap-3 w-fit max-w-sm text-left lg:text-right border border-purple-200 shadow-sm">
+                        <i data-lucide="palette" class="w-6 h-6 flex-shrink-0 text-purple-600"></i> 
+                        <span class="leading-snug">Accessibility, SEL, & Visual Curriculum by <b>Needle's World</b></span>
+                    </div>
+                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                
-                <!-- Day 1 Agenda -->
-                <a href="visual_agenda.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="list-ordered" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
-                    <h3 class="font-black text-slate-800">Day 1 Agenda</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Interactive Checklist</p>
-                </a>
-
-                <!-- Day 2 Agenda -->
-                <a href="day_two_agenda.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-orange-500 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="flame" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-orange-500"></i>
-                    <h3 class="font-black text-slate-800">Day 2 Agenda</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Interactive Checklist</p>
-                </a>
-
-                <!-- Visual Recipes -->
-                <a href="visual_recipes.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-blue-500 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="utensils-crossed" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-blue-500"></i>
-                    <h3 class="font-black text-slate-800">Visual Recipes</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Master Library</p>
-                </a>
-
-                <!-- Lingo Cards -->
-                <a href="lingo_cards.html" target="_blank" class="bg-slate-900 border-2 border-slate-800 p-6 rounded-3xl text-center hover:bg-slate-800 transition-colors group cursor-pointer block shadow-xl text-white">
-                    <i data-lucide="message-square" class="w-12 h-12 mx-auto mb-4 text-blue-400 group-hover:text-blue-300"></i>
-                    <h3 class="font-black text-white">Lingo Cards</h3>
-                    <p class="text-xs text-slate-400 mt-2 font-bold">Communication</p>
-                </a>
-
-                <!-- Master Study Guide -->
-                <a href="day2_study_guide.html" target="_blank" class="bg-slate-900 border-2 border-slate-800 p-6 rounded-3xl text-center hover:bg-slate-800 transition-colors group cursor-pointer block shadow-xl text-white">
-                    <i data-lucide="map" class="w-12 h-12 mx-auto mb-4 text-emerald-400 group-hover:text-emerald-300"></i>
-                    <h3 class="font-black text-white">Study Guide</h3>
-                    <p class="text-xs text-slate-400 mt-2 font-bold">Day 2 Infographic</p>
-                </a>
-
-                <!-- Skills Passport -->
-                <a href="skills_passport.html" target="_blank" class="bg-yellow-400 border-2 border-yellow-500 p-6 rounded-3xl text-center hover:bg-yellow-300 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="award" class="w-12 h-12 mx-auto mb-4 text-yellow-800 group-hover:text-yellow-900"></i>
-                    <h3 class="font-black text-yellow-900">Skills Passport</h3>
-                    <p class="text-xs text-yellow-800 mt-2 font-bold">Printable Booklet</p>
-                </a>
-
-                <!-- Reflection Cards -->
-                <a href="reflection_cards.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-yellow-400 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="sparkles" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-yellow-500"></i>
-                    <h3 class="font-black text-slate-800">Reflection Cards</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Passport Inserts</p>
-                </a>
-
-                <!-- Service Scripts -->
-                <a href="service_scripts.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-blue-500 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="message-circle-heart" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-blue-500"></i>
-                    <h3 class="font-black text-slate-800">Service Scripts</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Pocket Cards</p>
-                </a>
-
-                <!-- Dish Pit Station -->
-                <a href="dish_pit_printable.html" target="_blank" class="bg-blue-50 border-2 border-blue-200 p-6 rounded-3xl text-center hover:bg-blue-100 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="droplets" class="w-12 h-12 mx-auto mb-4 text-blue-500 group-hover:text-blue-600"></i>
-                    <h3 class="font-black text-blue-900">Dish Pit</h3>
-                    <p class="text-xs text-blue-700 mt-2 font-bold">Printable Signage</p>
-                </a>
-
-                <!-- Grill Safety -->
-                <a href="grill_safety_lesson.html" target="_blank" class="bg-red-50 border-2 border-red-200 p-6 rounded-3xl text-center hover:bg-red-100 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="flame" class="w-12 h-12 mx-auto mb-4 text-red-500 group-hover:text-red-600"></i>
-                    <h3 class="font-black text-red-900">Grill Safety</h3>
-                    <p class="text-xs text-red-700 mt-2 font-bold">Printable Signage</p>
-                </a>
-
-                <!-- NEW: Beverage Station -->
-                <a href="muddling_lesson.html" target="_blank" class="bg-emerald-50 border-2 border-emerald-200 p-6 rounded-3xl text-center hover:bg-emerald-100 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="cup-soda" class="w-12 h-12 mx-auto mb-4 text-emerald-500 group-hover:text-emerald-600"></i>
-                    <h3 class="font-black text-emerald-900">Beverage Station</h3>
-                    <p class="text-xs text-emerald-700 mt-2 font-bold">Muddling Module</p>
-                </a>
-
-                <!-- Station Labels -->
-                <a href="station_labels.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="tags" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
-                    <h3 class="font-black text-slate-800">Station Labels</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Wall Signage</p>
-                </a>
-
-                <!-- Mood Meter -->
-                <a href="mood_meter.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-purple-500 transition-colors group cursor-pointer block shadow-sm">
-                    <i data-lucide="smile" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-purple-500"></i>
-                    <h3 class="font-black text-slate-800">Mood Meter</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Velcro Tiles</p>
-                </a>
-
-                <!-- Observation Guide -->
-                <a href="observation_guide.html" target="_blank" class="bg-slate-100 border-2 border-slate-300 p-6 rounded-3xl text-center hover:bg-slate-200 transition-colors group cursor-pointer block shadow-sm col-span-2">
-                    <i data-lucide="clipboard-list" class="w-12 h-12 mx-auto mb-4 text-slate-500 group-hover:text-slate-600"></i>
-                    <h3 class="font-black text-slate-800">Observation Guide</h3>
-                    <p class="text-xs text-slate-500 mt-2 font-bold">Landscape Clipboard Sheet</p>
-                </a>
-
-            </div>
-        </section>
-
-        <!-- THE FAMILIAR SCHEDULE SECTION -->
-        <section>
-            <div class="mb-10">
-                <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
-                    <i data-lucide="calendar-clock" class="w-4 h-4"></i> The Rhythm
-                </div>
-                <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Weekly Schedule</h1>
-                <p class="text-xl text-slate-500">The consistent 5:00 PM – 8:00 PM structure. Predictability reduces anxiety and builds confidence.</p>
-            </div>
-
-            <div class="space-y-4">
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-100 flex items-center gap-6 shadow-sm border-l-8 border-l-yellow-400">
-                    <div class="w-32 font-black text-slate-400 uppercase tracking-widest text-sm">5:00 - 5:15</div>
-                    <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="users"></i></div>
-                    <div><h3 class="text-xl font-bold text-slate-800">Arrival & Regulate</h3><p class="text-slate-500 font-medium text-sm">Magnets, Name Tags, Aprons, and Mood Meter check-ins.</p></div>
+            <!-- 1. WEEKLY TRAINING SCHEDULE -->
+            <section id="s-schedule" class="section-content active">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="calendar-clock" class="w-4 h-4"></i> The Rhythm
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Weekly Schedule</h1>
+                    <p class="text-xl text-slate-500">The consistent 5:00 PM – 8:00 PM structure. Predictability reduces anxiety and builds confidence.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-100 flex items-center gap-6 shadow-sm border-l-8 border-l-orange-500">
-                    <div class="w-32 font-black text-slate-400 uppercase tracking-widest text-sm">5:15 - 5:30</div>
-                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="map"></i></div>
-                    <div><h3 class="text-xl font-bold text-slate-800">The Walkthrough</h3><p class="text-slate-500 font-medium text-sm">Sensory warnings (fans, heat), tour of the active zones, and safety checks.</p></div>
+                <!-- Dynamic Schedule Container -->
+                <div id="schedule-container" class="space-y-4">
+                    <!-- Injected via JavaScript from Google Sheets -->
+                </div>
+            </section>
+
+            <!-- 2. SESSION 2 FLOW -->
+            <section id="s-session2" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="flame" class="w-4 h-4"></i> Session 2
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Session 2 Flow</h1>
+                    <p class="text-xl text-slate-500">Chop → Skewer → Heat → Plate → Deliver → Eat. Full kitchen immersion with unified sensory practice.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-100 flex items-center gap-6 shadow-sm border-l-8 border-l-red-500">
-                    <div class="w-32 font-black text-slate-400 uppercase tracking-widest text-sm">5:30 - 7:00</div>
-                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="flame"></i></div>
-                    <div><h3 class="text-xl font-bold text-slate-800">Skills Lab (90 Min)</h3><p class="text-slate-500 font-medium text-sm">The core block. Knives, Heat, Muddling, and Assembly. Watch → Try → Own loop.</p></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-blue-100 p-2 rounded-xl text-blue-600"><i data-lucide="smile"></i></div> Arrival & Orientation
+                        </h3>
+                        <ul class="space-y-3 font-medium text-slate-600">
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Regulation:</b> Mood Meter, Cooldown Cart, and sticker photos.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Sensory Prep:</b> Preparing for heat, fans, tears, and smells.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>The Arc:</b> Harini frames the "Why" behind knife skills and today's path.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-emerald-100 p-2 rounded-xl text-emerald-600"><i data-lucide="rotate-cw"></i></div> Warm-Up & Demo
+                        </h3>
+                        <ul class="space-y-3 font-medium text-slate-600">
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Review:</b> 20s scrub, "Heard!", and "Sharp!" calls.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Mixes:</b> Prep Pickling Liquid & Cumin Honey Glaze.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Chef Demo:</b> Safe grip, claw, and demoing 4 specific vegetable cuts.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-orange-100 p-2 rounded-xl text-orange-600"><i data-lucide="scissors"></i></div> Skills Rotation
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-4">6-7 minutes per station. Everyone rotates:</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Onions<br/><span class="text-xs text-slate-400 font-normal">Thin Slices</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Beets<br/><span class="text-xs text-slate-400 font-normal">1" Cubes</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Apples<br/><span class="text-xs text-slate-400 font-normal">1" Cubes</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Cucumbers<br/><span class="text-xs text-slate-400 font-normal">½" Rounds</span></div>
+                            <div class="bg-orange-50 p-3 rounded-xl text-sm font-bold text-center border border-orange-200 col-span-2 text-orange-800">Assemble Skewers</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-red-100 p-2 rounded-xl text-red-600"><i data-lucide="flame"></i></div> Heat & Service
+                        </h3>
+                        <ul class="space-y-3 font-medium text-slate-600">
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-red-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>Heat Practice:</b> Vinegar boil (Zone A) & Grilling (Zone B). Unified sensory practice for all.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-red-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>Plating:</b> Clean edges, height, contrast, and portioning.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-red-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>Delivery:</b> Safe pathways, table approach, and Family Meal!</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-100 flex items-center gap-6 shadow-sm border-l-8 border-l-emerald-400">
-                    <div class="w-32 font-black text-slate-400 uppercase tracking-widest text-sm">7:00 - 7:15</div>
-                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="battery-charging"></i></div>
-                    <div><h3 class="text-xl font-bold text-slate-800">The Recharge</h3><p class="text-slate-500 font-medium text-sm">Mandatory clean-up, 20-second handwash, and an Earth Zone breathing break.</p></div>
+                <div class="mt-8 bg-red-600 text-white p-8 rounded-[3rem] shadow-xl">
+                    <h3 class="text-3xl font-black uppercase italic mb-4">Sensory & Heat Advocacy</h3>
+                    <p class="text-red-200 mb-6 text-lg">"Today we introduce heat, smells, and fans. You have the right to..."</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <p class="font-bold text-sm text-red-200 uppercase mb-2">Check In</p>
+                            <p class="font-bold text-lg">Use the Mood Meter to share your confidence level.</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <p class="font-bold text-sm text-red-200 uppercase mb-2">Set Boundaries</p>
+                            <p class="font-bold text-lg">Say "That smell is too strong" or "The fan is too loud."</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <p class="font-bold text-sm text-red-200 uppercase mb-2">Control Exposure</p>
+                            <p class="font-bold text-lg">You control how close you get to the hot pan.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. SHARED VALUES -->
+            <section id="s-values" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="heart-handshake" class="w-4 h-4"></i> The Mission
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Shared Values</h1>
+                    <p class="text-xl text-slate-500">How our core values show up in the kitchen during setup, practice, and service.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-100 flex items-center gap-6 shadow-sm border-l-8 border-l-blue-500">
-                    <div class="w-32 font-black text-slate-400 uppercase tracking-widest text-sm">7:15 - 7:45</div>
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="utensils"></i></div>
-                    <div><h3 class="text-xl font-bold text-slate-800">Family Meal</h3><p class="text-slate-500 font-medium text-sm">Eating together, practicing the service scripts, and sharing one "delight".</p></div>
+                <!-- Dynamic Values Container -->
+                <div id="values-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Injected via JavaScript from Google Sheets -->
+                </div>
+            </section>
+
+            <!-- 4. ADVOCACY & ACCESSIBILITY -->
+            <section id="s-advocacy" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="shield" class="w-4 h-4"></i> Voice & Agency
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Advocacy & Access</h1>
+                    <p class="text-xl text-slate-500">Every intern has the right to adjust the environment to succeed. Developed by Needle's World.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-100 flex items-center gap-6 shadow-sm border-l-8 border-l-purple-500">
-                    <div class="w-32 font-black text-slate-400 uppercase tracking-widest text-sm">7:45 - 8:00</div>
-                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="sparkles"></i></div>
-                    <div><h3 class="text-xl font-bold text-slate-800">The Reset</h3><p class="text-slate-500 font-medium text-sm">Transition Station. Earning stickers, Reflection Cards, and Skills Passport.</p></div>
+                <div class="bg-slate-900 text-white rounded-[3rem] p-8 md:p-12 mb-8 shadow-2xl relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 text-purple-500/20"><i data-lucide="shield" class="w-64 h-64"></i></div>
+                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div>
+                            <h2 class="text-3xl font-black uppercase mb-6 text-purple-400">Intern Rights</h2>
+                            <ul class="space-y-4 text-lg">
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-400 mt-1"></i> Ask for what you need.</li>
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-400 mt-1"></i> Take a break anytime (no explanation needed).</li>
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-400 mt-1"></i> Say when something is too loud, strong, or difficult.</li>
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-emerald-400 mt-1"></i> Do a task differently if the standard way fails.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-black uppercase mb-6 text-purple-400">How to Communicate</h2>
+                            <p class="text-slate-300 mb-4">Interns circle their preferred method on Day One:</p>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-purple-600 rounded-xl font-bold">Say it out loud</span>
+                                <span class="px-4 py-2 bg-purple-600 rounded-xl font-bold">Tap the Chef</span>
+                                <span class="px-4 py-2 bg-purple-600 rounded-xl font-bold">Raise hand</span>
+                                <span class="px-4 py-2 bg-purple-600 rounded-xl font-bold">Hold up a card</span>
+                                <span class="px-4 py-2 bg-purple-600 rounded-xl font-bold">Write it down</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-md">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-4 flex items-center gap-3">
+                            <div class="bg-amber-100 text-amber-600 p-2 rounded-xl"><i data-lucide="help-circle"></i></div> Scenario Practice
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <p class="text-xs font-bold uppercase text-slate-400">Need to sit</p>
+                                <p class="font-bold text-slate-700">Walk to the stool and sit. No permission needed.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <p class="text-xs font-bold uppercase text-slate-400">Smell too strong / Too Loud</p>
+                                <p class="font-bold text-slate-700">Step back, use your preferred signal.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <p class="text-xs font-bold uppercase text-slate-400">Overwhelmed</p>
+                                <p class="font-bold text-purple-600">Say: "In the weeds."</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-md">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-4 flex items-center gap-3">
+                            <div class="bg-emerald-100 text-emerald-600 p-2 rounded-xl"><i data-lucide="headphones"></i></div> Sensory Supports
+                        </h3>
+                        <ul class="space-y-4 text-slate-600 font-medium">
+                            <li class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> <b>Regulation Zone:</b> Light Green area for grounding.</li>
+                            <li class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> <b>Fidgets:</b> Available at the Cooldown Cart.</li>
+                            <li class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> <b>Quiet Visuals:</b> Timers instead of alarms.</li>
+                            <li class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> <b>Step-Out Space:</b> The Exit Door / Patio area.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. PREPARED ENVIRONMENT -->
+            <section id="s-environment" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-slate-200 text-slate-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="map" class="w-4 h-4"></i> Spatial Logic
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Prepared Environment</h1>
+                    <p class="text-xl text-slate-500">Mapped to the Atrium Café architecture. Colors dictate behavior and flow.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-slate-100 p-5 rounded-2xl border-t-8 border-slate-400">
+                        <h4 class="font-black text-slate-800 uppercase">Anchor</h4>
+                        <p class="text-xs font-bold text-slate-500 mt-1">GRAY</p>
+                        <p class="text-sm mt-2">Stability, WATCH Stage, Demos.</p>
+                    </div>
+                    <div class="bg-blue-50 p-5 rounded-2xl border-t-8 border-blue-500">
+                        <h4 class="font-black text-blue-900 uppercase">River</h4>
+                        <p class="text-xs font-bold text-blue-500 mt-1">BLUE</p>
+                        <p class="text-sm mt-2">Movement, Flow, TRY Stage.</p>
+                    </div>
+                    <div class="bg-red-50 p-5 rounded-2xl border-t-8 border-red-500">
+                        <h4 class="font-black text-red-900 uppercase">Safety</h4>
+                        <p class="text-xs font-bold text-red-500 mt-1">RED</p>
+                        <p class="text-sm mt-2">Heat, Sharps, Danger zones.</p>
+                    </div>
+                    <div class="bg-emerald-50 p-5 rounded-2xl border-t-8 border-emerald-400">
+                        <h4 class="font-black text-emerald-900 uppercase">Earth</h4>
+                        <p class="text-xs font-bold text-emerald-500 mt-1">LIGHT GREEN</p>
+                        <p class="text-sm mt-2">Regulation, Washing, Sensory.</p>
+                    </div>
+                    <div class="bg-emerald-100 p-5 rounded-2xl border-t-8 border-emerald-800">
+                        <h4 class="font-black text-emerald-900 uppercase">Plating</h4>
+                        <p class="text-xs font-bold text-emerald-700 mt-1">DARK GREEN</p>
+                        <p class="text-sm mt-2">Pre-Made, Familiarity, OWN Stage.</p>
+                    </div>
+                    <div class="bg-purple-50 p-5 rounded-2xl border-t-8 border-purple-500">
+                        <h4 class="font-black text-purple-900 uppercase">Voice</h4>
+                        <p class="text-xs font-bold text-purple-500 mt-1">PURPLE</p>
+                        <p class="text-sm mt-2">Self-Advocacy, Preferences.</p>
+                    </div>
+                    <div class="bg-yellow-50 p-5 rounded-2xl border-t-8 border-yellow-500">
+                        <h4 class="font-black text-yellow-900 uppercase">Transition</h4>
+                        <p class="text-xs font-bold text-yellow-600 mt-1">YELLOW</p>
+                        <p class="text-sm mt-2">Reflection, Passports, Delight.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-[3rem] p-8 md:p-12 text-white shadow-xl">
+                    <h3 class="text-3xl font-black uppercase text-emerald-400 mb-6">Master Labels (Visual Cues)</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700"><i data-lucide="flame" class="mx-auto mb-2 text-red-500"></i><p class="font-bold">HEAT</p></div>
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700"><i data-lucide="alert-triangle" class="mx-auto mb-2 text-red-500"></i><p class="font-bold">SHARP</p></div>
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700"><i data-lucide="volume-2" class="mx-auto mb-2 text-purple-400"></i><p class="font-bold">SOUND</p></div>
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700"><i data-lucide="package" class="mx-auto mb-2 text-emerald-500"></i><p class="font-bold">PRE-MADE</p></div>
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700"><i data-lucide="shield" class="mx-auto mb-2 text-purple-500"></i><p class="font-bold">ADVOCACY</p></div>
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700"><i data-lucide="users" class="mx-auto mb-2 text-blue-400"></i><p class="font-bold">ACTIVITY</p></div>
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700"><i data-lucide="arrow-right-left" class="mx-auto mb-2 text-yellow-500"></i><p class="font-bold">TRANSITION</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. WATCH TRY OWN -->
+            <section id="s-pedagogy" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-slate-200 text-slate-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="graduation-cap" class="w-4 h-4"></i> Scaffolding
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">WATCH → TRY → OWN</h1>
+                    <p class="text-xl text-slate-500">You will never be asked to do something alone before you have seen it and practiced it.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-6 mb-12">
+                    <div class="flex-1 bg-slate-100 p-8 rounded-[2.5rem] border-t-[12px] border-slate-400">
+                        <div class="bg-slate-200 w-16 h-16 rounded-full flex items-center justify-center mb-6"><i data-lucide="eye" class="w-8 h-8 text-slate-600"></i></div>
+                        <h2 class="text-3xl font-black uppercase text-slate-800 mb-2">Watch</h2>
+                        <p class="text-slate-600 mb-4">Chef Harini shows you. You observe from the Anchor Zone.</p>
+                        <div class="bg-white p-4 rounded-xl text-sm border border-slate-200"><b>Day 1 Ex:</b> Chef shows the pinch grip.</div>
+                    </div>
+                    <div class="flex-1 bg-blue-50 p-8 rounded-[2.5rem] border-t-[12px] border-blue-500">
+                        <div class="bg-blue-200 w-16 h-16 rounded-full flex items-center justify-center mb-6"><i data-lucide="hand" class="w-8 h-8 text-blue-600"></i></div>
+                        <h2 class="text-3xl font-black uppercase text-blue-900 mb-2">Try</h2>
+                        <p class="text-blue-800 mb-4">You follow the steps with the chef nearby in the River Runway.</p>
+                        <div class="bg-white p-4 rounded-xl text-sm border border-blue-100"><b>Day 1 Ex:</b> Intern makes 5 slow cuts.</div>
+                    </div>
+                    <div class="flex-1 bg-emerald-50 p-8 rounded-[2.5rem] border-t-[12px] border-emerald-700">
+                        <div class="bg-emerald-200 w-16 h-16 rounded-full flex items-center justify-center mb-6"><i data-lucide="star" class="w-8 h-8 text-emerald-800"></i></div>
+                        <h2 class="text-3xl font-black uppercase text-emerald-900 mb-2">Own</h2>
+                        <p class="text-emerald-800 mb-4">You do it independently. This one is yours at the Plating Station.</p>
+                        <div class="bg-white p-4 rounded-xl text-sm border border-emerald-100"><b>Day 1 Ex:</b> Cut the rest of the cucumber.</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-[3rem] shadow-lg border border-slate-100 flex flex-col md:flex-row items-center gap-8">
+                    <div class="bg-purple-100 p-6 rounded-full text-purple-600 flex-shrink-0"><i data-lucide="brain" class="w-12 h-12"></i></div>
+                    <div>
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-2">How this supports ND Learners</h3>
+                        <p class="text-slate-600">This pedagogy eliminates "surprise" expectations. It reduces executive function load by separating observation from motor-execution. By the time an intern reaches "OWN", muscle memory and confidence have already been established in a low-stakes environment.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. SKILLS PASSPORT -->
+            <section id="s-passport" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="book-open" class="w-4 h-4"></i> Integration
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Skills Passport</h1>
+                    <p class="text-xl text-slate-500">A tangible record of growth, autonomy, and professional readiness.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-yellow-400 p-10 rounded-[3rem] shadow-xl text-yellow-900">
+                        <h2 class="text-4xl font-black uppercase italic tracking-tighter mb-6">What is it?</h2>
+                        <p class="text-lg font-medium mb-6">A physical booklet kept at the Transition Station. Used during the "Reset" phase (6:50 PM) to document the day's achievements.</p>
+                        <ul class="space-y-4 font-bold text-lg">
+                            <li class="flex items-center gap-3"><div class="bg-white p-2 rounded-full"><i data-lucide="sticker" class="w-5 h-5 text-yellow-600"></i></div> Sticker System for mastered skills</li>
+                            <li class="flex items-center gap-3"><div class="bg-white p-2 rounded-full"><i data-lucide="pen-tool" class="w-5 h-5 text-yellow-600"></i></div> Written/Drawn Reflection Prompts</li>
+                            <li class="flex items-center gap-3"><div class="bg-white p-2 rounded-full"><i data-lucide="briefcase" class="w-5 h-5 text-yellow-600"></i></div> Builds a real CIE Resume</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-10 rounded-[3rem] shadow-lg border-4 border-yellow-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6">Example Page: Day One</h3>
+                        <div class="border-2 border-dashed border-slate-300 rounded-2xl p-6 bg-slate-50 relative">
+                            <div class="absolute -right-4 -top-4 bg-emerald-500 text-white font-black text-[10px] uppercase px-3 py-1 rounded-full shadow-md transform rotate-12">Sticker!</div>
+                            <p class="font-bold text-slate-500 uppercase text-xs mb-4">Skill Mastered:</p>
+                            <p class="text-2xl font-black text-slate-800 mb-6">Pinch & Claw Grip</p>
+                            
+                            <p class="font-bold text-slate-500 uppercase text-xs mb-2">Reflection Prompt:</p>
+                            <p class="text-lg text-slate-700 italic mb-4">"What was the hardest part about holding the knife today? How did you adjust?"</p>
+                            
+                            <div class="border-b-2 border-slate-300 mt-8"></div>
+                            <div class="border-b-2 border-slate-300 mt-8"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. FLOW OF SERVICE -->
+            <section id="s-service" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="wind" class="w-4 h-4"></i> Execution
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Flow of Service</h1>
+                    <p class="text-xl text-slate-500">Connecting the kitchen to the guest room via the River Runway.</p>
+                </div>
+
+                <div class="bg-white rounded-[3rem] shadow-xl border overflow-hidden">
+                    <div class="p-8 bg-blue-600 text-white flex justify-between items-center">
+                        <h2 class="text-3xl font-black uppercase italic">The River Runway</h2>
+                        <i data-lucide="wind" class="w-10 h-10 opacity-50"></i>
+                    </div>
+                    <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-black uppercase text-slate-800 mb-4 border-b-2 pb-2">Movement Cues</h3>
+                            <ul class="space-y-3 text-slate-600">
+                                <li><b class="text-orange-500">"Behind!"</b> — When passing on the runway.</li>
+                                <li><b class="text-orange-500">"Corner!"</b> — Entering/Exiting the dining area.</li>
+                                <li><b class="text-yellow-500">"Hands!"</b> — Call from Plating Station for runners.</li>
+                                <li><b class="text-emerald-500">"Pick Up"</b> — Dish is moving to the guest.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black uppercase text-slate-800 mb-4 border-b-2 pb-2">Guest Experience (On Stage)</h3>
+                            <ul class="space-y-3 text-slate-600">
+                                <li><b>The Frame:</b> Setting the table neatly before guests arrive.</li>
+                                <li><b>Service Scripts:</b> "Welcome to our table," "Here is the [Dish Name]."</li>
+                                <li><b>Delightfulness:</b> Making eye contact (if comfortable) or smiling.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. STAFF RUN-OF-SHOW -->
+            <section id="s-runofshow" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-slate-800 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="clipboard-list" class="w-4 h-4"></i> Internal Guide
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Staff Run-of-Show</h1>
+                    <p class="text-xl text-slate-500">Logistics and support frameworks for the facilitating team.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-100 p-8 rounded-[2.5rem] border border-slate-200">
+                        <h3 class="text-xl font-black uppercase text-slate-800 mb-4"><i data-lucide="check-square" class="inline mb-1 mr-2 text-emerald-600"></i> Setup Checklist (4:30 PM)</h3>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li>[ ] Dual screens on (Visual Agenda + Recipes)</li>
+                            <li>[ ] Master Labels placed in correct Zones</li>
+                            <li>[ ] Aprons, Name Tags, Passports ready</li>
+                            <li>[ ] Tools and Red/Green boards staged</li>
+                            <li>[ ] Sensory checkout (Lighting, sound levels)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-slate-100 p-8 rounded-[2.5rem] border border-slate-200">
+                        <h3 class="text-xl font-black uppercase text-slate-800 mb-4"><i data-lucide="users" class="inline mb-1 mr-2 text-blue-600"></i> Roles</h3>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li><b>Harini (Chef):</b> Anchor Zone demos, pacing, safety.</li>
+                            <li><b>Elim:</b> Visual guide management, tracker support.</li>
+                            <li><b>Support Staff:</b> River Runway monitoring, facilitating "TRY" steps.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-red-50 p-8 rounded-[2.5rem] border border-red-100 md:col-span-2">
+                        <h3 class="text-xl font-black uppercase text-red-800 mb-4"><i data-lucide="bell" class="inline mb-1 mr-2"></i> Safety & Pacing Calls</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-xl">
+                                <p class="font-bold text-red-600 text-sm">SOUND Warning</p>
+                                <p class="text-sm">"Blender in 3, 2, 1..." Gives time to cover ears or step away.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl">
+                                <p class="font-bold text-orange-600 text-sm">Time Warnings</p>
+                                <p class="text-sm">"5 minutes until transition." "Finish your current step."</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl">
+                                <p class="font-bold text-purple-600 text-sm">Advocacy Support</p>
+                                <p class="text-sm">If an intern signals, respond immediately: "Heard, we will adjust."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. PRINTABLES -->
+            <section id="s-printables" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Download
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Session Printables</h1>
+                    <p class="text-xl text-slate-500">Physical packets, tools, and cards required for the training sessions.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <a href="visual_agenda.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="calendar" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
+                        <h3 class="font-black text-slate-800">Day 1 Agenda</h3>
+                        <p class="text-xs text-slate-500 mt-2">Orientation & Space</p>
+                    </a>
+
+                    <a href="day_two_agenda.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-blue-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="calendar-clock" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-blue-500"></i>
+                        <h3 class="font-black text-slate-800">Day 2 Agenda</h3>
+                        <p class="text-xs text-slate-500 mt-2">Heat, Knives & Flow</p>
+                    </a>
+                    
+                    <a href="station_labels.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="map-pin" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
+                        <h3 class="font-black text-slate-800">Station Labels</h3>
+                        <p class="text-xs text-slate-500 mt-2">A4 Mountable Signs</p>
+                    </a>
+
+                    <a href="lingo_cards.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="tag" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
+                        <h3 class="font-black text-slate-800">Master Labels</h3>
+                        <p class="text-xs text-slate-500 mt-2">Lingo & Wash Steps</p>
+                    </a>
+
+                    <a href="visual_recipes.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="chef-hat" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
+                        <h3 class="font-black text-slate-800">Visual Recipes</h3>
+                        <p class="text-xs text-slate-500 mt-2">Step-by-Step Training</p>
+                    </a>
+
+                    <a href="advocacy_printables.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-purple-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="shield" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-purple-500"></i>
+                        <h3 class="font-black text-slate-800">Rights & Advocacy</h3>
+                        <p class="text-xs text-slate-500 mt-2">Wall Signs & Cards</p>
+                    </a>
+
+                    <a href="observation_guide.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-emerald-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="clipboard-list" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-emerald-500"></i>
+                        <h3 class="font-black text-slate-800">Observation Guide</h3>
+                        <p class="text-xs text-slate-500 mt-2">Staff Tracking Sheet</p>
+                    </a>
+
+                    <a href="mood_meter.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-red-500 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="smile" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-red-500"></i>
+                        <h3 class="font-black text-slate-800">Mood Meter</h3>
+                        <p class="text-xs text-slate-500 mt-2">Confidence Tiles</p>
+                    </a>
+
+                    <a href="reflection_cards.html" target="_blank" class="bg-white border-2 border-slate-200 p-6 rounded-3xl text-center hover:border-yellow-400 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="book-open" class="w-12 h-12 mx-auto mb-4 text-slate-400 group-hover:text-yellow-500"></i>
+                        <h3 class="font-black text-slate-800">Reflection Cards</h3>
+                        <p class="text-xs text-slate-500 mt-2">Passport Inserts</p>
+                    </a>
+
+                    <a href="skills_passport.html" target="_blank" class="bg-yellow-400 border-2 border-yellow-500 p-6 rounded-3xl text-center hover:bg-yellow-300 transition-colors group cursor-pointer block shadow-lg">
+                        <i data-lucide="award" class="w-12 h-12 mx-auto mb-4 text-yellow-700 group-hover:text-yellow-800"></i>
+                        <h3 class="font-black text-yellow-900">Skills Passport</h3>
+                        <p class="text-xs text-yellow-800 mt-2 font-bold">Printable Booklet</p>
+                    </a>
+
+                    <!-- NEW: Grill Safety -->
+                    <a href="grill_safety_lesson.html" target="_blank" class="bg-red-50 border-2 border-red-200 p-6 rounded-3xl text-center hover:bg-red-100 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="flame" class="w-12 h-12 mx-auto mb-4 text-red-500 group-hover:text-red-600"></i>
+                        <h3 class="font-black text-slate-800">Grill Safety</h3>
+                        <p class="text-xs text-slate-500 mt-2 font-bold">Printable Module</p>
+                    </a>
+
+                    <!-- NEW: Beverage Station -->
+                    <a href="muddling_lesson.html" target="_blank" class="bg-emerald-50 border-2 border-emerald-200 p-6 rounded-3xl text-center hover:bg-emerald-100 transition-colors group cursor-pointer block shadow-sm">
+                        <i data-lucide="cup-soda" class="w-12 h-12 mx-auto mb-4 text-emerald-500 group-hover:text-emerald-600"></i>
+                        <h3 class="font-black text-slate-800">Beverage Station</h3>
+                        <p class="text-xs text-slate-500 mt-2 font-bold">Muddling Module</p>
+                    </a>
+
+                    <a href="day2_study_guide.html" target="_blank" class="bg-slate-900 border-2 border-slate-800 p-6 rounded-3xl text-center hover:bg-slate-800 transition-colors group cursor-pointer block shadow-xl col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1">
+                        <i data-lucide="map" class="w-12 h-12 mx-auto mb-4 text-emerald-400 group-hover:text-emerald-300"></i>
+                        <h3 class="font-black text-white">Master Study Guide</h3>
+                        <p class="text-xs text-slate-400 mt-2 font-bold">Day 2 Infographic</p>
+                    </a>
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <script>
+        /**
+         * GOOGLE SHEETS COLLABORATION URLS
+         */
+        const SCHEDULE_CSV_URL = "";
+        const VALUES_CSV_URL = "";
+
+        // Default Fallback Data (Updated to 3 hours)
+        let scheduleData = [
+            { time: "5:00 PM", title: "Arrival & Regulation", desc: "Settle in, put on aprons, name tags, and choose a comfortable spot.", color: "emerald" },
+            { time: "5:15 PM", title: "The Walkthrough", desc: "Sensory warnings, tour of the active zones, and safety checks.", color: "blue" },
+            { time: "5:30 PM", title: "Skills Lab (90 Min)", desc: "Chef Harini demonstrates (Anchor), trainees practice (River), independent execution (Plating).", color: "slate" },
+            { time: "7:00 PM", title: "The Recharge", desc: "Mandatory clean-up, 20-second handwash, and a breathing break.", color: "emerald" },
+            { time: "7:15 PM", title: "Family Meal", desc: "Eat together. Practice hospitality, table setting, and sharing delight.", color: "orange" },
+            { time: "7:45 PM", title: "The Reset", desc: "Update the Skills Passport, complete reflection cards, and close out.", color: "yellow" }
+        ];
+
+        let valuesData = [
+            { title: "Thoughtfulness", quote: "We care for the earth and each other.", setup: "Preparing ingredients mindfully (Earth Gifts).", practice: "Cleaning as you go for the next person.", service: "Placing the Frame perfectly for guests.", color: "emerald" },
+            { title: "Lived Experience", quote: "Skills from home matter here.", setup: "Acknowledging what interns already know.", practice: "Bridging home cooking to professional standards.", service: "Honoring personal sensory preferences.", color: "blue" },
+            { title: "Delightfulness", quote: "Smiling, listening, teamwork.", setup: "The warm Huddle and greeting.", practice: "Saying Heard! and Thank you!", service: "Sharing joy with guests at the table.", color: "yellow" },
+            { title: "Confidence", quote: "Practice → readiness → bravery.", setup: "Moving from WATCH to TRY to OWN.", practice: "Holding a hot plate securely.", service: "Updating the Skills Passport with pride.", color: "purple" }
+        ];
+
+        // Color map updated for solid-div structural borders
+        const colorMap = {
+            emerald: { bg: "bg-emerald-500", text: "text-emerald-600", bgTag: "bg-slate-100", textTag: "text-slate-500" },
+            blue: { bg: "bg-blue-500", text: "text-blue-600", bgTag: "bg-slate-100", textTag: "text-slate-500" },
+            purple: { bg: "bg-purple-500", text: "text-purple-600", bgTag: "bg-slate-100", textTag: "text-slate-500" },
+            slate: { bg: "bg-slate-500", text: "text-slate-600", bgTag: "bg-slate-100", textTag: "text-slate-500" },
+            orange: { bg: "bg-orange-500", text: "text-orange-600", bgTag: "bg-slate-100", textTag: "text-slate-500" },
+            yellow: { bg: "bg-yellow-500", text: "text-yellow-600", bgTag: "bg-slate-100", textTag: "text-slate-500" },
+            red: { bg: "bg-red-500", text: "text-red-600", bgTag: "bg-slate-100", textTag: "text-slate-500" },
+            pink: { bg: "bg-pink-500", text: "text-pink-600", bgTag: "bg-slate-100", textTag: "text-slate-500" }
+        };
+
+        // Robust CSV Parser
+        function parseCSV(text) {
+            const rows = [];
+            let currentRow = [];
+            let currentCell = '';
+            let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
+                if (char === '"' && inQuotes && nextChar === '"') {
+                    currentCell += '"'; i++;
+                } else if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    currentRow.push(currentCell.trim()); currentCell = '';
+                } else if ((char === '\n' || char === '\r') && !inQuotes) {
+                    if (currentCell || currentRow.length > 0) {
+                        currentRow.push(currentCell.trim()); rows.push(currentRow);
+                        currentRow = []; currentCell = '';
+                    }
+                } else {
+                    currentCell += char;
+                }
+            }
+            if (currentCell || currentRow.length > 0) {
+                currentRow.push(currentCell.trim()); rows.push(currentRow);
+            }
+            if (rows.length === 0) return [];
+            const headers = rows[0].map(h => h.toLowerCase().trim());
+            return rows.slice(1).map(row => {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    let key = header;
+                    if (key.includes('time')) key = 'time';
+                    if (key.includes('title')) key = 'title';
+                    if (key.includes('desc')) key = 'desc';
+                    if (key.includes('quote')) key = 'quote';
+                    if (key.includes('setup')) key = 'setup';
+                    if (key.includes('practice')) key = 'practice';
+                    if (key.includes('service')) key = 'service';
+                    if (key.includes('color')) key = 'color';
+                    obj[key] = row[index] || "";
+                });
+                return obj;
+            });
+        }
+
+        async function syncGoogleSheets() {
+            let isSynced = false;
+            if (SCHEDULE_CSV_URL) {
+                try {
+                    const txt = await fetch(SCHEDULE_CSV_URL).then(r => r.text());
+                    scheduleData = parseCSV(txt);
+                    isSynced = true;
+                } catch (e) { console.error("Schedule Sync Failed"); }
+            }
+            if (VALUES_CSV_URL) {
+                try {
+                    const txt = await fetch(VALUES_CSV_URL).then(r => r.text());
+                    valuesData = parseCSV(txt);
+                    isSynced = true;
+                } catch (e) { console.error("Values Sync Failed"); }
+            }
+            if (isSynced) {
+                document.getElementById('sync-status').classList.remove('hidden');
+            }
+            renderDynamicContent();
+        }
+
+        function renderDynamicContent() {
+            // Render Schedule
+            const scheduleContainer = document.getElementById('schedule-container');
+            scheduleContainer.innerHTML = scheduleData.map(item => {
+                const c = colorMap[item.color] || colorMap['slate'];
+                
+                let extraHTML = "";
+                if (item.title.toLowerCase().includes("skill block") || item.title.includes("WATCH")) {
+                    extraHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 w-full">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <div class="font-bold text-slate-700 flex items-center gap-2"><i data-lucide="eye" class="w-4 h-4"></i> WATCH</div>
+                                <p class="text-sm text-slate-500 mt-1">Chef Harini demonstrates the skill in the Anchor Zone.</p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                                <div class="font-bold text-blue-700 flex items-center gap-2"><i data-lucide="hand" class="w-4 h-4"></i> TRY</div>
+                                <p class="text-sm text-slate-500 mt-1">Trainees practice with support in the River Runway.</p>
+                            </div>
+                            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200">
+                                <div class="font-bold text-emerald-800 flex items-center gap-2"><i data-lucide="star" class="w-4 h-4"></i> OWN</div>
+                                <p class="text-sm text-slate-500 mt-1">Independent execution at the Plating Station.</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="bg-white rounded-[2rem] shadow-md flex flex-col md:flex-row md:items-stretch overflow-hidden">
+                        <div class="w-4 md:w-5 flex-shrink-0 ${c.bg}"></div>
+                        <div class="p-6 flex flex-col md:flex-row gap-6 md:items-center flex-1">
+                            <div class="font-black text-xl ${c.text} min-w-[100px]">${item.time}</div>
+                            <div class="flex-1 w-full">
+                                <h3 class="text-2xl font-black uppercase text-slate-800">${item.title}</h3>
+                                <p class="text-slate-500 mt-1">${item.desc}</p>
+                                ${extraHTML}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Values
+            const valuesContainer = document.getElementById('values-container');
+            valuesContainer.innerHTML = valuesData.map(item => {
+                const c = colorMap[item.color] || colorMap['emerald'];
+                return `
+                    <div class="bg-white rounded-[3rem] shadow-xl overflow-hidden flex flex-col h-full">
+                        <div class="h-4 w-full ${c.bg}"></div>
+                        <div class="p-8 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-2">
+                                <h2 class="text-3xl font-black uppercase text-slate-800">${item.title}</h2>
+                                <span class="${c.bgTag} ${c.textTag} text-[10px] font-bold uppercase px-2 py-1 rounded-lg">AKALAKA Value</span>
+                            </div>
+                            <p class="${c.text} font-bold italic mb-6">"${item.quote}"</p>
+                            <div class="space-y-2 text-sm text-slate-600 mt-auto">
+                                <p><b>Setup:</b> ${item.setup}</p>
+                                <p><b>Practice:</b> ${item.practice}</p>
+                                <p><b>Service:</b> ${item.service}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // Auth Logic
+        const PROTECTED_SECTIONS = ['s-service', 's-runofshow', 's-printables'];
+        const STAFF_PASSWORD = "FLAGSHIP"; // Internal password
+        let isStaffAuth = false;
+        let pendingSection = null;
+
+        function submitPassword() {
+            const input = document.getElementById('staff-password').value;
+            if (input.toUpperCase() === STAFF_PASSWORD) {
+                isStaffAuth = true;
+                document.getElementById('password-modal').classList.add('hidden');
+                document.querySelectorAll('.auth-icon').forEach(icon => {
+                    icon.setAttribute('data-lucide', 'unlock');
+                    icon.classList.remove('text-slate-600');
+                    icon.classList.add('text-emerald-400');
+                });
+                lucide.createIcons();
+                if (pendingSection) {
+                    showSection(pendingSection);
+                    pendingSection = null;
+                }
+            } else {
+                document.getElementById('password-error').classList.remove('hidden');
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.add('hidden');
+            pendingSection = null;
+        }
+
+        // Tab Navigation Logic
+        function showSection(id) {
+            if (PROTECTED_SECTIONS.includes(id) && !isStaffAuth) {
+                pendingSection = id;
+                document.getElementById('password-modal').classList.remove('hidden');
+                document.getElementById('staff-password').value = '';
+                document.getElementById('password-error').classList.add('hidden');
+                setTimeout(() => document.getElementById('staff-password').focus(), 100);
+                if (window.innerWidth < 1024) document.getElementById('sidebar').classList.add('-translate-x-full');
+                return;
+            }
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const btn = document.querySelector(`button[onclick="showSection('${id}')"]`);
+            if (btn) btn.classList.add('active');
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth < 1024 && !sidebar.classList.contains('-translate-x-full')) toggleMobileNav();
+            document.querySelector('main').scrollTo(0,0);
+        }
+
+        function toggleMobileNav() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        // Initialize
+        syncGoogleSheets();
         lucide.createIcons();
+        document.querySelector('.nav-item').classList.add('active');
     </script>
 </body>
 </html>
