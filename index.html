@@ -59,6 +59,9 @@
             <button onclick="showSection('s-session2')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
                 <i data-lucide="flame" class="w-4 h-4 text-slate-400"></i> Session 2 Flow
             </button>
+            <button onclick="showSection('s-session3')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
+                <i data-lucide="utensils" class="w-4 h-4 text-slate-400"></i> Session 3 Flow
+            </button>
             <button onclick="showSection('s-values')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors text-left text-sm">
                 <i data-lucide="heart-handshake" class="w-4 h-4 text-slate-400"></i> Shared Values
             </button>
@@ -243,6 +246,84 @@
                         <div class="bg-white/10 p-4 rounded-2xl">
                             <p class="font-bold text-sm text-red-200 uppercase mb-2">Control Exposure</p>
                             <p class="font-bold text-lg">You control how close you get to the hot pan.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2b. SESSION 3 FLOW -->
+            <section id="s-session3" class="section-content">
+                <div class="mb-10">
+                    <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                        <i data-lucide="utensils" class="w-4 h-4"></i> Session 3
+                    </div>
+                    <h1 class="text-5xl font-black text-slate-900 uppercase italic tracking-tighter mb-4">Session 3 Flow</h1>
+                    <p class="text-xl text-slate-500">Carousel of assigned roles & free choice. Combining kitchen skills with Table Setting and Happy Service.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-purple-100 p-2 rounded-xl text-purple-600"><i data-lucide="users"></i></div> Roles & Carousel
+                        </h3>
+                        <ul class="space-y-3 font-medium text-slate-600">
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-purple-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Assigned + Choice:</b> A carousel of assigned roles combined with free choice stations.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-purple-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>The Huddle:</b> Reviewing the Mood Meter and choosing communication methods.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="text-purple-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Cross-Training:</b> Everyone gets to experience both "On Stage" and "Backstage".</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-blue-100 p-2 rounded-xl text-blue-600"><i data-lucide="layout-panel-top"></i></div> The Frame (Table Setting)
+                        </h3>
+                        <ul class="space-y-3 font-medium text-slate-600">
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-blue-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>The Setup:</b> Neatly arranging silverware, napkins, and visual menus.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-blue-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Precision:</b> Practicing spacing and alignment for a welcoming guest experience.</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-blue-500 w-5 h-5 shrink-0 mt-0.5"></i> <b>Water Station:</b> Filling glasses safely and placing them in The Frame.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-orange-100 p-2 rounded-xl text-orange-600"><i data-lucide="chef-hat"></i></div> Kitchen Execution
+                        </h3>
+                        <p class="text-sm text-slate-500 mb-4">Applying our core skills to the dinner flow:</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Muddling<br/><span class="text-xs text-slate-400 font-normal">3-Zone Flow</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Grill Safety<br/><span class="text-xs text-slate-400 font-normal">Heat & Tongs</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Knife Skills<br/><span class="text-xs text-slate-400 font-normal">Chop & Skewer</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-sm font-bold text-center border border-slate-200">Plating<br/><span class="text-xs text-slate-400 font-normal">Clean Edges</span></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+                        <h3 class="text-2xl font-black uppercase text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="bg-emerald-100 p-2 rounded-xl text-emerald-600"><i data-lucide="message-circle-heart"></i></div> Happy Service
+                        </h3>
+                        <ul class="space-y-3 font-medium text-slate-600">
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>The Greeting:</b> "Welcome to our table!" (Using the Service Scripts).</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>The Delivery:</b> Carrying plates safely down the River Runway using "Behind!"</li>
+                            <li class="flex items-start gap-3"><i data-lucide="arrow-right" class="text-emerald-400 w-5 h-5 shrink-0 mt-0.5"></i> <b>The Check-In:</b> Clearing plates and asking if guests need anything else.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-purple-600 text-white p-8 rounded-[3rem] shadow-xl">
+                    <h3 class="text-3xl font-black uppercase italic mb-4">Autonomy on the Floor</h3>
+                    <p class="text-purple-200 mb-6 text-lg">"Service can be fast and loud. Remember, you control your environment."</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <p class="font-bold text-sm text-purple-200 uppercase mb-2">Pacing</p>
+                            <p class="font-bold text-lg">It is okay to pause. The guests can wait an extra 30 seconds.</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <p class="font-bold text-sm text-purple-200 uppercase mb-2">Team Support</p>
+                            <p class="font-bold text-lg">Say "In the weeds" if multiple plates are ready at once.</p>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-2xl">
+                            <p class="font-bold text-sm text-purple-200 uppercase mb-2">Flexibility</p>
+                            <p class="font-bold text-lg">Don't want to talk? You can smile and let a partner speak.</p>
                         </div>
                     </div>
                 </div>
